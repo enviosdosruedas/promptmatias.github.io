@@ -1,8 +1,18 @@
-import { Card, CardContent } from '@/components/ui/card';
+
+import { Card, CardContent } from '@/components/ui/card'; // Added CardContent import
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Package, BadgePercent, Rocket } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"; // Import Carousel components
+
+// Define image paths
+const carouselImages = [
+  { src: '/Emprendedoresbanner.webp', alt: 'Banner emprendedores principal' },
+  { src: '/Emprendedoresbannerrapidas.webp', alt: 'Banner entregas rápidas' },
+  { src: '/Emprendedoresbannerrapidas2.webp', alt: 'Banner entregas rápidas 2' },
+  { src: '/Emprendedoresbannerrapidas3.webp', alt: 'Banner entregas rápidas 3' },
+];
 
 export function EmprendedoresPrincipal() {
   return (
@@ -43,17 +53,33 @@ export function EmprendedoresPrincipal() {
           </Card>
         </div>
 
-        {/* Bottom Section: Why Choose Us */}
+        {/* Bottom Section: Why Choose Us with Carousel */}
         <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center bg-muted/40 p-8 rounded-lg">
-           <div className="order-last md:order-first">
-            <Image
-              src="https://picsum.photos/600/400" // Using placeholder
-              alt="Emprendedores EnviosDosRuedas"
-              width={600}
-              height={400}
-              className="rounded-lg shadow-lg object-cover aspect-video"
-              data-ai-hint="entrepreneur happy package"
-            />
+           <div className="order-last md:order-first flex justify-center">
+            {/* Carousel Implementation */}
+            <Carousel className="w-full max-w-md"> {/* Adjust max-width as needed */}
+              <CarouselContent>
+                {carouselImages.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <div className="p-1"> {/* Optional padding around each item */}
+                      <Card className="overflow-hidden shadow-lg"> {/* Card for visual grouping */}
+                        <CardContent className="flex aspect-video items-center justify-center p-0">
+                           <Image
+                             src={image.src}
+                             alt={image.alt}
+                             width={600} // Adjust width/height based on your image aspect ratio preference
+                             height={400}
+                             className="object-cover w-full h-full" // Ensure image covers the card content area
+                           />
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+            </Carousel>
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-primary mb-4">
