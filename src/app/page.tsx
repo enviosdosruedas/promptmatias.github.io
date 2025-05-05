@@ -1,8 +1,10 @@
+
 import { HeroSection } from '@/components/sections/hero-section';
 import { ServiceOverview } from '@/components/sections/service-overview';
 import { VisionGlobal } from '@/components/sections/vision-global';
+import { ServiciosDestacados } from '@/components/sections/servicios-destacados'; // Import the new component
 import { CotizarPrincipal } from '@/components/sections/cotizar-principal';
-import { EmprendedoresPrincipal } from '@/components/sections/emprendedores-principal'; // Import the new component
+import { EmprendedoresPrincipal } from '@/components/sections/emprendedores-principal';
 
 export default function Home() {
   return (
@@ -10,8 +12,9 @@ export default function Home() {
       <HeroSection />
       <VisionGlobal />
       <ServiceOverview />
+      <ServiciosDestacados /> {/* Add the new section here */}
       <CotizarPrincipal />
-      <EmprendedoresPrincipal /> {/* Keep the entrepreneurs section */}
+      <EmprendedoresPrincipal />
     </>
   );
 }
