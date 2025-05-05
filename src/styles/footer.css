@@ -1,0 +1,316 @@
+/* Estilos específicos para el footer */
+
+/* Define CSS variables or use Tailwind theme variables */
+:root {
+  --footer-bg: hsl(var(--muted)); /* Example: using muted color */
+  --footer-text: hsl(var(--muted-foreground)); /* Example */
+  --footer-accent: hsl(var(--secondary)); /* Example: using secondary color */
+  --footer-border: hsl(var(--border)); /* Example */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --footer-gap: 2rem; /* Gap for the grid */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-weight-bold: 600;
+  --transition: all 0.3s ease;
+  --primary-color-dark: hsl(var(--primary-foreground)); /* For hover effect on dark bg */
+}
+
+.main-footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  border-radius: 0 !important; /* Override potential Shadcn rounding */
+  padding: var(--spacing-xl) 0 var(--spacing-md);
+  border-top: 1px solid var(--footer-border); /* Added top border */
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted minmax */
+  gap: var(--footer-gap);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Logo del footer */
+.footer-logo-flex {
+  display: flex; /* Ensure flex layout */
+  align-items: center; /* Vertically align items */
+  gap: 10px !important;
+}
+
+.footer-logo-link {
+  height: fit-content !important;
+  width: fit-content !important;
+  display: inline-block; /* Allow image to size correctly */
+}
+
+.footer-logo-img {
+    max-width: 50px; /* Reduced max-width for better proportion */
+    height: auto !important;
+    /* margin-bottom: 25px;  Removed, spacing handled by flex gap */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15)); /* Softer shadow */
+    width: auto !important;
+}
+
+
+.footer-spacer {
+  margin-bottom: 20px !important;
+}
+
+/* Títulos del footer */
+.footer-title {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-lg);
+  color: hsl(var(--primary)); /* Use primary color for titles */
+  font-weight: var(--font-weight-bold);
+}
+
+/* Enlaces del footer */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: var(--spacing-sm);
+  position: relative;
+}
+
+.footer-links a {
+  color: var(--footer-text);
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+  text-decoration: none;
+  font-size: var(--font-size-sm); /* Match overall text size */
+}
+
+.footer-links a:hover {
+  color: var(--footer-accent);
+  /* Optional: remove transform for cleaner look */
+  /* transform: translateX(5px); */
+}
+
+/* Removed unused icon style */
+/* .footer-links i {
+  margin-right: var(--spacing-sm);
+  width: 20px;
+  text-align: center;
+} */
+
+/* Dropdown en el footer */
+.footer-links .dropdown {
+  position: relative;
+}
+
+.footer-links .dropdown > a {
+  cursor: pointer; /* Indicate interactivity */
+}
+
+.footer-links .dropdown-content {
+  /* Use padding/margin for nesting instead of display none/block */
+  padding-left: var(--spacing-lg);
+  margin-top: var(--spacing-xs);
+  /* Remove hover logic, handle via Shadcn/Radix components */
+}
+
+/* .footer-links .dropdown:hover .dropdown-content {
+  display: block;
+} */
+
+.footer-links .dropdown-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links .dropdown-content a {
+  padding: var(--spacing-xs) 0;
+  font-size: 0.85rem; /* Slightly smaller for sub-items */
+  color: hsl(var(--muted-foreground)); /* Muted color for sub-items */
+}
+.footer-links .dropdown-content a:hover {
+    color: var(--footer-accent); /* Hover for sub-items */
+}
+
+/* Información de contacto */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm); /* Match text size */
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start; /* Align icon top */
+  gap: var(--spacing-sm);
+}
+
+.contact-item .lucide { /* Target Lucide icons */
+  color: var(--footer-accent);
+  width: 1rem; /* Consistent icon size */
+  height: 1rem;
+  flex-shrink: 0; /* Prevent icon shrinking */
+  margin-top: 0.125rem; /* Slight adjustment for alignment */
+}
+
+
+.whatsapp-link { /* Reusing class for mailto */
+  color: var(--footer-text);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.whatsapp-link:hover {
+  color: var(--footer-accent);
+}
+
+/* Redes sociales */
+.social-container {
+  margin-top: var(--spacing-lg);
+}
+
+.social-title {
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-sm);
+  color: hsl(var(--primary)); /* Use primary color */
+  font-weight: 500;
+}
+
+.social-links {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; /* Slightly smaller */
+  height: 36px;
+  border-radius: 50%;
+  background-color: hsl(var(--background)); /* Use background */
+  color: hsl(var(--muted-foreground)); /* Muted icon color */
+  transition: var(--transition);
+  border: 1px solid var(--footer-border); /* Add subtle border */
+}
+.social-icon:hover {
+  background-color: var(--footer-accent);
+  color: hsl(var(--accent-foreground)); /* Use accent foreground */
+  transform: translateY(-2px); /* Slightly less movement */
+  border-color: transparent; /* Remove border on hover */
+}
+
+/* Remove specific brand background colors - let the icon color change */
+/* .social-icon.instagram:hover {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+} */
+
+.social-icon.instagram:hover .lucide { color: #E1306C; } /* Instagram pink */
+.social-icon.facebook:hover .lucide { color: #1877F2; } /* Facebook blue */
+.social-icon.whatsapp:hover .lucide { color: #25D366; } /* WhatsApp green */
+.social-icon.whatsapp:hover { background-color: hsl(var(--background)); } /* Keep background standard for whatsapp */
+
+
+/* Parte inferior del footer */
+.footer-bottom {
+  border-top: 1px solid var(--footer-border);
+  padding-top: var(--spacing-md);
+  text-align: center;
+  margin-top: var(--spacing-xl); /* Add margin top */
+}
+
+.copyright {
+  font-size: var(--font-size-sm);
+  color: hsl(var(--muted-foreground)); /* Use muted foreground */
+  margin-bottom: 0;
+}
+
+/* Botón volver arriba */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 40px; /* Adjusted size */
+  height: 40px;
+  border-radius: 50%;
+  background-color: hsl(var(--primary)); /* Use primary color */
+  color: hsl(var(--primary-foreground)); /* Use primary foreground */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Smoother transition */
+  z-index: 999;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Adjusted shadow */
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background-color: hsl(var(--secondary)); /* Use secondary color on hover */
+  transform: translateY(-3px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr; /* Stack columns on mobile */
+    gap: var(--spacing-xl);
+    text-align: center; /* Center align text in columns */
+  }
+
+  .footer-logo-flex {
+      justify-content: center; /* Center logo section */
+  }
+
+  .footer-title {
+      text-align: center; /* Center titles */
+  }
+
+  .footer-links li, .footer-links .dropdown > a {
+      justify-content: center; /* Center links */
+  }
+  .footer-links .dropdown-content {
+      padding-left: 0; /* Remove indent for sub-items */
+      text-align: center; /* Center sub-items */
+  }
+
+  .contact-info {
+    align-items: center; /* Center contact items */
+  }
+  .contact-item {
+    justify-content: center; /* Center contact items */
+  }
+
+  .social-container {
+      text-align: center; /* Center social title */
+  }
+
+  .social-links {
+    justify-content: center; /* Center social icons */
+  }
+
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 36px; /* Slightly smaller */
+    height: 36px;
+  }
+    .back-to-top .lucide {
+        width: 1rem; /* Adjust icon size */
+        height: 1rem;
+    }
+}
