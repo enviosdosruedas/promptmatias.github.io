@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+      <VisionGlobal />
       <ServiceOverview />
       <CotizarPrincipal />
-      <EmprendedoresPrincipal /> {/* Add the new section here */}
-      <VisionGlobal />
+      <EmprendedoresPrincipal /> {/* Keep the entrepreneurs section */}
     </>
   );
 }
