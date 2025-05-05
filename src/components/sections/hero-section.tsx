@@ -44,23 +44,14 @@ export function HeroSection() {
             </div>
           </div>
           <div className="flex justify-center">
-             {/* Ensure logo exists at this path or replace with placeholder */}
-             {/* <Image
-                src="/img/LogoEnviosDosRuedas.webp"
-                alt="EnviosDosRuedas Logo"
-                width={400}
-                height={400}
-                className="mx-auto aspect-square overflow-hidden rounded-xl object-contain lg:w-[500px] xl:w-[550px]"
-                data-ai-hint="company logo motorcycle"
-              /> */}
-              {/* Placeholder */}
+             {/* Use the specified SVG logo */}
               <Image
-                src="/img/LogoEnviosDosRuedas.webp"
+                src="/favicon.svg"
                 alt="EnviosDosRuedas Logo"
                 width={400}
                 height={400}
                 className="mx-auto aspect-square overflow-hidden rounded-xl object-contain lg:w-[500px] xl:w-[550px]"
-                data-ai-hint="company logo motorcycle"
+                // Removed data-ai-hint as the logo is now specified
               />
           </div>
         </div>

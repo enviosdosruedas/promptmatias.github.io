@@ -1,7 +1,8 @@
 'use client'; // Add use client for useEffect and useState
 
 import Link from 'next/link';
-import { Bike, MapPin, Phone, Mail, Instagram, Facebook, ChevronUp } from 'lucide-react';
+import Image from 'next/image'; // Import Image component
+import { MapPin, Phone, Mail, Instagram, Facebook, ChevronUp } from 'lucide-react'; // Removed Bike
 import '@/styles/footer.css'; // Import the new CSS file
 import * as React from 'react';
 
@@ -124,8 +125,8 @@ export function Footer() {
           <div>
             <div className="footer-logo-flex mb-4"> {/* Use class & flex */}
               <Link href="/" className="footer-logo-link">
-                 <Bike className="h-10 w-10 text-primary footer-logo-img" />
-                 {/* <img src="./img/LogoEnviosDosRuedas.webp" alt="EnviosDosRuedas Logo" className="footer-logo-img" /> */}
+                 {/* Use the specified SVG logo */}
+                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={50} height={50} className="footer-logo-img" />
               </Link>
               <div>
                 <h3 className="text-xl font-bold text-primary footer-title">

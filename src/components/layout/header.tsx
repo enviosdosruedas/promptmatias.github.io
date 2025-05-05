@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { Menu, Bike, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown } from 'lucide-react'; // Removed Bike
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -111,10 +111,8 @@ export function Header() {
       <nav className="container flex h-16 items-center justify-between">
         {/* Logo and Title */}
         <Link href="/" className="flex items-center gap-2">
-           {/* Ensure you have the logo image in the public/img folder */}
-           {/* <Image src="/img/LogoEnviosDosRuedas.webp" alt="EnviosDosRuedas Logo" width={40} height={40} /> */}
-           {/* Placeholder until logo is added */}
-           <Bike className="h-8 w-8 text-primary" />
+           {/* Use the specified SVG logo */}
+           <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={40} height={40} />
           <div>
             <h1 className="text-lg font-bold text-primary">Envios DosRuedas</h1>
             <p className="text-xs text-foreground/70">Tu Solución Confiable para Envíos</p>
@@ -137,8 +135,8 @@ export function Header() {
           <SheetContent side="left" className="w-[280px] sm:w-[320px] p-6">
              {/* Logo and Title in Mobile Menu */}
              <Link href="/" className="flex items-center gap-2 mb-6" onClick={closeMobileMenu}>
-                {/* <Image src="/img/LogoEnviosDosRuedas.webp" alt="EnviosDosRuedas Logo" width={40} height={40} /> */}
-                 <Bike className="h-8 w-8 text-primary" />
+                 {/* Use the specified SVG logo */}
+                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={40} height={40} />
                 <div>
                   <h1 className="text-lg font-bold text-primary">Envios DosRuedas</h1>
                    <p className="text-xs text-foreground/70">Tu Solución Confiable</p>
@@ -148,10 +146,6 @@ export function Header() {
             <div className="flex flex-col gap-4">
                <NavItems className="flex-col items-start text-base" closeSheet={closeMobileMenu} />
             </div>
-            {/* Optional: Close button inside if needed, though SheetContent has one by default */}
-            {/* <SheetClose asChild className="mt-auto">
-              <Button variant="outline">Cerrar</Button>
-             </SheetClose> */}
           </SheetContent>
         </Sheet>
 
