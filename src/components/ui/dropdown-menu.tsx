@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -78,8 +79,12 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean
+    // Allow passing onClick for mobile sheet closing
+    onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    // Allow preventing default select behavior
+    onSelect?: (event: Event) => void;
   }
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, onClick, onSelect, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
@@ -87,6 +92,17 @@ const DropdownMenuItem = React.forwardRef<
       inset && "pl-8",
       className
     )}
+    // Pass onClick through
+    onClick={onClick}
+    // Handle onSelect to prevent default if needed (like when closing mobile sheet)
+    onSelect={(event) => {
+      onSelect?.(event);
+      if (onClick && !event.defaultPrevented) {
+         // This might need adjustment based on how SheetClose interacts
+         // If the link inside handles navigation, we might not need to preventDefault
+         // event.preventDefault(); // Uncomment if needed to stop default link behavior on select
+      }
+    }}
     {...props}
   />
 ))
@@ -116,27 +132,33 @@ const DropdownMenuCheckboxItem = React.forwardRef<
 DropdownMenuCheckboxItem.displayName =
   DropdownMenuPrimitive.CheckboxItem.displayName
 
+// Fix: Assign primitive components to local variables before using them in JSX
+const RadioItem = DropdownMenuPrimitive.RadioItem;
+const ItemIndicator = DropdownMenuPrimitive.ItemIndicator;
+
 const DropdownMenuRadioItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.RadioItem
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
-    )}
-    {...props}
-  >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator>
-        <Circle className="h-2 w-2 fill-current" />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
-    {children}
-  </DropdownMenuPrimitive.RadioItem>
-))
-DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName
+  React.ElementRef<typeof RadioItem>,
+  React.ComponentPropsWithoutRef<typeof RadioItem>
+>(({ className, children, ...props }, ref) => {
+  return (
+    <RadioItem
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        className
+      )}
+      {...props}
+    >
+      <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+        <ItemIndicator>
+          <Circle className="h-2 w-2 fill-current" />
+        </ItemIndicator>
+      </span>
+      {children}
+    </RadioItem>
+  )
+})
+DropdownMenuRadioItem.displayName = RadioItem.displayName
 
 const DropdownMenuLabel = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Label>,

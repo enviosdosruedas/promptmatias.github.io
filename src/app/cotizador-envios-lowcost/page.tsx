@@ -1,3 +1,6 @@
+'use client';
+
+import * as React from 'react'; // Import React
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";

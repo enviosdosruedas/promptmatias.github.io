@@ -1,80 +1,161 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Bike } from 'lucide-react';
+'use client';
 
-const navLinks = [
-  { href: '/delivery-moto-fija', label: 'Delivery Moto Fija' },
-  { href: '/delivery-moto-express', label: 'Delivery Moto Express' },
-  { href: '/mensajeria-envios-express', label: 'Mensajería Express' },
-  { href: '/mensajeria-envios-lowcost', label: 'Mensajería Low Cost' },
-  { href: '/envios-emprendedores', label: 'Envíos Emprendedores' },
-  { href: '/enviosflex', label: 'Envíos Flex' },
-  { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
-  { href: '/preguntasfrecuentes', label: 'Preguntas Frecuentes' },
-  { href: '/nuestrasredes', label: 'Nuestras Redes' },
-  { href: '/contacto', label: 'Contacto' },
-];
+import Link from 'next/link';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Menu, Bike, ChevronDown } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from '@/lib/utils';
+import * as React from "react";
+
+
+// Separate component for navigation items to avoid repetition
+const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: () => void }) => (
+  <ul className={cn("flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6", className)}>
+     <li>
+      <Link href="/" className="text-foreground/80 hover:text-foreground font-medium transition-colors" onClick={closeSheet}>
+        Inicio
+      </Link>
+    </li>
+    <li>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="text-foreground/80 hover:text-foreground font-medium p-0 h-auto hover:bg-transparent data-[state=open]:bg-transparent">
+            Servicios <ChevronDown className="ml-1 h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild>
+            <Link href="/mensajeria-envios-express" onClick={closeSheet}>Envíos Express</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+             <Link href="/mensajeria-envios-lowcost" onClick={closeSheet}>Envíos LowCost</Link>
+          </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+            <Link href="/delivery-moto-express" onClick={closeSheet}>Moto Express</Link>
+          </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+             <Link href="/delivery-moto-fija" onClick={closeSheet}>Moto Fija</Link>
+           </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+             <Link href="/envios-emprendedores" onClick={closeSheet}>Plan Emprendedores</Link>
+           </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+             <Link href="/enviosflex" onClick={closeSheet}>Envios Flex</Link>
+           </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </li>
+    <li>
+       <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+           <Button variant="ghost" className="text-foreground/80 hover:text-foreground font-medium p-0 h-auto hover:bg-transparent data-[state=open]:bg-transparent">
+             Cotizar <ChevronDown className="ml-1 h-4 w-4" />
+           </Button>
+        </DropdownMenuTrigger>
+         <DropdownMenuContent>
+           <DropdownMenuItem asChild>
+             <Link href="/cotizador-envios-express" onClick={closeSheet}>Cotizar Express</Link>
+           </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+             <Link href="/cotizador-envios-lowcost" onClick={closeSheet}>Cotizar LowCost</Link>
+           </DropdownMenuItem>
+         </DropdownMenuContent>
+       </DropdownMenu>
+    </li>
+    <li>
+       <DropdownMenu>
+         <DropdownMenuTrigger asChild>
+           <Button variant="ghost" className="text-foreground/80 hover:text-foreground font-medium p-0 h-auto hover:bg-transparent data-[state=open]:bg-transparent">
+             Nosotros <ChevronDown className="ml-1 h-4 w-4" />
+           </Button>
+         </DropdownMenuTrigger>
+         <DropdownMenuContent>
+           <DropdownMenuItem asChild>
+             <Link href="/sobre-nosotros" onClick={closeSheet}>Sobre Nosotros</Link>
+           </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+             <Link href="/preguntasfrecuentes" onClick={closeSheet}>Preguntas Frecuentes</Link>
+           </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+            <Link href="/nuestrasredes" onClick={closeSheet}>Nuestras Redes</Link>
+           </DropdownMenuItem>
+            {/* Add Noticias link if page exists */}
+            {/* <DropdownMenuItem asChild>
+              <Link href="/noticias" onClick={closeSheet}>Noticias</Link>
+            </DropdownMenuItem> */}
+         </DropdownMenuContent>
+       </DropdownMenu>
+    </li>
+    <li>
+      <Link href="/contacto" className="text-foreground/80 hover:text-foreground font-medium transition-colors" onClick={closeSheet}>
+        Contacto
+      </Link>
+    </li>
+  </ul>
+);
 
 export function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Bike className="h-6 w-6 text-primary" />
-          <span className="font-bold sm:inline-block text-primary">
-            EnviosDosRuedas
-          </span>
+      <nav className="container flex h-16 items-center justify-between">
+        {/* Logo and Title */}
+        <Link href="/" className="flex items-center gap-2">
+           {/* Ensure you have the logo image in the public/img folder */}
+           {/* <Image src="/img/LogoEnviosDosRuedas.webp" alt="EnviosDosRuedas Logo" width={40} height={40} /> */}
+           {/* Placeholder until logo is added */}
+           <Bike className="h-8 w-8 text-primary" />
+          <div>
+            <h1 className="text-lg font-bold text-primary">Envios DosRuedas</h1>
+            <p className="text-xs text-foreground/70">Tu Solución Confiable para Envíos</p>
+          </div>
         </Link>
-        <nav className="hidden gap-6 md:flex flex-1">
-          {navLinks.slice(0, 6).map((link) => ( // Show first 6 links on desktop
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-foreground/60 transition-colors hover:text-foreground/80"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="flex flex-1 items-center justify-end gap-4">
-           <Link href="/cotizador-envios-express">
-             <Button variant="default" className="bg-accent text-accent-foreground hover:bg-accent/90">Cotizá tu envío</Button>
-           </Link>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="md:hidden"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <nav className="grid gap-6 text-lg font-medium mt-8">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 text-lg font-semibold mb-4"
-                >
-                  <Bike className="h-6 w-6 text-primary" />
-                  <span className="text-primary">EnviosDosRuedas</span>
-                </Link>
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-foreground/60 transition-colors hover:text-foreground/80"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex">
+          <NavItems />
         </div>
-      </div>
+
+        {/* Mobile Menu Button */}
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="md:hidden">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Abrir Menú</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[280px] sm:w-[320px] p-6">
+             {/* Logo and Title in Mobile Menu */}
+             <Link href="/" className="flex items-center gap-2 mb-6" onClick={closeMobileMenu}>
+                {/* <Image src="/img/LogoEnviosDosRuedas.webp" alt="EnviosDosRuedas Logo" width={40} height={40} /> */}
+                 <Bike className="h-8 w-8 text-primary" />
+                <div>
+                  <h1 className="text-lg font-bold text-primary">Envios DosRuedas</h1>
+                   <p className="text-xs text-foreground/70">Tu Solución Confiable</p>
+                </div>
+             </Link>
+            {/* Mobile Navigation */}
+            <div className="flex flex-col gap-4">
+               <NavItems className="flex-col items-start text-base" closeSheet={closeMobileMenu} />
+            </div>
+            {/* Optional: Close button inside if needed, though SheetContent has one by default */}
+            {/* <SheetClose asChild className="mt-auto">
+              <Button variant="outline">Cerrar</Button>
+             </SheetClose> */}
+          </SheetContent>
+        </Sheet>
+
+      </nav>
     </header>
   );
 }
