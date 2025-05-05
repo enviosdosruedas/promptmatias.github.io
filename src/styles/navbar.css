@@ -17,26 +17,24 @@
   --nav-mobile-border: hsl(var(--border)); /* Borde items menú móvil */
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
   --transition: all 0.2s ease-in-out;
+  --nav-icon-size: 1rem; /* 16px */
+  --nav-icon-margin: 0.5rem; /* Margin for icons */
 }
 
 /* Contenedor Principal del Header */
 .main-nav {
   background: var(--nav-bg);
-  /* position: sticky; Ya controlado por `sticky` class en el componente */
-  /* top: 0; */
-  /* z-index: 50; Ya controlado por `z-50` class en el componente */
   box-shadow: var(--shadow);
   border-bottom: 1px solid var(--nav-border); /* Añadido borde sutil */
+  /* Sticky and Z-index are applied via Tailwind classes */
 }
 
 .nav-container {
-  /* max-width: 1400px; Ya controlado por `container` class */
-  /* margin: 0 auto; */
-  /* padding: 1rem 2rem; Ajustado por `container` y `h-16` */
+  /* Centering and padding are applied via Tailwind `container` class */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* height: 4rem; Ya controlado por `h-16` class */
+  /* Height applied via Tailwind `h-16` */
 }
 
 /* Estilos del Logo */
@@ -52,7 +50,6 @@
 }
 
 .logo-image {
-  /* Tamaño controlado por props en el componente */
    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)); /* Sombra más sutil */
 }
 
@@ -64,22 +61,20 @@
 .logo-title {
   color: var(--nav-logo-title);
   margin: 0;
-  /* font-size: 1.125rem; Controlado por `text-lg` */
   font-weight: 700; /* Tailwind `font-bold` */
   line-height: 1.2;
+  /* Font size controlled by Tailwind */
 }
 
 .logo-text p {
   margin: 0;
-  /* font-size: 0.75rem; Controlado por `text-xs` */
   color: var(--nav-logo-subtitle);
+  /* Font size controlled by Tailwind */
 }
 
 /* Estilos del Menú de Navegación Desktop */
 .nav-menu {
-  /* display: flex; */
-  /* align-items: center; */
-   /* Oculto por defecto, mostrado en desktop con `md:flex` */
+  /* Display handled by Tailwind `md:flex` */
 }
 
 .nav-list {
@@ -87,8 +82,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  /* gap: 1.5rem; Controlado por `gap-6` */
-  /* font-size: inherit; Hereda del contenedor */
+  align-items: center; /* Align items vertically */
+  gap: 1.5rem; /* Spacing between top-level items */
 }
 
 /* Aplica a todos los items, incluyendo dropdown triggers */
@@ -98,68 +93,64 @@
 
 /* Estilos base para enlaces y triggers de dropdown */
 .nav-link, .dropdown-trigger {
-  color: hsl(var(--foreground) / 0.8); /* Usando variable Shadcn */
+  color: hsl(var(--foreground) / 0.8);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 0.25rem; /* Tailwind `gap-1` */
-  padding: 0.5rem 0; /* Ajustar padding vertical si es necesario */
+  gap: var(--nav-icon-margin); /* Gap between icon and text */
+  padding: 0.5rem 0; /* Vertical padding */
   transition: var(--transition);
-  font-weight: 500; /* Tailwind `font-medium` */
-  /* font-size: 0.875rem; Tailwind `text-sm` */
+  font-weight: 500;
    background-color: transparent !important; /* Override button ghost hover */
-   border: none; /* Override button border */
-   height: auto !important; /* Override button height */
-   padding: 0 !important; /* Override button padding */
-   border-radius: 0 !important; /* Override button border-radius */
+   border: none;
+   height: auto !important;
+   padding: 0 !important; /* Override button internal padding */
+   border-radius: 0 !important;
 }
 .nav-link:hover, .dropdown-trigger:hover, .dropdown-trigger[data-state=open] {
   color: var(--nav-text-hover);
-  background-color: transparent !important; /* Mantener transparente */
+  background-color: transparent !important;
 }
 
-/* Icono del Dropdown */
-.dropdown-icon {
-  /* font-size: 0.8em; Ya controlado por `h-4 w-4` */
-  margin-left: 0.25rem; /* Tailwind `ml-1` */
-  transition: transform 0.2s ease; /* Transición más rápida */
+/* Icono dentro del NavLink/Trigger */
+.nav-icon {
+    width: var(--nav-icon-size);
+    height: var(--nav-icon-size);
+    flex-shrink: 0; /* Prevent icon shrinking */
 }
-/* No necesitamos hover específico aquí, Radix se encarga del estado `data-state=open` */
+
+
+/* Icono del Dropdown (Chevron) */
+.dropdown-icon {
+  margin-left: 0.25rem; /* Tailwind `ml-1` */
+  transition: transform 0.2s ease;
+  width: var(--nav-icon-size);
+  height: var(--nav-icon-size);
+}
 .dropdown-trigger[data-state=open] .dropdown-icon {
    transform: rotate(180deg);
 }
 
 
-/* Contenido del Dropdown (Usando clases de Shadcn/Radix como base) */
+/* Contenido del Dropdown (Estilos base de Shadcn) */
 .dropdown-content {
-  /* Estilos base vienen de Shadcn `DropdownMenuContent` */
-  /* min-width: 200px; */ /* Ajustar si es necesario */
-  /* box-shadow: var(--shadow); */ /* Sombra ya aplicada por Shadcn */
-   background-color: var(--nav-dropdown-bg); /* Asegurar fondo */
+   background-color: var(--nav-dropdown-bg);
 }
 
 .dropdown-content a { /* Estilo para los Links dentro de DropdownMenuItem */
-    color: var(--nav-dropdown-text) !important; /* Asegurar color de texto */
+    color: var(--nav-dropdown-text) !important;
     width: 100%;
     display: block;
     text-decoration: none;
-    /* padding: 0.75rem 1rem;  Padding ya manejado por DropdownMenuItem */
 }
-/* El hover es manejado por DropdownMenuItem focus/data state */
-
 
 /* Botón de Navegación Móvil */
 .mobile-nav-toggle {
-  /* display: none; Gestionado por `md:hidden` */
-  /* background: transparent; */
-  /* border: none; */
-  color: var(--nav-text); /* Color del icono */
-  /* font-size: 1.5rem; */ /* Ajustar si es necesario */
+  color: var(--nav-text);
   cursor: pointer;
-  /* padding: 0.5rem; */
   transition: var(--transition);
-  z-index: 1002; /* Asegurar que esté sobre el overlay */
-   position: relative; /* Para z-index */
+  z-index: 1002;
+   position: relative;
 }
 .mobile-nav-toggle:hover {
   color: var(--nav-text-hover);
@@ -167,15 +158,17 @@
 
 
 /* Menú Móvil (SheetContent) */
-.nav-menu.active { /* Clase añadida cuando el menú está abierto */
-   /* Controlado por Sheet */
+.nav-menu.active {
+   /* Sheet state handles visibility */
 }
 
 /* Estilos para la lista dentro del menú móvil */
+/* Apply these styles within the SheetContent via className prop */
 .nav-menu .nav-list {
     flex-direction: column;
-    gap: 0; /* Sin gap vertical, se maneja con padding/border */
+    gap: 0;
     width: 100%;
+    align-items: stretch; /* Stretch items to full width */
 }
 
 .nav-menu .nav-list li {
@@ -186,45 +179,50 @@
     border-bottom: none;
 }
 
-.nav-menu .nav-list a,
+/* Links y Triggers en menú móvil */
+.nav-menu .nav-list .nav-link,
 .nav-menu .nav-list .dropdown-trigger {
     padding: 0.75rem 1rem; /* Padding interno para items */
     width: 100%;
     justify-content: flex-start; /* Alinear texto a la izquierda */
-    color: var(--nav-mobile-text); /* Color texto móvil */
+    color: var(--nav-mobile-text);
     font-weight: 500;
+    border-radius: 0; /* Remover bordes redondeados */
+    height: auto !important; /* Reset height */
 }
-.nav-menu .nav-list a:hover,
+.nav-menu .nav-list .nav-link:hover,
 .nav-menu .nav-list .dropdown-trigger:hover,
 .nav-menu .nav-list .dropdown-trigger[data-state=open] {
-    background-color: hsl(var(--accent) / 0.1); /* Fondo sutil al pasar el mouse */
+    background-color: hsl(var(--accent) / 0.1) !important; /* Fondo sutil */
     color: var(--nav-text-hover);
+}
+/* Mobile dropdown icon position */
+.nav-menu .nav-list .dropdown-trigger .dropdown-icon {
+    margin-left: auto; /* Push chevron to the right */
 }
 
 /* Dropdown dentro del menú móvil */
 .nav-menu .dropdown-content {
-    position: static; /* Resetear posicionamiento */
+    /* Styles reset for mobile dropdowns within SheetContent */
+    position: static;
     box-shadow: none;
     border-radius: 0;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    background: transparent; /* Heredar fondo */
+    background: transparent;
     padding: 0;
     min-width: auto;
     margin-top: 0.25rem;
-    padding-left: 1.5rem; /* Indentación para subitems */
+    padding-left: calc(var(--nav-icon-margin) + var(--nav-icon-size) + 1rem); /* Indentación alineada con el texto */
 }
 
 .nav-menu .dropdown-content a {
-    padding: 0.5rem 1rem; /* Padding para subitems */
-    font-size: 0.875rem; /* Texto ligeramente más pequeño */
-    color: hsl(var(--muted-foreground)); /* Color más tenue */
+    padding: 0.5rem 1rem 0.5rem 0; /* Padding solo a derecha/vertical */
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+    display: block; /* Ensure it takes full width */
 }
 .nav-menu .dropdown-content a:hover {
     background: hsl(var(--accent) / 0.1);
     color: var(--nav-text-hover);
-    transform: none; /* Sin translateX en móvil */
 }
 
 /* Overlay para menú móvil */
@@ -247,10 +245,19 @@
     visibility: visible;
 }
 
-/* Ajustes finos responsivos si son necesarios */
+/* Ajustes finos responsivos */
 @media (min-width: 769px) {
   /* Ocultar overlay en desktop */
   .nav-overlay {
     display: none;
   }
+}
+@media (max-width: 640px) { /* Tailwind `sm` breakpoint */
+    .nav-logo .logo-text {
+        display: none; /* Ocultar texto del logo en pantallas muy pequeñas */
+    }
+    .nav-container {
+        padding-left: 1rem; /* Reducir padding en móvil */
+        padding-right: 1rem;
+    }
 }

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown, Home, Package, Calculator, Users, Mail } from 'lucide-react'; // Added icons
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +22,7 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
   <ul className={cn("nav-list", className)}>
      <li>
       <Link href="/" className="nav-link" onClick={closeSheet}>
+         <Home className="nav-icon" /> {/* Icon Added */}
         Inicio
       </Link>
     </li>
@@ -30,6 +31,7 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
         <DropdownMenuTrigger asChild>
            {/* Apply nav-link styles and add dropdown-icon for spacing/arrow */}
            <Button variant="ghost" className="nav-link dropdown-trigger">
+              <Package className="nav-icon" /> {/* Icon Added */}
              Servicios <ChevronDown className="dropdown-icon" />
            </Button>
         </DropdownMenuTrigger>
@@ -60,6 +62,7 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
        <DropdownMenu>
         <DropdownMenuTrigger asChild>
            <Button variant="ghost" className="nav-link dropdown-trigger">
+             <Calculator className="nav-icon" /> {/* Icon Added */}
              Cotizar <ChevronDown className="dropdown-icon" />
            </Button>
         </DropdownMenuTrigger>
@@ -77,6 +80,7 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
        <DropdownMenu>
          <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="nav-link dropdown-trigger">
+               <Users className="nav-icon" /> {/* Icon Added */}
               Nosotros <ChevronDown className="dropdown-icon" />
             </Button>
          </DropdownMenuTrigger>
@@ -99,6 +103,7 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
     </li>
     <li>
       <Link href="/contacto" className="nav-link" onClick={closeSheet}>
+         <Mail className="nav-icon" /> {/* Icon Added */}
         Contacto
       </Link>
     </li>
@@ -120,13 +125,13 @@ export function Header() {
 
   return (
     // Use main-nav class for sticky behavior and styling from navbar.css
-    <header className="main-nav">
+    <header className="main-nav sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       {/* Use nav-container for max-width and padding */}
-      <nav className="nav-container">
+      <nav className="nav-container container flex h-16 items-center"> {/* Adjusted height */}
         {/* Logo Section - use nav-logo class */}
-        <Link href="/" className="nav-logo">
+        <Link href="/" className="nav-logo mr-6"> {/* Added margin */}
            <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={40} height={40} className="logo-image" />
-          <div className="logo-text">
+          <div className="logo-text hidden sm:flex"> {/* Hide text on very small screens */}
             <h1 className="logo-title">Envios DosRuedas</h1>
             <p>Tu Solución Confiable</p> {/* Adjusted text */}
           </div>
@@ -134,7 +139,7 @@ export function Header() {
 
         {/* Desktop Navigation - hidden on small screens */}
          {/* Use nav-menu class, hidden on md and below */}
-         <div className="nav-menu hidden md:flex">
+         <div className="nav-menu hidden md:flex flex-1 justify-end"> {/* Use flex-1 and justify-end */}
            <NavItems />
          </div>
 
@@ -143,15 +148,15 @@ export function Header() {
          {/* Use Sheet for the off-canvas menu, trigger is styled */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
-             <Button variant="ghost" size="icon" className="mobile-nav-toggle md:hidden">
+             <Button variant="ghost" size="icon" className="mobile-nav-toggle md:hidden ml-auto"> {/* Use ml-auto to push to the right */}
                <Menu className="h-6 w-6" /> {/* Adjusted icon size */}
                <span className="sr-only">Abrir Menú</span>
              </Button>
           </SheetTrigger>
           {/* Apply nav-menu class and conditional 'active' class */}
-           <SheetContent side="left" className={cn("nav-menu p-0", isMobileMenuOpen ? 'active' : '')} >
+           <SheetContent side="left" className={cn("nav-menu p-0 w-[300px] sm:w-[350px]", isMobileMenuOpen ? 'active' : '')} > {/* Adjust width */}
               {/* Logo inside mobile menu */}
-              <Link href="/" className="nav-logo p-4 border-b border-gray-700/50" onClick={closeMobileMenu}>
+              <Link href="/" className="nav-logo p-4 border-b border-nav-mobile-border" onClick={closeMobileMenu}>
                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image" />
                 <div className="logo-text">
                   <h1 className="logo-title text-base">Envios DosRuedas</h1>
