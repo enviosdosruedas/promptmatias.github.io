@@ -2,20 +2,20 @@
 
 /* Variables (ajustar según necesidad o usar Tailwind theme) */
 :root {
-  --nav-bg: hsl(var(--background)); /* Fondo del header */
-  --nav-text: hsl(var(--foreground)); /* Color principal del texto */
-  --nav-text-hover: hsl(var(--primary)); /* Color al pasar el mouse */
-  --nav-border: hsl(var(--border)); /* Color del borde inferior */
-  --nav-logo-title: hsl(var(--primary)); /* Color título logo */
-  --nav-logo-subtitle: hsl(var(--foreground) / 0.7); /* Color subtítulo logo */
-  --nav-dropdown-bg: hsl(var(--popover)); /* Fondo dropdown */
-  --nav-dropdown-text: hsl(var(--popover-foreground)); /* Texto dropdown */
-  --nav-dropdown-hover-bg: hsl(var(--accent)); /* Fondo hover item dropdown */
-  --nav-dropdown-hover-text: hsl(var(--accent-foreground)); /* Texto hover item dropdown */
-  --nav-mobile-bg: hsl(var(--background)); /* Fondo menú móvil */
-  --nav-mobile-text: hsl(var(--foreground)); /* Texto menú móvil */
-  --nav-mobile-border: hsl(var(--border)); /* Borde items menú móvil */
-  --shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  --nav-bg: hsl(var(--primary)); /* Header background */
+  --nav-text: hsl(var(--primary-foreground)); /* Main text color on header */
+  --nav-text-hover: hsl(var(--accent)); /* Accent color for hover */
+  --nav-border: hsl(var(--border)); /* Border color */
+  --nav-logo-title: hsl(var(--primary-foreground)); /* Logo title */
+  --nav-logo-subtitle: hsl(var(--accent)); /* Logo subtitle (accent) */
+  --nav-dropdown-bg: hsl(var(--popover)); /* Dropdown background */
+  --nav-dropdown-text: hsl(var(--popover-foreground)); /* Dropdown text */
+  --nav-dropdown-hover-bg: hsl(var(--accent)); /* Dropdown item hover bg */
+  --nav-dropdown-hover-text: hsl(var(--accent-foreground)); /* Dropdown item hover text */
+  --nav-mobile-bg: hsl(var(--background)); /* Mobile menu background */
+  --nav-mobile-text: hsl(var(--foreground)); /* Mobile menu text */
+  --nav-mobile-border: hsl(var(--border)); /* Mobile menu item border */
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Softer shadow */
   --transition: all 0.2s ease-in-out;
   --nav-icon-size: 1rem; /* 16px */
   --nav-icon-margin: 0.5rem; /* Margin for icons */
@@ -25,8 +25,10 @@
 .main-nav {
   background: var(--nav-bg);
   box-shadow: var(--shadow);
-  border-bottom: 1px solid var(--nav-border); /* Añadido borde sutil */
-  /* Sticky and Z-index are applied via Tailwind classes */
+  /* border-bottom: 1px solid var(--nav-border); /* Optional bottom border */
+  position: sticky;
+  top: 0;
+  z-index: 50; /* Ensure it's above content */
 }
 
 .nav-container {
@@ -74,7 +76,7 @@
 
 /* Estilos del Menú de Navegación Desktop */
 .nav-menu {
-  /* Display handled by Tailwind `md:flex` */
+  /* Display handled by Tailwind `lg:block` */
 }
 
 .nav-list {
@@ -83,33 +85,33 @@
   margin: 0;
   padding: 0;
   align-items: center; /* Align items vertically */
-  gap: 1.5rem; /* Spacing between top-level items */
+  gap: 0.25rem; /* Tailwind `gap-1` Reduced gap for tighter desktop nav */
 }
 
 /* Aplica a todos los items, incluyendo dropdown triggers */
-.nav-list li {
+.desktop-nav-item {
   position: relative;
 }
 
-/* Estilos base para enlaces y triggers de dropdown */
-.nav-link, .dropdown-trigger {
-  color: hsl(var(--foreground) / 0.8);
+/* Estilos base para enlaces y triggers de dropdown Desktop */
+.nav-link, .desktop-dropdown-trigger {
+  color: var(--nav-text);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: var(--nav-icon-margin); /* Gap between icon and text */
-  padding: 0.5rem 0; /* Vertical padding */
+  padding: 0.5rem 0.75rem; /* Tailwind `py-2 px-3` Adjusted padding */
   transition: var(--transition);
-  font-weight: 500;
-   background-color: transparent !important; /* Override button ghost hover */
-   border: none;
-   height: auto !important;
-   padding: 0 !important; /* Override button internal padding */
-   border-radius: 0 !important;
+  font-weight: 500; /* Tailwind `font-medium` */
+  border-radius: 0.375rem; /* Tailwind `rounded-md` */
+  background-color: transparent !important; /* Override button ghost */
+  border: none;
+  height: auto !important;
+  line-height: normal; /* Ensure text aligns well */
 }
-.nav-link:hover, .dropdown-trigger:hover, .dropdown-trigger[data-state=open] {
+.nav-link:hover, .desktop-dropdown-trigger:hover, .desktop-dropdown-trigger[data-state=open] {
   color: var(--nav-text-hover);
-  background-color: transparent !important;
+  background-color: hsla(var(--primary-foreground) / 0.1) !important; /* Subtle hover background */
 }
 
 /* Icono dentro del NavLink/Trigger */
@@ -120,109 +122,131 @@
 }
 
 
-/* Icono del Dropdown (Chevron) */
-.dropdown-icon {
+/* Icono del Dropdown (Chevron) Desktop */
+.desktop-dropdown-trigger .dropdown-icon {
   margin-left: 0.25rem; /* Tailwind `ml-1` */
   transition: transform 0.2s ease;
   width: var(--nav-icon-size);
   height: var(--nav-icon-size);
+  opacity: 0.7; /* Slightly less prominent */
 }
-.dropdown-trigger[data-state=open] .dropdown-icon {
+.desktop-dropdown-trigger[data-state=open] .dropdown-icon {
    transform: rotate(180deg);
+   opacity: 1;
 }
 
 
 /* Contenido del Dropdown (Estilos base de Shadcn) */
-.dropdown-content {
-   background-color: var(--nav-dropdown-bg);
+.dropdown-menu {
+   background-color: var(--nav-dropdown-bg) !important; /* Override potential conflicts */
+   color: var(--nav-dropdown-text) !important;
+   border-radius: 0.375rem !important; /* Tailwind `rounded-md` */
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Softer shadow */
+   /* Other styles like min-width, padding are handled by Shadcn */
 }
 
-.dropdown-content a { /* Estilo para los Links dentro de DropdownMenuItem */
-    color: var(--nav-dropdown-text) !important;
-    width: 100%;
-    display: block;
-    text-decoration: none;
+.dropdown-item { /* Style for Shadcn DropdownMenuItem */
+    color: var(--nav-dropdown-text) !important; /* Ensure correct text color */
+    transition: var(--transition);
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: var(--nav-dropdown-hover-bg) !important;
+    color: var(--nav-dropdown-hover-text) !important;
+}
+.dropdown-item .nav-icon { /* Style for icons within dropdown items */
+   color: hsl(var(--secondary)); /* Use secondary color for icons */
+   margin-right: 0.5rem; /* Tailwind `mr-2` */
+}
+.dropdown-item:hover .nav-icon, .dropdown-item:focus .nav-icon {
+   color: inherit; /* Inherit hover color */
 }
 
 /* Botón de Navegación Móvil */
-.mobile-nav-toggle {
-  color: var(--nav-text);
-  cursor: pointer;
-  transition: var(--transition);
-  z-index: 1002;
-   position: relative;
-}
-.mobile-nav-toggle:hover {
-  color: var(--nav-text-hover);
+.mobile-menu-button {
+  /* Colors and basic styles handled by Tailwind + variant="ghost" */
 }
 
 
 /* Menú Móvil (SheetContent) */
-.nav-menu.active {
-   /* Sheet state handles visibility */
+.mobile-menu {
+    background-color: var(--nav-mobile-bg) !important;
+    color: var(--nav-mobile-text) !important;
+    /* Width handled by className prop in component */
+}
+.mobile-menu .nav-logo {
+    border-bottom: 1px solid var(--nav-mobile-border);
+}
+.mobile-menu .logo-title {
+    color: var(--nav-logo-title); /* Use primary for mobile logo title too */
 }
 
 /* Estilos para la lista dentro del menú móvil */
-/* Apply these styles within the SheetContent via className prop */
-.nav-menu .nav-list {
+.mobile-menu .nav-list {
     flex-direction: column;
     gap: 0;
     width: 100%;
     align-items: stretch; /* Stretch items to full width */
 }
 
-.nav-menu .nav-list li {
+.mobile-nav-item {
     width: 100%;
     border-bottom: 1px solid var(--nav-mobile-border);
 }
-.nav-menu .nav-list li:last-child {
+.mobile-nav-item:last-child {
     border-bottom: none;
 }
 
 /* Links y Triggers en menú móvil */
-.nav-menu .nav-list .nav-link,
-.nav-menu .nav-list .dropdown-trigger {
-    padding: 0.75rem 1rem; /* Padding interno para items */
+.mobile-nav-link,
+.mobile-dropdown-button {
+    padding: 0.75rem 1rem; /* Tailwind `py-3 px-4` Padding interno para items */
     width: 100%;
     justify-content: flex-start; /* Alinear texto a la izquierda */
     color: var(--nav-mobile-text);
-    font-weight: 500;
+    font-weight: 500; /* Tailwind `font-medium` */
     border-radius: 0; /* Remover bordes redondeados */
     height: auto !important; /* Reset height */
+    background: transparent !important; /* Ensure no button BG */
+    transition: var(--transition);
+    display: flex; /* Ensure flex for alignment */
+    align-items: center;
+    gap: var(--nav-icon-margin); /* Gap for icon */
 }
-.nav-menu .nav-list .nav-link:hover,
-.nav-menu .nav-list .dropdown-trigger:hover,
-.nav-menu .nav-list .dropdown-trigger[data-state=open] {
+.mobile-nav-link:hover,
+.mobile-dropdown-button:hover,
+.mobile-dropdown-button[data-state=open] {
     background-color: hsl(var(--accent) / 0.1) !important; /* Fondo sutil */
-    color: var(--nav-text-hover);
+    color: var(--nav-text-hover); /* Use primary hover color */
 }
 /* Mobile dropdown icon position */
-.nav-menu .nav-list .dropdown-trigger .dropdown-icon {
+.mobile-dropdown-button .dropdown-icon {
     margin-left: auto; /* Push chevron to the right */
+}
+.mobile-dropdown-button[data-state=open] .dropdown-icon {
+   transform: rotate(180deg);
 }
 
 /* Dropdown dentro del menú móvil */
-.nav-menu .dropdown-content {
-    /* Styles reset for mobile dropdowns within SheetContent */
-    position: static;
-    box-shadow: none;
-    border-radius: 0;
-    background: transparent;
-    padding: 0;
-    min-width: auto;
-    margin-top: 0.25rem;
-    padding-left: calc(var(--nav-icon-margin) + var(--nav-icon-size) + 1rem); /* Indentación alineada con el texto */
+.mobile-menu .dropdown-menu {
+    /* Shadcn/Radix handles the basic structure */
+    background-color: hsl(var(--muted) / 0.5) !important; /* Slightly different bg for sub-menu */
+    box-shadow: none !important;
+    border: none !important;
+    padding-left: calc(var(--nav-icon-margin) + var(--nav-icon-size) + 1rem) !important; /* Indentación */
+    margin: 0 !important;
+    border-radius: 0 !important;
 }
 
-.nav-menu .dropdown-content a {
-    padding: 0.5rem 1rem 0.5rem 0; /* Padding solo a derecha/vertical */
-    font-size: 0.875rem;
-    color: hsl(var(--muted-foreground));
-    display: block; /* Ensure it takes full width */
+.mobile-dropdown-item {
+    padding: 0.5rem 1rem 0.5rem 0 !important; /* Padding solo a derecha/vertical */
+    font-size: 0.875rem; /* Tailwind `text-sm` */
+    color: hsl(var(--muted-foreground)) !important;
+    transition: var(--transition);
 }
-.nav-menu .dropdown-content a:hover {
-    background: hsl(var(--accent) / 0.1);
-    color: var(--nav-text-hover);
+.mobile-dropdown-item:hover, .mobile-dropdown-item:focus {
+    background: hsl(var(--accent) / 0.1) !important;
+    color: var(--nav-text-hover) !important; /* Use primary hover color */
 }
 
 /* Overlay para menú móvil */
@@ -246,18 +270,20 @@
 }
 
 /* Ajustes finos responsivos */
-@media (min-width: 769px) {
+@media (min-width: 1024px) { /* Tailwind `lg` breakpoint */
   /* Ocultar overlay en desktop */
   .nav-overlay {
     display: none;
   }
 }
+@media (max-width: 768px) { /* Tailwind `md` breakpoint */
+    /* Optionally hide desktop logo text earlier if needed */
+     .nav-logo .logo-text {
+        /* display: none; */
+    }
+}
 @media (max-width: 640px) { /* Tailwind `sm` breakpoint */
     .nav-logo .logo-text {
         display: none; /* Ocultar texto del logo en pantallas muy pequeñas */
-    }
-    .nav-container {
-        padding-left: 1rem; /* Reducir padding en móvil */
-        padding-right: 1rem;
     }
 }

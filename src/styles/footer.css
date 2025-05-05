@@ -5,8 +5,8 @@
   /* Using Shadcn HSL variables defined in globals.css */
   --footer-bg: hsl(var(--muted));
   --footer-text: hsl(var(--muted-foreground));
-  --footer-accent: hsl(var(--secondary)); /* Using secondary color as accent */
-  --footer-primary: hsl(var(--primary)); /* Added primary for titles */
+  --footer-primary: hsl(var(--primary)); /* Mapped in globals.css */
+  --footer-accent: hsl(var(--accent)); /* Mapped in globals.css */
   --footer-accent-foreground: hsl(var(--accent-foreground));
   --footer-primary-foreground: hsl(var(--primary-foreground));
   --footer-secondary-foreground: hsl(var(--secondary-foreground));
@@ -96,7 +96,7 @@
 }
 
 .footer-links a:hover {
-  color: var(--footer-accent);
+  color: var(--footer-accent); /* Use accent for hover */
   /* Optional: remove transform for cleaner look */
   /* transform: translateX(5px); */
 }
@@ -148,7 +148,7 @@
 }
 
 .contact-item .lucide { /* Target Lucide icons */
-  color: var(--footer-accent);
+  color: var(--footer-primary); /* Use primary for icons */
   width: 1rem; /* Consistent icon size */
   height: 1rem;
   flex-shrink: 0; /* Prevent icon shrinking */
@@ -163,7 +163,7 @@
 }
 
 .whatsapp-link:hover {
-  color: var(--footer-accent);
+  color: var(--footer-accent); /* Use accent for hover */
 }
 
 /* Redes sociales */
@@ -191,7 +191,7 @@
   height: 36px;
   border-radius: 50%;
   background-color: var(--footer-background); /* Use background */
-  color: var(--footer-text); /* Muted icon color */
+  color: var(--footer-primary); /* Use primary color for icons */
   transition: var(--transition);
   border: 1px solid var(--footer-border); /* Add subtle border */
 }

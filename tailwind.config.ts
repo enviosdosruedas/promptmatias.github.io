@@ -11,13 +11,14 @@ export default {
   	extend: {
   		colors: {
         // New Custom Palette
-        'persian_blue': { DEFAULT: '#072ac8', 100: '#010928', 200: '#031151', 300: '#041a79', 400: '#0622a1', 500: '#072ac8', 600: '#1740f7', 700: '#5170f9', 800: '#8b9ffb', 900: '#c5cffd' },
-        'dodger_blue': { DEFAULT: '#1e96fc', 100: '#011e37', 200: '#023c6f', 300: '#035aa6', 400: '#0377dd', 500: '#1e96fc', 600: '#4aa9fc', 700: '#77bffd', 800: '#a5d4fe', 900: '#d2eafe' },
-        'uranian_blue': { DEFAULT: '#a2d6f9', 100: '#05314e', 200: '#0a619b', 300: '#0f92e9', 400: '#56b5f4', 500: '#a2d6f9', 600: '#b6dffa', 700: '#c8e7fc', 800: '#dbeffd', 900: '#edf7fe' },
-        'aureolin': { DEFAULT: '#fcf300', 100: '#323000', 200: '#646100', 300: '#969100', 400: '#c8c100', 500: '#fcf300', 600: '#fff82f', 700: '#fffa63', 800: '#fffc97', 900: '#fffdcb' },
-        'mikado_yellow': { DEFAULT: '#ffc600', 100: '#332800', 200: '#665000', 300: '#997800', 400: '#cca000', 500: '#ffc600', 600: '#ffd333', 700: '#ffde66', 800: '#ffe999', 900: '#fff4cc' },
+        'royal-blue-traditional': { DEFAULT: '#00296b', 100: '#c5cffd', 200: '#8b9ffb', 300: '#5170f9', 400: '#1740f7', 500: '#00296b', 600: '#00225a', 700: '#001a48', 800: '#001337', 900: '#000b25' },
+        'marian-blue': { DEFAULT: '#003f88', 100: '#cce0ff', 200: '#99c2ff', 300: '#66a3ff', 400: '#3385ff', 500: '#003f88', 600: '#00326d', 700: '#002552', 800: '#001837', 900: '#000c1c' }, // Added Marian Blue definition
+        'polynesian-blue': { DEFAULT: '#00509d', 100: '#ccedff', 200: '#99daff', 300: '#66c6ff', 400: '#33b3ff', 500: '#00509d', 600: '#00407e', 700: '#00305e', 800: '#00203f', 900: '#00101f' },
+        'mikado-yellow': { DEFAULT: '#fdc500', 100: '#fff4cc', 200: '#ffe999', 300: '#ffde66', 400: '#ffd333', 500: '#fdc500', 600: '#cca000', 700: '#997800', 800: '#665000', 900: '#332800' },
+        'gold': { DEFAULT: '#ffd500', 100: '#fff7cc', 200: '#ffef99', 300: '#ffe666', 400: '#ffdd33', 500: '#ffd500', 600: '#ccaa00', 700: '#997f00', 800: '#665500', 900: '#332a00' }, // Added Gold definition
 
-        // Shadcn UI Theme Colors (mapped from HSL variables)
+
+        // Shadcn UI Theme Colors (mapped from HSL variables in globals.css)
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -29,20 +30,20 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
+  				DEFAULT: 'hsl(var(--primary))', // Uses --primary from globals.css
+  				foreground: 'hsl(var(--primary-foreground))' // Uses --primary-foreground from globals.css
   			},
   			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
-  				foreground: 'hsl(var(--secondary-foreground))'
+  				DEFAULT: 'hsl(var(--secondary))', // Uses --secondary from globals.css
+  				foreground: 'hsl(var(--secondary-foreground))' // Uses --secondary-foreground from globals.css
   			},
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
   			},
   			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
+  				DEFAULT: 'hsl(var(--accent))', // Uses --accent from globals.css
+  				foreground: 'hsl(var(--accent-foreground))' // Uses --accent-foreground from globals.css
   			},
   			destructive: {
   				DEFAULT: 'hsl(var(--destructive))',
