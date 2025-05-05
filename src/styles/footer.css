@@ -2,10 +2,16 @@
 
 /* Define CSS variables or use Tailwind theme variables */
 :root {
-  --footer-bg: hsl(var(--muted)); /* Example: using muted color */
-  --footer-text: hsl(var(--muted-foreground)); /* Example */
-  --footer-accent: hsl(var(--secondary)); /* Example: using secondary color */
-  --footer-border: hsl(var(--border)); /* Example */
+  /* Using Shadcn HSL variables defined in globals.css */
+  --footer-bg: hsl(var(--muted));
+  --footer-text: hsl(var(--muted-foreground));
+  --footer-accent: hsl(var(--secondary)); /* Using secondary color as accent */
+  --footer-primary: hsl(var(--primary)); /* Added primary for titles */
+  --footer-accent-foreground: hsl(var(--accent-foreground));
+  --footer-primary-foreground: hsl(var(--primary-foreground));
+  --footer-secondary-foreground: hsl(var(--secondary-foreground));
+  --footer-background: hsl(var(--background)); /* Added background for icon hovers */
+  --footer-border: hsl(var(--border));
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -17,7 +23,6 @@
   --font-size-sm: 0.875rem; /* 14px */
   --font-weight-bold: 600;
   --transition: all 0.3s ease;
-  --primary-color-dark: hsl(var(--primary-foreground)); /* For hover effect on dark bg */
 }
 
 .main-footer {
@@ -65,7 +70,7 @@
 .footer-title {
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-lg);
-  color: hsl(var(--primary)); /* Use primary color for titles */
+  color: var(--footer-primary); /* Use primary color for titles */
   font-weight: var(--font-weight-bold);
 }
 
@@ -96,13 +101,6 @@
   /* transform: translateX(5px); */
 }
 
-/* Removed unused icon style */
-/* .footer-links i {
-  margin-right: var(--spacing-sm);
-  width: 20px;
-  text-align: center;
-} */
-
 /* Dropdown en el footer */
 .footer-links .dropdown {
   position: relative;
@@ -119,9 +117,6 @@
   /* Remove hover logic, handle via Shadcn/Radix components */
 }
 
-/* .footer-links .dropdown:hover .dropdown-content {
-  display: block;
-} */
 
 .footer-links .dropdown-content ul {
     list-style: none;
@@ -132,7 +127,7 @@
 .footer-links .dropdown-content a {
   padding: var(--spacing-xs) 0;
   font-size: 0.85rem; /* Slightly smaller for sub-items */
-  color: hsl(var(--muted-foreground)); /* Muted color for sub-items */
+  color: var(--footer-text); /* Muted color for sub-items */
 }
 .footer-links .dropdown-content a:hover {
     color: var(--footer-accent); /* Hover for sub-items */
@@ -179,7 +174,7 @@
 .social-title {
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-sm);
-  color: hsl(var(--primary)); /* Use primary color */
+  color: var(--footer-primary); /* Use primary color */
   font-weight: 500;
 }
 
@@ -195,27 +190,17 @@
   width: 36px; /* Slightly smaller */
   height: 36px;
   border-radius: 50%;
-  background-color: hsl(var(--background)); /* Use background */
-  color: hsl(var(--muted-foreground)); /* Muted icon color */
+  background-color: var(--footer-background); /* Use background */
+  color: var(--footer-text); /* Muted icon color */
   transition: var(--transition);
   border: 1px solid var(--footer-border); /* Add subtle border */
 }
 .social-icon:hover {
   background-color: var(--footer-accent);
-  color: hsl(var(--accent-foreground)); /* Use accent foreground */
+  color: var(--footer-accent-foreground); /* Use accent foreground */
   transform: translateY(-2px); /* Slightly less movement */
   border-color: transparent; /* Remove border on hover */
 }
-
-/* Remove specific brand background colors - let the icon color change */
-/* .social-icon.instagram:hover {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-} */
-
-.social-icon.instagram:hover .lucide { color: #E1306C; } /* Instagram pink */
-.social-icon.facebook:hover .lucide { color: #1877F2; } /* Facebook blue */
-.social-icon.whatsapp:hover .lucide { color: #25D366; } /* WhatsApp green */
-.social-icon.whatsapp:hover { background-color: hsl(var(--background)); } /* Keep background standard for whatsapp */
 
 
 /* Parte inferior del footer */
@@ -228,7 +213,7 @@
 
 .copyright {
   font-size: var(--font-size-sm);
-  color: hsl(var(--muted-foreground)); /* Use muted foreground */
+  color: var(--footer-text); /* Use muted foreground */
   margin-bottom: 0;
 }
 
@@ -240,8 +225,8 @@
   width: 40px; /* Adjusted size */
   height: 40px;
   border-radius: 50%;
-  background-color: hsl(var(--primary)); /* Use primary color */
-  color: hsl(var(--primary-foreground)); /* Use primary foreground */
+  background-color: var(--footer-primary); /* Use primary color */
+  color: var(--footer-primary-foreground); /* Use primary foreground */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -260,7 +245,8 @@
 }
 
 .back-to-top:hover {
-  background-color: hsl(var(--secondary)); /* Use secondary color on hover */
+  background-color: var(--footer-accent); /* Use accent color on hover */
+  color: var(--footer-accent-foreground);
   transform: translateY(-3px);
 }
 

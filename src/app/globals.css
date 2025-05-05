@@ -8,59 +8,74 @@ body {
 
 @layer base {
   :root {
-    /* Custom Color Variables */
-    --primary-color-hex: #2c3e50;
-    --secondary-color-hex: #3498db;
-    --accent-color-hex: #ffd700;
-
-    /* ShadCN Theme Variables (Light) */
+    /* ShadCN Theme Variables (Light) - Mapped to New Palette */
     --background: 0 0% 100%; /* White */
-    --foreground: 210 29% 14%; /* Dark Blue-Gray */
+    --foreground: 210 29% 14%; /* Default Dark Blue-Gray (Good Contrast) */
+
     --card: 0 0% 100%; /* White */
-    --card-foreground: 210 29% 14%; /* Dark Blue-Gray */
+    --card-foreground: 210 29% 14%; /* Default Dark Blue-Gray */
+
     --popover: 0 0% 100%; /* White */
-    --popover-foreground: 210 29% 14%; /* Dark Blue-Gray */
-    --primary: 210 29% 24%; /* #2c3e50 */
-    --primary-foreground: 0 0% 98%; /* Almost White */
-    --secondary: 207 68% 53%; /* #3498db */
-    --secondary-foreground: 0 0% 98%; /* Almost White */
+    --popover-foreground: 210 29% 14%; /* Default Dark Blue-Gray */
+
+    --primary: 228 95% 41%; /* persian_blue (#072ac8) */
+    --primary-foreground: 0 0% 98%; /* Almost White (Good contrast on persian_blue) */
+
+    --secondary: 211 98% 55%; /* dodger_blue (#1e96fc) */
+    --secondary-foreground: 0 0% 98%; /* Almost White (Good contrast on dodger_blue) */
+
     --muted: 0 0% 96.1%; /* Default Light Gray */
     --muted-foreground: 0 0% 45.1%; /* Default Medium Gray */
-    --accent: 50 100% 50%; /* #ffd700 */
-    --accent-foreground: 0 0% 9%; /* Near Black */
+
+    --accent: 47 100% 50%; /* mikado_yellow (#ffc600) */
+    --accent-foreground: 0 0% 9%; /* Near Black (Good contrast on mikado_yellow) */
+
     --destructive: 0 84.2% 60.2%; /* Default Red */
     --destructive-foreground: 0 0% 98%; /* Almost White */
+
     --border: 0 0% 89.8%; /* Default Light Gray */
     --input: 0 0% 89.8%; /* Default Light Gray */
-    --ring: 207 68% 53%; /* #3498db - Using secondary for ring */
+    --ring: 211 98% 55%; /* dodger_blue (#1e96fc) - Using secondary for ring */
+
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
     --radius: 0.5rem;
   }
+
   .dark {
-    /* ShadCN Theme Variables (Dark) */
-    --background: 210 29% 14%; /* Dark Blue-Gray */
+    /* ShadCN Theme Variables (Dark) - Mapped to New Palette */
+    --background: 227 96% 8%; /* persian_blue[100] (#010928) */
     --foreground: 0 0% 98%; /* Almost White */
-    --card: 210 29% 10%; /* Darker Blue-Gray */
+
+    --card: 228 94% 12%; /* Slightly Lighter Dark Blue */
     --card-foreground: 0 0% 98%; /* Almost White */
-    --popover: 210 29% 10%; /* Darker Blue-Gray */
+
+    --popover: 227 96% 6%; /* Darker Persian Blue */
     --popover-foreground: 0 0% 98%; /* Almost White */
-    --primary: 0 0% 98%; /* Almost White */
-    --primary-foreground: 210 29% 14%; /* Dark Blue-Gray */
-    --secondary: 207 68% 53%; /* #3498db */
-    --secondary-foreground: 0 0% 98%; /* Almost White */
-    --muted: 210 29% 20%; /* Muted Blue-Gray */
+
+    --primary: 228 95% 60%; /* Lighter Persian Blue for contrast */
+    --primary-foreground: 227 96% 8%; /* Dark Background */
+
+    --secondary: 211 98% 65%; /* Lighter Dodger Blue */
+    --secondary-foreground: 0 0% 9%; /* Near Black */
+
+    --muted: 228 94% 16%; /* persian_blue[200] (#031151) */
     --muted-foreground: 0 0% 63.9%; /* Lighter Gray */
-    --accent: 50 100% 50%; /* #ffd700 */
+
+    --accent: 47 100% 50%; /* mikado_yellow (#ffc600) */
     --accent-foreground: 0 0% 9%; /* Near Black */
+
     --destructive: 0 62.8% 30.6%; /* Darker Red */
     --destructive-foreground: 0 0% 98%; /* Almost White */
-    --border: 210 29% 20%; /* Muted Blue-Gray */
-    --input: 210 29% 20%; /* Muted Blue-Gray */
-    --ring: 207 68% 53%; /* #3498db */
+
+    --border: 228 94% 16%; /* persian_blue[200] (#031151) */
+    --input: 228 94% 16%; /* persian_blue[200] (#031151) */
+    --ring: 211 98% 65%; /* Lighter Dodger Blue */
+
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

@@ -12,9 +12,9 @@ export default function Home() {
       <HeroSection />
       <VisionGlobal />
       <ServiceOverview />
-      <ServiciosDestacados /> {/* Add the new section here */}
       <CotizarPrincipal />
       <EmprendedoresPrincipal />
+      <ServiciosDestacados /> 
     </>
   );
 }

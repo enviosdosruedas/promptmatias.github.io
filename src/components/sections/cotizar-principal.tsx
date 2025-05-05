@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PiggyBank, Truck, Clock, Zap, CheckCircle, PhoneOutgoing, BadgePercent, Rocket } from 'lucide-react'; // Added more icons
+import { PiggyBank, Truck, Clock, Zap, CheckCircle, PhoneOutgoing, BadgePercent, Rocket, Star } from 'lucide-react';
 
 export function CotizarPrincipal() {
   return (
@@ -91,6 +91,7 @@ export function CotizarPrincipal() {
          <div className="text-center mt-12">
           <p className="text-lg text-primary mb-2">¿Tenés dudas?</p>
            <p className="text-foreground/80 mb-4">¡Comunícate con nosotros directamente!</p>
+           {/* Using default button style for WhatsApp, consider a custom green if needed */}
            <Button asChild variant="outline" size="lg" className="border-green-600 text-green-700 hover:bg-green-50">
              <Link href="https://wa.me/5492236602699" target="_blank" rel="noopener noreferrer">
                <PhoneOutgoing className="mr-2 h-5 w-5" /> WhatsApp: 2236602699
@@ -101,6 +102,3 @@ export function CotizarPrincipal() {
     </section>
   );
 }
-
-// Added Star Icon to import
-import { Star } from 'lucide-react';

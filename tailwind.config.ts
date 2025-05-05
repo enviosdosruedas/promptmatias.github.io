@@ -10,6 +10,14 @@ export default {
   theme: {
   	extend: {
   		colors: {
+        // New Custom Palette
+        'persian_blue': { DEFAULT: '#072ac8', 100: '#010928', 200: '#031151', 300: '#041a79', 400: '#0622a1', 500: '#072ac8', 600: '#1740f7', 700: '#5170f9', 800: '#8b9ffb', 900: '#c5cffd' },
+        'dodger_blue': { DEFAULT: '#1e96fc', 100: '#011e37', 200: '#023c6f', 300: '#035aa6', 400: '#0377dd', 500: '#1e96fc', 600: '#4aa9fc', 700: '#77bffd', 800: '#a5d4fe', 900: '#d2eafe' },
+        'uranian_blue': { DEFAULT: '#a2d6f9', 100: '#05314e', 200: '#0a619b', 300: '#0f92e9', 400: '#56b5f4', 500: '#a2d6f9', 600: '#b6dffa', 700: '#c8e7fc', 800: '#dbeffd', 900: '#edf7fe' },
+        'aureolin': { DEFAULT: '#fcf300', 100: '#323000', 200: '#646100', 300: '#969100', 400: '#c8c100', 500: '#fcf300', 600: '#fff82f', 700: '#fffa63', 800: '#fffc97', 900: '#fffdcb' },
+        'mikado_yellow': { DEFAULT: '#ffc600', 100: '#332800', 200: '#665000', 300: '#997800', 400: '#cca000', 500: '#ffc600', 600: '#ffd333', 700: '#ffde66', 800: '#ffe999', 900: '#fff4cc' },
+
+        // Shadcn UI Theme Colors (mapped from HSL variables)
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

@@ -18,27 +18,29 @@ export function HeroSection() {
               Somos tu solución confiable en servicios de mensajería y delivery en Mar del Plata. Ofrecemos soluciones rápidas, seguras y económicas para todas tus necesidades de envío.
             </p>
             <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                     Cotiza tu Envío <ChevronDown className="ml-2 h-5 w-5" />
-                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
-                   <DropdownMenuItem asChild>
-                     <Link href="/cotizador-envios-express">Express</Link>
-                   </DropdownMenuItem>
-                   <DropdownMenuItem asChild>
-                     <Link href="/cotizador-envios-lowcost">Low Cost</Link>
-                   </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+               {/* Main CTA Button using Dropdown */}
+               <DropdownMenu>
+                 <DropdownMenuTrigger asChild>
+                   <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                      Cotiza tu Envío <ChevronDown className="ml-2 h-5 w-5" />
+                    </Button>
+                 </DropdownMenuTrigger>
+                 <DropdownMenuContent align="start">
+                    <DropdownMenuItem asChild>
+                      <Link href="/cotizador-envios-express">Express</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/cotizador-envios-lowcost">Low Cost</Link>
+                    </DropdownMenuItem>
+                 </DropdownMenuContent>
+               </DropdownMenu>
 
+               {/* Contact Button */}
               <Link href="/contacto">
-                <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                  Contacto
-                </Button>
-              </Link>
+                 <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                   Contacto
+                 </Button>
+               </Link>
             </div>
           </div>
           <div className="flex justify-center">
@@ -52,13 +54,13 @@ export function HeroSection() {
                 data-ai-hint="company logo motorcycle"
               /> */}
               {/* Placeholder */}
-               <Image
-                src="https://picsum.photos/500/500"
-                alt="EnviosDosRuedas Logo Placeholder"
+              <Image
+                src="/img/LogoEnviosDosRuedas.webp"
+                alt="EnviosDosRuedas Logo"
                 width={400}
                 height={400}
-                className="mx-auto aspect-square overflow-hidden rounded-xl object-cover lg:w-[500px] xl:w-[550px]"
-                data-ai-hint="delivery service logo"
+                className="mx-auto aspect-square overflow-hidden rounded-xl object-contain lg:w-[500px] xl:w-[550px]"
+                data-ai-hint="company logo motorcycle"
               />
           </div>
         </div>
