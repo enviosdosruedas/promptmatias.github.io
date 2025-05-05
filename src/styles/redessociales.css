@@ -1,0 +1,36 @@
+/* Styles specific to the social media banner */
+
+.social-banner-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.social-carousel {
+  display: flex;
+  width: max-content; /* Allow content to determine width */
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    /* Translate by half the width of the duplicated content */
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide {
+  /* Adjust duration as needed */
+  animation: slide 30s linear infinite;
+}
+
+.social-item:hover {
+  /* Pause animation on individual item hover */
+  animation-play-state: paused;
+}
+
+/* Pause animation when user hovers over the container */
+.social-banner-container:hover .animate-slide {
+  animation-play-state: paused;
+}
