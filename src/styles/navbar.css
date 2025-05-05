@@ -1,0 +1,256 @@
+/* Estilos específicos para el navbar - Optimizados */
+
+/* Variables (ajustar según necesidad o usar Tailwind theme) */
+:root {
+  --nav-bg: hsl(var(--background)); /* Fondo del header */
+  --nav-text: hsl(var(--foreground)); /* Color principal del texto */
+  --nav-text-hover: hsl(var(--primary)); /* Color al pasar el mouse */
+  --nav-border: hsl(var(--border)); /* Color del borde inferior */
+  --nav-logo-title: hsl(var(--primary)); /* Color título logo */
+  --nav-logo-subtitle: hsl(var(--foreground) / 0.7); /* Color subtítulo logo */
+  --nav-dropdown-bg: hsl(var(--popover)); /* Fondo dropdown */
+  --nav-dropdown-text: hsl(var(--popover-foreground)); /* Texto dropdown */
+  --nav-dropdown-hover-bg: hsl(var(--accent)); /* Fondo hover item dropdown */
+  --nav-dropdown-hover-text: hsl(var(--accent-foreground)); /* Texto hover item dropdown */
+  --nav-mobile-bg: hsl(var(--background)); /* Fondo menú móvil */
+  --nav-mobile-text: hsl(var(--foreground)); /* Texto menú móvil */
+  --nav-mobile-border: hsl(var(--border)); /* Borde items menú móvil */
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  --transition: all 0.2s ease-in-out;
+}
+
+/* Contenedor Principal del Header */
+.main-nav {
+  background: var(--nav-bg);
+  /* position: sticky; Ya controlado por `sticky` class en el componente */
+  /* top: 0; */
+  /* z-index: 50; Ya controlado por `z-50` class en el componente */
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--nav-border); /* Añadido borde sutil */
+}
+
+.nav-container {
+  /* max-width: 1400px; Ya controlado por `container` class */
+  /* margin: 0 auto; */
+  /* padding: 1rem 2rem; Ajustado por `container` y `h-16` */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* height: 4rem; Ya controlado por `h-16` class */
+}
+
+/* Estilos del Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Tailwind `gap-3` */
+  transition: var(--transition);
+  text-decoration: none; /* Asegurar que no haya subrayado */
+}
+.nav-logo:hover {
+  opacity: 0.9; /* Efecto hover sutil */
+}
+
+.logo-image {
+  /* Tamaño controlado por props en el componente */
+   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)); /* Sombra más sutil */
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-title {
+  color: var(--nav-logo-title);
+  margin: 0;
+  /* font-size: 1.125rem; Controlado por `text-lg` */
+  font-weight: 700; /* Tailwind `font-bold` */
+  line-height: 1.2;
+}
+
+.logo-text p {
+  margin: 0;
+  /* font-size: 0.75rem; Controlado por `text-xs` */
+  color: var(--nav-logo-subtitle);
+}
+
+/* Estilos del Menú de Navegación Desktop */
+.nav-menu {
+  /* display: flex; */
+  /* align-items: center; */
+   /* Oculto por defecto, mostrado en desktop con `md:flex` */
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* gap: 1.5rem; Controlado por `gap-6` */
+  /* font-size: inherit; Hereda del contenedor */
+}
+
+/* Aplica a todos los items, incluyendo dropdown triggers */
+.nav-list li {
+  position: relative;
+}
+
+/* Estilos base para enlaces y triggers de dropdown */
+.nav-link, .dropdown-trigger {
+  color: hsl(var(--foreground) / 0.8); /* Usando variable Shadcn */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* Tailwind `gap-1` */
+  padding: 0.5rem 0; /* Ajustar padding vertical si es necesario */
+  transition: var(--transition);
+  font-weight: 500; /* Tailwind `font-medium` */
+  /* font-size: 0.875rem; Tailwind `text-sm` */
+   background-color: transparent !important; /* Override button ghost hover */
+   border: none; /* Override button border */
+   height: auto !important; /* Override button height */
+   padding: 0 !important; /* Override button padding */
+   border-radius: 0 !important; /* Override button border-radius */
+}
+.nav-link:hover, .dropdown-trigger:hover, .dropdown-trigger[data-state=open] {
+  color: var(--nav-text-hover);
+  background-color: transparent !important; /* Mantener transparente */
+}
+
+/* Icono del Dropdown */
+.dropdown-icon {
+  /* font-size: 0.8em; Ya controlado por `h-4 w-4` */
+  margin-left: 0.25rem; /* Tailwind `ml-1` */
+  transition: transform 0.2s ease; /* Transición más rápida */
+}
+/* No necesitamos hover específico aquí, Radix se encarga del estado `data-state=open` */
+.dropdown-trigger[data-state=open] .dropdown-icon {
+   transform: rotate(180deg);
+}
+
+
+/* Contenido del Dropdown (Usando clases de Shadcn/Radix como base) */
+.dropdown-content {
+  /* Estilos base vienen de Shadcn `DropdownMenuContent` */
+  /* min-width: 200px; */ /* Ajustar si es necesario */
+  /* box-shadow: var(--shadow); */ /* Sombra ya aplicada por Shadcn */
+   background-color: var(--nav-dropdown-bg); /* Asegurar fondo */
+}
+
+.dropdown-content a { /* Estilo para los Links dentro de DropdownMenuItem */
+    color: var(--nav-dropdown-text) !important; /* Asegurar color de texto */
+    width: 100%;
+    display: block;
+    text-decoration: none;
+    /* padding: 0.75rem 1rem;  Padding ya manejado por DropdownMenuItem */
+}
+/* El hover es manejado por DropdownMenuItem focus/data state */
+
+
+/* Botón de Navegación Móvil */
+.mobile-nav-toggle {
+  /* display: none; Gestionado por `md:hidden` */
+  /* background: transparent; */
+  /* border: none; */
+  color: var(--nav-text); /* Color del icono */
+  /* font-size: 1.5rem; */ /* Ajustar si es necesario */
+  cursor: pointer;
+  /* padding: 0.5rem; */
+  transition: var(--transition);
+  z-index: 1002; /* Asegurar que esté sobre el overlay */
+   position: relative; /* Para z-index */
+}
+.mobile-nav-toggle:hover {
+  color: var(--nav-text-hover);
+}
+
+
+/* Menú Móvil (SheetContent) */
+.nav-menu.active { /* Clase añadida cuando el menú está abierto */
+   /* Controlado por Sheet */
+}
+
+/* Estilos para la lista dentro del menú móvil */
+.nav-menu .nav-list {
+    flex-direction: column;
+    gap: 0; /* Sin gap vertical, se maneja con padding/border */
+    width: 100%;
+}
+
+.nav-menu .nav-list li {
+    width: 100%;
+    border-bottom: 1px solid var(--nav-mobile-border);
+}
+.nav-menu .nav-list li:last-child {
+    border-bottom: none;
+}
+
+.nav-menu .nav-list a,
+.nav-menu .nav-list .dropdown-trigger {
+    padding: 0.75rem 1rem; /* Padding interno para items */
+    width: 100%;
+    justify-content: flex-start; /* Alinear texto a la izquierda */
+    color: var(--nav-mobile-text); /* Color texto móvil */
+    font-weight: 500;
+}
+.nav-menu .nav-list a:hover,
+.nav-menu .nav-list .dropdown-trigger:hover,
+.nav-menu .nav-list .dropdown-trigger[data-state=open] {
+    background-color: hsl(var(--accent) / 0.1); /* Fondo sutil al pasar el mouse */
+    color: var(--nav-text-hover);
+}
+
+/* Dropdown dentro del menú móvil */
+.nav-menu .dropdown-content {
+    position: static; /* Resetear posicionamiento */
+    box-shadow: none;
+    border-radius: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: transparent; /* Heredar fondo */
+    padding: 0;
+    min-width: auto;
+    margin-top: 0.25rem;
+    padding-left: 1.5rem; /* Indentación para subitems */
+}
+
+.nav-menu .dropdown-content a {
+    padding: 0.5rem 1rem; /* Padding para subitems */
+    font-size: 0.875rem; /* Texto ligeramente más pequeño */
+    color: hsl(var(--muted-foreground)); /* Color más tenue */
+}
+.nav-menu .dropdown-content a:hover {
+    background: hsl(var(--accent) / 0.1);
+    color: var(--nav-text-hover);
+    transform: none; /* Sin translateX en móvil */
+}
+
+/* Overlay para menú móvil */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparente */
+    z-index: 40; /* Debajo del Sheet (z-50 por defecto) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    backdrop-filter: blur(1px); /* Efecto blur sutil */
+}
+
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ajustes finos responsivos si son necesarios */
+@media (min-width: 769px) {
+  /* Ocultar overlay en desktop */
+  .nav-overlay {
+    display: none;
+  }
+}

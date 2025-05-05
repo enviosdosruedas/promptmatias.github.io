@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { Menu, ChevronDown } from 'lucide-react'; // Removed Bike
+import { Menu, ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,34 +12,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
+import '@/styles/navbar.css'; // Import the new CSS file
 import * as React from "react";
 
 
 // Separate component for navigation items to avoid repetition
 const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: () => void }) => (
-  <ul className={cn("flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6", className)}>
+  // Use nav-list class for styling from navbar.css
+  <ul className={cn("nav-list", className)}>
      <li>
-      <Link href="/" className="text-foreground/80 hover:text-foreground font-medium transition-colors" onClick={closeSheet}>
+      <Link href="/" className="nav-link" onClick={closeSheet}>
         Inicio
       </Link>
     </li>
     <li>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="text-foreground/80 hover:text-foreground font-medium p-0 h-auto hover:bg-transparent data-[state=open]:bg-transparent">
-            Servicios <ChevronDown className="ml-1 h-4 w-4" />
-          </Button>
+           {/* Apply nav-link styles and add dropdown-icon for spacing/arrow */}
+           <Button variant="ghost" className="nav-link dropdown-trigger">
+             Servicios <ChevronDown className="dropdown-icon" />
+           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        {/* Apply dropdown-content styles */}
+        <DropdownMenuContent className="dropdown-content">
           <DropdownMenuItem asChild>
             <Link href="/mensajeria-envios-express" onClick={closeSheet}>Envíos Express</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
              <Link href="/mensajeria-envios-lowcost" onClick={closeSheet}>Envíos LowCost</Link>
-          </DropdownMenuItem>
+           </DropdownMenuItem>
            <DropdownMenuItem asChild>
             <Link href="/delivery-moto-express" onClick={closeSheet}>Moto Express</Link>
-          </DropdownMenuItem>
+           </DropdownMenuItem>
            <DropdownMenuItem asChild>
              <Link href="/delivery-moto-fija" onClick={closeSheet}>Moto Fija</Link>
            </DropdownMenuItem>
@@ -55,11 +59,11 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
     <li>
        <DropdownMenu>
         <DropdownMenuTrigger asChild>
-           <Button variant="ghost" className="text-foreground/80 hover:text-foreground font-medium p-0 h-auto hover:bg-transparent data-[state=open]:bg-transparent">
-             Cotizar <ChevronDown className="ml-1 h-4 w-4" />
+           <Button variant="ghost" className="nav-link dropdown-trigger">
+             Cotizar <ChevronDown className="dropdown-icon" />
            </Button>
         </DropdownMenuTrigger>
-         <DropdownMenuContent>
+         <DropdownMenuContent className="dropdown-content">
            <DropdownMenuItem asChild>
              <Link href="/cotizador-envios-express" onClick={closeSheet}>Cotizar Express</Link>
            </DropdownMenuItem>
@@ -72,11 +76,11 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
     <li>
        <DropdownMenu>
          <DropdownMenuTrigger asChild>
-           <Button variant="ghost" className="text-foreground/80 hover:text-foreground font-medium p-0 h-auto hover:bg-transparent data-[state=open]:bg-transparent">
-             Nosotros <ChevronDown className="ml-1 h-4 w-4" />
-           </Button>
+            <Button variant="ghost" className="nav-link dropdown-trigger">
+              Nosotros <ChevronDown className="dropdown-icon" />
+            </Button>
          </DropdownMenuTrigger>
-         <DropdownMenuContent>
+         <DropdownMenuContent className="dropdown-content">
            <DropdownMenuItem asChild>
              <Link href="/sobre-nosotros" onClick={closeSheet}>Sobre Nosotros</Link>
            </DropdownMenuItem>
@@ -94,7 +98,7 @@ const NavItems = ({ className, closeSheet }: { className?: string; closeSheet?: 
        </DropdownMenu>
     </li>
     <li>
-      <Link href="/contacto" className="text-foreground/80 hover:text-foreground font-medium transition-colors" onClick={closeSheet}>
+      <Link href="/contacto" className="nav-link" onClick={closeSheet}>
         Contacto
       </Link>
     </li>
@@ -105,51 +109,65 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+   // Add an overlay div that is conditionally rendered
+   const NavOverlay = () => (
+     <div
+       className={`nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
+       onClick={closeMobileMenu} // Close menu when overlay is clicked
+     />
+   );
+
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container flex h-16 items-center justify-between">
-        {/* Logo and Title */}
-        <Link href="/" className="flex items-center gap-2">
-           {/* Use the specified SVG logo */}
-           <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={40} height={40} />
-          <div>
-            <h1 className="text-lg font-bold text-primary">Envios DosRuedas</h1>
-            <p className="text-xs text-foreground/70">Tu Solución Confiable para Envíos</p>
+    // Use main-nav class for sticky behavior and styling from navbar.css
+    <header className="main-nav">
+      {/* Use nav-container for max-width and padding */}
+      <nav className="nav-container">
+        {/* Logo Section - use nav-logo class */}
+        <Link href="/" className="nav-logo">
+           <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={40} height={40} className="logo-image" />
+          <div className="logo-text">
+            <h1 className="logo-title">Envios DosRuedas</h1>
+            <p>Tu Solución Confiable</p> {/* Adjusted text */}
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex">
-          <NavItems />
-        </div>
+        {/* Desktop Navigation - hidden on small screens */}
+         {/* Use nav-menu class, hidden on md and below */}
+         <div className="nav-menu hidden md:flex">
+           <NavItems />
+         </div>
 
-        {/* Mobile Menu Button */}
+
+        {/* Mobile Menu Button & Sheet */}
+         {/* Use Sheet for the off-canvas menu, trigger is styled */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Abrir Menú</span>
-            </Button>
+             <Button variant="ghost" size="icon" className="mobile-nav-toggle md:hidden">
+               <Menu className="h-6 w-6" /> {/* Adjusted icon size */}
+               <span className="sr-only">Abrir Menú</span>
+             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[280px] sm:w-[320px] p-6">
-             {/* Logo and Title in Mobile Menu */}
-             <Link href="/" className="flex items-center gap-2 mb-6" onClick={closeMobileMenu}>
-                 {/* Use the specified SVG logo */}
-                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={40} height={40} />
-                <div>
-                  <h1 className="text-lg font-bold text-primary">Envios DosRuedas</h1>
-                   <p className="text-xs text-foreground/70">Tu Solución Confiable</p>
-                </div>
-             </Link>
-            {/* Mobile Navigation */}
-            <div className="flex flex-col gap-4">
-               <NavItems className="flex-col items-start text-base" closeSheet={closeMobileMenu} />
-            </div>
+          {/* Apply nav-menu class and conditional 'active' class */}
+           <SheetContent side="left" className={cn("nav-menu p-0", isMobileMenuOpen ? 'active' : '')} >
+              {/* Logo inside mobile menu */}
+              <Link href="/" className="nav-logo p-4 border-b border-gray-700/50" onClick={closeMobileMenu}>
+                <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image" />
+                <div className="logo-text">
+                  <h1 className="logo-title text-base">Envios DosRuedas</h1>
+                   <p className="text-xs">Tu Solución Confiable</p>
+                 </div>
+              </Link>
+              {/* Mobile Navigation Items */}
+              <div className="p-4">
+                {/* Pass closeSheet function */}
+                 <NavItems className="flex-col items-start text-base gap-0" closeSheet={closeMobileMenu} />
+              </div>
           </SheetContent>
         </Sheet>
-
       </nav>
+       {/* Render overlay conditionally */}
+       {isMobileMenuOpen && <NavOverlay />}
     </header>
   );
 }
