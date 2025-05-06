@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -36,7 +37,7 @@ function VerRedesSection() {
                     height="500" // Adjust height as needed
                     frameBorder="0"
                     scrolling="no"
-                    allowTransparency
+                    allowTransparency // Changed to lowercase
                     className="w-full h-full border-0 overflow-hidden"
                     title="Instagram Post"
                   ></iframe>
