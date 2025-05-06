@@ -32,12 +32,12 @@ function VerRedesSection() {
              <CardContent className="p-4 md:p-6 space-y-4 flex flex-col items-center"> {/* Adjusted space */}
                  {/* Instagram iframe */}
                  <iframe
-                    allowFullScreen
+                    allow="fullscreen"
                     className="instagram-media w-full border-0 overflow-hidden rounded-lg shadow-inner mb-4" // Added shadow-inner
                     frameBorder="0"
                     scrolling="no"
                     src="https://www.instagram.com/p/DAw1gDUREEV/embed/captioned" // Keep original or replace with a valid embed src
-                    style={{ background: 'white', height: '400px', borderRadius: '10px' }} // Style as JS object
+                    style={{ background: 'white', height: '400px', borderRadius: '10px', boxShadow: '0px 4px 10px rgba(0,0,0,0.1)' }} // Style as JS object
                     data-ss-id="SlL1H6Q_IFHOOQ_8ZRD_k" // These might be specific to the original embed tool
                     data-ss-padding="" // These might be specific to the original embed tool
                     data-ss-border="" // These might be specific to the original embed tool
@@ -81,10 +81,10 @@ function VerRedesSection() {
                   style={{ border: 'none', overflow: 'hidden' }}
                   scrolling="no"
                   frameBorder="0"
-                  allowFullScreen
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                   title="Facebook Page Plugin"
                   className="rounded-lg shadow-inner mb-4" // Added shadow-inner
+                  allowFullScreen // Allow fullscreen attribute
                 ></iframe>
 
                {/* Added text content below iframe */}
