@@ -37,8 +37,8 @@ def generar_tree(directorio, nivel=0, archivo_salida=None):
 
 def guardar_estructura():
     directorios = [
-        "c:/Users/Matias/Desktop/promptmatias.github.io/public",
-        "c:/Users/Matias/Desktop/promptmatias.github.io/src"
+        "/home/user/studio/public",
+        "/home/user/studio/src"
     ]
     
     with open("estructura_directorios.txt", "w", encoding="utf-8") as f:

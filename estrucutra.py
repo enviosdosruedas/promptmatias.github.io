@@ -49,8 +49,8 @@ def save_structure_to_json(structure, output_file):
         json.dump(structure, f, indent=2)
 
 if __name__ == "__main__":
-    input_file = "c:/Users/Matias/Desktop/promptmatias.github.io/estructura_directorios.txt"
-    output_file = "c:/Users/Matias/Desktop/promptmatias.github.io/estructura_proyecto.json"
+    input_file = "/home/user/studio/estructura_directorios.txt"
+    output_file = "/home/user/studio/estructura_proyecto.json"
     
     structure = parse_directory_structure(input_file)
     save_structure_to_json(structure, output_file)
