@@ -1,9 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { MapPin } from "lucide-react";
+import { CotizarEnviosExpresForm } from "@/components/sections/CotizarEnviosExpresForm"; // Import the new form component
+// Removed unused imports: Label, Input, Button, RadioGroup, RadioGroupItem, MapPin
 
 export default function CotizadorEnviosExpressPage() {
   return (
@@ -11,53 +8,19 @@ export default function CotizadorEnviosExpressPage() {
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 text-primary">
         Cotizador de Envíos Express
       </h1>
-      <Card className="max-w-2xl mx-auto">
-        <CardHeader>
+      <Card className="max-w-4xl mx-auto"> {/* Increased max-width for the new layout */}
+        <CardHeader className="text-center"> {/* Center align header */}
           <CardTitle>Calculá el costo de tu envío</CardTitle>
           <CardDescription>
             Ingresá las direcciones de origen y destino para obtener una cotización instantánea para tu envío express.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form className="grid gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="origen">Dirección de Origen</Label>
-              <div className="flex items-center gap-2">
-                 <MapPin className="h-5 w-5 text-foreground/60" />
-                 <Input id="origen" placeholder="Calle, Número, Localidad (Ej: Av. Corrientes 1234, CABA)" required />
-              </div>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="destino">Dirección de Destino</Label>
-               <div className="flex items-center gap-2">
-                 <MapPin className="h-5 w-5 text-foreground/60" />
-                <Input id="destino" placeholder="Calle, Número, Localidad (Ej: Maipú 567, Vicente López)" required />
-               </div>
-            </div>
-             <div className="grid gap-2">
-                <Label>Tipo de Paquete</Label>
-                <RadioGroup defaultValue="pequeno" className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="pequeno" id="pequeno" />
-                    <Label htmlFor="pequeno">Pequeño (Sobre, Doc)</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="mediano" id="mediano" />
-                    <Label htmlFor="mediano">Mediano (Caja chica)</Label>
-                  </div>
-                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="grande" id="grande" disabled />
-                    <Label htmlFor="grande" className="text-foreground/40">Grande (Consultar)</Label>
-                  </div>
-                </RadioGroup>
-              </div>
-             <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              Calcular Costo Express
-            </Button>
-          </form>
+        <CardContent className="p-6 md:p-8"> {/* Added padding */}
+           {/* Integrate the new form component here */}
+           <CotizarEnviosExpresForm />
         </CardContent>
-         <CardFooter className="text-center block">
-             {/* Placeholder for results - To be implemented with state/logic */}
+         <CardFooter className="text-center block border-t pt-6"> {/* Added border-top and padding */}
+             {/* Placeholder for results - Managed within CotizarEnviosExpresForm if needed */}
              <p className="text-sm text-foreground/60 mt-4">El costo estimado aparecerá aquí.</p>
          </CardFooter>
       </Card>
