@@ -25,24 +25,20 @@ function VerRedesSection() {
               <CardTitle className="text-lg font-semibold text-primary">Instagram</CardTitle>
               <Instagram className="h-6 w-6 text-pink-600" />
             </CardHeader>
-            <CardContent className="p-4 md:p-6 space-y-4">
-              <div className="overflow-hidden mx-auto max-w-sm">
-                 {/* Note: Instagram embeds can be tricky and might require official APIs or might break.
-                      This is a basic iframe attempt based on the provided HTML.
-                      Consider using official embed tools if available. */}
+            <CardContent className="p-4 md:p-6 space-y-4 flex flex-col items-center">
+               {/* Reverting to single post embed as profile feed embed is unreliable */}
                  <iframe
-                    src="https://www.instagram.com/p/C5YKXy0un7Y/embed/" // Example embed URL
-                    width="100%"
-                    height="500" // Adjust height as needed
+                    src="https://www.instagram.com/p/C5YKXy0un7Y/embed/" // Embed URL for a single post
+                    width="340" // Instagram embed recommended width
+                    height="580" // Adjust height as needed for post content
                     frameBorder="0"
                     scrolling="no"
-                    allowtransparency="true" // Corrected attribute name
-                    className="w-full h-full border-0 overflow-hidden"
-                    title="Instagram Post"
+                    allowTransparency // Use correct casing for React prop
+                    className="w-full max-w-sm border-0 overflow-hidden rounded-md shadow-sm mx-auto" // Added max-w and rounded
+                    title="Instagram Post Embed"
                   ></iframe>
-              </div>
-              <div className="text-sm text-foreground/80 space-y-2 text-center md:text-left">
-                 {/* Simplified text content */}
+
+                <div className="text-sm text-foreground/80 space-y-2 text-center md:text-left w-full max-w-sm">
                  <p>
                    <strong>📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀</strong><br />
                    ~ ¡Somos la solución para tus envíos en Mar del Plata! ~<br />
@@ -76,7 +72,7 @@ function VerRedesSection() {
                   style={{ border: 'none', overflow: 'hidden' }}
                   scrolling="no"
                   frameBorder="0"
-                  allowFullScreen={true}
+                  allowFullScreen={true} // Use correct casing
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                   title="Facebook Page Plugin"
                 ></iframe>
