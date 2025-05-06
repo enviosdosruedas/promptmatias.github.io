@@ -1,4 +1,5 @@
 
+
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +8,7 @@ import {
 } from "@/components/ui/accordion"
 import { HeroFaq } from "@/components/sections/HeroFaq"; // Import the Hero section
 import { BusquedaFaq } from "@/components/sections/BusquedaFaq"; // Import the new Search section
+import { MasPreguntas } from "@/components/sections/MasPreguntas"; // Import the new section
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import the new component
 
 export default function PreguntasFrecuentesPage() {
@@ -128,6 +130,7 @@ export default function PreguntasFrecuentesPage() {
             </AccordionItem>
           </Accordion>
       </div>
+       <MasPreguntas /> {/* Integrate the new section here */}
       <BannerRedesSociales /> {/* Add the banner here */}
     </>
   );
