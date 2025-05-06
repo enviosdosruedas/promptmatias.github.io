@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Handshake, PackageSearch, BadgePercent } from 'lucide-react';
 import { HeroEmprendedores } from '@/components/sections/HeroEmprendedores'; // Import the new Hero component
 import { InfoEmprendedores } from '@/components/sections/InfoEmprendedores'; // Import the new InfoEmprendedores component
+import { PrecioEmprendedores } from '@/components/sections/PrecioEmprendedores'; // Import the new Pricing component
 
 export default function EnviosEmprendedoresPage() {
   return (
@@ -59,6 +60,7 @@ export default function EnviosEmprendedoresPage() {
         </div>
       </div>
       <InfoEmprendedores /> {/* Integrate the InfoEmprendedores component here */}
+      <PrecioEmprendedores /> {/* Integrate the PrecioEmprendedores component here */}
     </>
   );
 }
