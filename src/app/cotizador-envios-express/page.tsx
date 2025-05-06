@@ -5,19 +5,20 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { MapPin, Scale, BadgeDollarSign, Loader2 } from 'lucide-react'; // Import icons, including Loader2
+import { MapPin, Scale, BadgeDollarSign, Loader2 } from 'lucide-react';
 
 // Define Google Maps types globally for TypeScript
 declare global {
   interface Window {
-    google: any;
-    initMap?: () => void; // Make initMap optional on window initially
+    google?: any; // Make google optional initially
+    initMap?: () => void;
   }
 }
 
 // Constants
-const PRECIO_BASE = 2500; // Base price adjusted
-const PRECIO_POR_KM = 700; // Price per km adjusted
+const PRECIO_BASE = 2500;
+const PRECIO_POR_KM = 700;
+const GOOGLE_MAPS_SCRIPT_ID = 'google-maps-script';
 
 export default function CotizadorEnviosExpressPage() {
   const [origen, setOrigen] = useState('');
@@ -27,9 +28,8 @@ export default function CotizadorEnviosExpressPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [mapInitialized, setMapInitialized] = useState(false);
-  const [mapLoading, setMapLoading] = useState(true); // State to track map script loading
+  const [mapLoading, setMapLoading] = useState(true);
 
-  // Refs for Google Maps objects and map container
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const directionsServiceRef = useRef<any>(null);
@@ -38,186 +38,191 @@ export default function CotizadorEnviosExpressPage() {
   const marcadorOrigenRef = useRef<any>(null);
   const marcadorDestinoRef = useRef<any>(null);
 
-  // --- Google Maps API Loading and Initialization ---
   const initMap = useCallback(() => {
-     if (!window.google || !mapContainerRef.current) {
-       console.error("Google Maps API failed to load or map container not found.");
-       setError("No se pudo cargar el mapa. Intenta recargar la página.");
-       setMapLoading(false); // Stop loading indicator
-       setMapInitialized(false); // Ensure it's marked as not initialized
-       return;
-     }
-     // Check if the map container ref is still mounted
-     if (!mapContainerRef.current) {
-        console.warn("Map container ref is null during initMap callback.");
-        setMapLoading(false);
-        return;
-     }
+    // Add extra safety checks
+    if (typeof window === 'undefined' || !window.google || !window.google.maps || !mapContainerRef.current) {
+      console.error("Google Maps API not ready or map container not found during initMap.");
+      setError("No se pudo inicializar el mapa. Intenta recargar.");
+      setMapLoading(false);
+      setMapInitialized(false); // Explicitly set to false
+      return;
+    }
 
-     if (mapInitialized) {
-        console.log("Map already initialized.");
-        setMapLoading(false);
-        return; // Avoid re-initialization
-     }
+    if (mapInitialized) {
+      console.log("Map already initialized, skipping re-init.");
+      setMapLoading(false);
+      return;
+    }
 
+    console.log("Initializing map...");
+    try {
+      const marDelPlata = { lat: -38.0055, lng: -57.5426 };
 
-     try {
-       const marDelPlata = { lat: -38.0055, lng: -57.5426 };
+      mapRef.current = new window.google.maps.Map(mapContainerRef.current, {
+        zoom: 12,
+        center: marDelPlata,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+        zoomControl: true,
+      });
 
-       // Ensure mapContainerRef.current is valid before creating map
-       if (!mapContainerRef.current) {
-         throw new Error("Map container element not found after script load.");
-       }
+      directionsServiceRef.current = new window.google.maps.DirectionsService();
+      directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
+        map: mapRef.current,
+        suppressMarkers: true,
+        polylineOptions: {
+          strokeColor: 'hsl(var(--primary))',
+          strokeWeight: 4,
+          strokeOpacity: 0.8,
+        }
+      });
+      geocoderRef.current = new window.google.maps.Geocoder();
 
-       mapRef.current = new window.google.maps.Map(mapContainerRef.current, {
-         zoom: 12,
-         center: marDelPlata,
-         mapTypeControl: false,
-         streetViewControl: false,
-         fullscreenControl: true,
-         zoomControl: true,
-       });
-
-       directionsServiceRef.current = new window.google.maps.DirectionsService();
-       directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
-         map: mapRef.current,
-         suppressMarkers: true,
-         polylineOptions: {
-           strokeColor: 'hsl(var(--primary))',
-           strokeWeight: 4,
-           strokeOpacity: 0.8,
-         }
-       });
-       geocoderRef.current = new window.google.maps.Geocoder();
-
-       console.log("Map and services initialized.");
-       setMapInitialized(true); // Mark map as initialized
-       setMapLoading(false); // Stop loading indicator
-
-     } catch (e: any) {
-       console.error("Error initializing map:", e);
-       setError(`Error al inicializar el mapa: ${e.message || e}`);
-       setMapLoading(false); // Stop loading indicator
-       setMapInitialized(false); // Ensure it's marked as not initialized
-     }
-  }, [mapInitialized]); // Depend on mapInitialized to prevent re-runs
+      console.log("Map and services initialized successfully.");
+      setMapInitialized(true);
+      setMapLoading(false);
+    } catch (e: any) {
+      console.error("Error during map initialization:", e);
+      setError(`Error al inicializar el mapa: ${e.message || e}`);
+      setMapLoading(false);
+      setMapInitialized(false);
+    }
+  }, [mapInitialized]); // Dependency array includes mapInitialized
 
   useEffect(() => {
-      // Define initMap globally only when component mounts
-      window.initMap = initMap;
+    // Flag to prevent cleanup if component unmounts before setup finishes
+    let isMounted = true;
+    const scriptId = GOOGLE_MAPS_SCRIPT_ID;
 
-      // Check if Google Maps script already exists
-      let scriptElement = document.getElementById('google-maps-script');
-      if (!scriptElement) {
-          scriptElement = document.createElement('script');
-          scriptElement.id = 'google-maps-script';
-          const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-          if (!apiKey) {
-              console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
-              setError("Falta la configuración del mapa. Contacta al administrador.");
-              setMapLoading(false);
-              // Clean up potentially added script tag if API key is missing
-              if (scriptElement.parentNode) {
+    // Assign the initMap callback to the window object
+    window.initMap = initMap;
+
+    // Check if the script is already present
+    let scriptElement = document.getElementById(scriptId);
+
+    if (!scriptElement) {
+        // Only add the script if it doesn't exist
+        console.log("Google Maps script not found, adding it.");
+        scriptElement = document.createElement('script');
+        scriptElement.id = scriptId;
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+        if (!apiKey) {
+            console.error("Google Maps API Key is missing.");
+            if (isMounted) {
+                setError("Falta la configuración del mapa. Contacta al administrador.");
+                setMapLoading(false);
+            }
+            // Clean up the potentially partially added script tag immediately
+            if (scriptElement.parentNode) {
                 scriptElement.parentNode.removeChild(scriptElement);
-              }
-              return; // Stop execution if API key is missing
-          }
-          scriptElement.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker,geometry`;
-          scriptElement.async = true;
-          scriptElement.defer = true;
-          scriptElement.onerror = () => { // Handle script loading error
-              console.error("Failed to load Google Maps script.");
-              setError("No se pudo cargar el script del mapa. Revisa tu conexión o la clave API.");
+            }
+            return;
+        }
+
+        scriptElement.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker,geometry`;
+        scriptElement.async = true;
+        scriptElement.defer = true;
+        scriptElement.onerror = () => {
+            console.error("Failed to load Google Maps script.");
+            if (isMounted) {
+                setError("No se pudo cargar el script del mapa. Revisa tu conexión o la clave API.");
+                setMapLoading(false);
+                setMapInitialized(false); // Ensure state reflects failure
+            }
+             // Attempt removal on error too
+             const failedScript = document.getElementById(scriptId);
+             if (failedScript && failedScript.parentNode) {
+                 try { failedScript.parentNode.removeChild(failedScript); } catch (e) { console.warn("Could not remove failed script tag:", e); }
+             }
+        };
+        document.head.appendChild(scriptElement);
+
+    } else if (window.google && !mapInitialized) {
+        // Script exists, google object is available, but map not initialized yet
+        console.log("Google Maps script exists, calling initMap directly.");
+        try {
+           initMap();
+        } catch (initError) {
+            console.error("Error calling initMap for existing script:", initError);
+            if (isMounted) {
+              setError("Error al inicializar mapa con script existente.");
               setMapLoading(false);
               setMapInitialized(false);
-               // Remove the script if it failed to load
-               if (scriptElement && scriptElement.parentNode) {
-                scriptElement.parentNode.removeChild(scriptElement);
-               }
-          };
-          document.head.appendChild(scriptElement);
-      } else if (!mapInitialized && window.google && typeof window.initMap === 'function') {
-          // If script exists but map not initialized, try initializing
-           console.log("Script exists, attempting to initialize map...");
-           try {
-            window.initMap();
-           } catch (initError) {
-             console.error("Error calling existing initMap:", initError);
-             setError("Error al inicializar el mapa existente.");
-             setMapLoading(false);
-             setMapInitialized(false);
-           }
-      } else if (mapInitialized) {
-          setMapLoading(false); // If already initialized, stop loading
+            }
+        }
+    } else if (mapInitialized) {
+        // Map already initialized, likely from a previous render or fast refresh
+         console.log("Map already initialized, ensuring loading state is correct.");
+         if (isMounted) {
+           setMapLoading(false);
+         }
+    }
+
+    // Cleanup function
+    return () => {
+      isMounted = false; // Mark as unmounted
+      console.log("Cleaning up Google Maps resources in useEffect...");
+
+      // Safely remove markers
+      const safeRemoveMarker = (markerRef: React.MutableRefObject<any>) => {
+          if (markerRef.current && typeof markerRef.current.setMap === 'function') {
+              try { markerRef.current.setMap(null); } catch (e) { console.warn("Error clearing marker:", e); }
+          }
+          markerRef.current = null;
+      };
+      safeRemoveMarker(marcadorOrigenRef);
+      safeRemoveMarker(marcadorDestinoRef);
+
+      // Safely remove directions
+      if (directionsRendererRef.current && typeof directionsRendererRef.current.setMap === 'function') {
+          try { directionsRendererRef.current.setMap(null); } catch (e) { console.warn("Error clearing directions renderer:", e); }
+      }
+      directionsRendererRef.current = null;
+
+       // Nullify other refs to help GC
+       mapRef.current = null;
+       directionsServiceRef.current = null;
+       geocoderRef.current = null;
+
+
+      // --- Critical: Only remove callback if it's ours ---
+      if (window.initMap === initMap) {
+          console.log("Deleting global initMap callback assigned by this instance.");
+          try {
+            // Attempt deletion first
+            delete window.initMap;
+          } catch (e) {
+            // If deletion fails (e.g., non-configurable), set to undefined
+             console.warn("Could not delete window.initMap, setting to undefined:", e);
+             window.initMap = undefined;
+          }
+      } else {
+           console.log("Global initMap callback was not assigned by this instance or already removed.");
       }
 
+      // --- Attempt to remove the script tag ---
+      // Note: Removing the script tag doesn't undo its execution,
+      // but helps prevent potential issues on subsequent loads/remounts.
+      const existingScript = document.getElementById(scriptId);
+      if (existingScript && existingScript.parentNode) {
+          console.log("Removing Google Maps script tag.");
+          try {
+             existingScript.parentNode.removeChild(existingScript);
+          } catch (e) {
+              console.warn("Could not remove script tag:", e);
+          }
+      } else {
+           console.log("Google Maps script tag not found for removal or already removed.");
+      }
 
-      // --- Robust Cleanup Function ---
-      return () => {
-         console.log("Cleaning up Google Maps resources in useEffect...");
+      // Reset state on unmount
+      // setMapInitialized(false); // Resetting state after unmount might cause issues if cleanup runs late
+      // setMapLoading(true);
+    };
+  }, [initMap]); // Dependency array ensures this runs when initMap identity changes (it shouldn't often due to useCallback)
 
-         // Function to safely remove markers
-         const safeRemoveMarker = (markerRef: React.MutableRefObject<any>) => {
-            if (markerRef.current && typeof markerRef.current.setMap === 'function') {
-               try { markerRef.current.setMap(null); } catch (e) { console.warn("Error clearing marker:", e); }
-            }
-            markerRef.current = null; // Clear ref
-         };
-
-         // Function to safely remove directions
-         const safeRemoveDirections = (rendererRef: React.MutableRefObject<any>) => {
-             if (rendererRef.current && typeof rendererRef.current.setMap === 'function') {
-                 try { rendererRef.current.setMap(null); } catch (e) { console.warn("Error clearing directions renderer:", e); }
-             }
-             rendererRef.current = null; // Clear ref
-         };
-
-
-         // Remove markers
-         safeRemoveMarker(marcadorOrigenRef);
-         safeRemoveMarker(marcadorDestinoRef);
-
-         // Remove directions
-         safeRemoveDirections(directionsRendererRef);
-
-         // Nullify other refs
-         mapRef.current = null;
-         directionsServiceRef.current = null;
-         geocoderRef.current = null;
-
-         // Remove the global callback function if it points to our initMap
-         if (window.initMap === initMap) {
-            console.log("Deleting global initMap callback");
-            try {
-              delete window.initMap;
-            } catch (e) {
-              console.warn("Could not delete window.initMap:", e);
-               // Fallback in case delete fails (e.g., in strict mode environments or non-configurable properties)
-               window.initMap = undefined;
-            }
-         } else {
-             console.log("Global initMap was already removed or changed by another instance.");
-         }
-
-         // Attempt to remove the script tag itself
-         const existingScript = document.getElementById('google-maps-script');
-         if (existingScript && existingScript.parentNode) {
-             console.log("Removing Google Maps script tag.");
-             try {
-                existingScript.parentNode.removeChild(existingScript);
-             } catch (e) {
-                 console.warn("Could not remove script tag:", e);
-             }
-         } else {
-             console.log("Google Maps script tag not found for removal or already removed.");
-         }
-
-         // Reset initialization state
-         setMapInitialized(false);
-         setMapLoading(true); // Reset loading state for potential remounts
-
-      };
-  }, [initMap]); // Rerun only if initMap function identity changes
 
   // --- Marker Placement ---
   const colocarMarcadores = useCallback((origenPos: any, destinoPos: any, origenDir: string, destinoDir: string) => {
@@ -301,8 +306,10 @@ export default function CotizadorEnviosExpressPage() {
       setError("Por favor, ingrese tanto la dirección de origen como la de destino.");
       return;
     }
+    // Check again for initialization before proceeding
     if (!mapInitialized || !directionsServiceRef.current || !directionsRendererRef.current) {
-       setError("El servicio de mapas no está listo. Por favor, espere un momento o recargue la página.");
+       setError("El servicio de mapas no está listo. Por favor, espere o recargue.");
+       setLoading(false); // Ensure loading stops if map isn't ready
        return;
     }
 
@@ -318,8 +325,6 @@ export default function CotizadorEnviosExpressPage() {
       } catch (e) {
         console.warn("Error clearing previous directions:", e);
       }
-    } else {
-      console.warn("DirectionsRenderer ref not ready for clearing.");
     }
     // Clear previous markers too
      if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
@@ -367,12 +372,17 @@ export default function CotizadorEnviosExpressPage() {
 
         setDistancia(distanciaTexto);
         calcularPrecio(distanciaValor);
-        colocarMarcadores(
-          route.legs[0].start_location,
-          route.legs[0].end_location,
-          route.legs[0].start_address,
-          route.legs[0].end_address
-        );
+        // Ensure start_location and end_location are valid before placing markers
+        if (route.legs[0].start_location && route.legs[0].end_location) {
+            colocarMarcadores(
+                route.legs[0].start_location,
+                route.legs[0].end_location,
+                route.legs[0].start_address || origen, // Fallback to input if needed
+                route.legs[0].end_address || destino   // Fallback to input if needed
+            );
+        } else {
+             console.warn("Route leg missing start or end location for marker placement.");
+        }
       } else {
           console.error("Invalid route data received:", response);
           throw new Error("No se pudo obtener la distancia de la ruta calculada.");
