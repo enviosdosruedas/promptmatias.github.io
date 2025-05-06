@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { MapPin, Scale, BadgeDollarSign } from 'lucide-react'; // Import icons
+import { MapPin, Scale, BadgeDollarSign, Loader2 } from 'lucide-react'; // Import icons, including Loader2
 
 // Define Google Maps types globally for TypeScript
 declare global {
@@ -25,8 +25,9 @@ export default function CotizadorEnviosExpressPage() {
   const [distancia, setDistancia] = useState<string | null>(null);
   const [precio, setPrecio] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false); // Added loading state
+  const [loading, setLoading] = useState<boolean>(false);
   const [mapInitialized, setMapInitialized] = useState(false);
+  const [mapLoading, setMapLoading] = useState(true); // State to track map script loading
 
   // Refs for Google Maps objects and map container
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -39,46 +40,54 @@ export default function CotizadorEnviosExpressPage() {
 
   // --- Google Maps API Loading and Initialization ---
   const initMap = useCallback(() => {
-    if (!window.google || !mapContainerRef.current) {
-       console.error("Google Maps API not loaded or map container not found.");
+     if (!window.google || !mapContainerRef.current) {
+       console.error("Google Maps API failed to load or map container not found.");
        setError("No se pudo cargar el mapa. Intenta recargar la página.");
-       setMapInitialized(true); // Prevent further attempts if API failed
+       setMapLoading(false); // Stop loading indicator
+       setMapInitialized(false); // Ensure it's marked as not initialized
        return;
-    }
-    try {
-        // Coordenadas de Mar del Plata, Argentina
-        const marDelPlata = { lat: -38.0055, lng: -57.5426 };
+     }
+     if (mapInitialized) {
+        console.log("Map already initialized.");
+        setMapLoading(false);
+        return; // Avoid re-initialization
+     }
 
-        mapRef.current = new window.google.maps.Map(mapContainerRef.current, {
-            zoom: 12, // Slightly zoomed out
-            center: marDelPlata,
-            mapTypeControl: false,
-            streetViewControl: false,
-            fullscreenControl: true,
-            zoomControl: true,
-        });
+     try {
+       const marDelPlata = { lat: -38.0055, lng: -57.5426 };
 
-        directionsServiceRef.current = new window.google.maps.DirectionsService();
-        directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
-            map: mapRef.current,
-            suppressMarkers: true, // We'll use custom markers
-             polylineOptions: {
-                 strokeColor: 'hsl(var(--primary))', // Use primary color from theme
-                 strokeWeight: 4,
-                 strokeOpacity: 0.8,
-            }
-        });
-        geocoderRef.current = new window.google.maps.Geocoder();
+       mapRef.current = new window.google.maps.Map(mapContainerRef.current, {
+         zoom: 12,
+         center: marDelPlata,
+         mapTypeControl: false,
+         streetViewControl: false,
+         fullscreenControl: true,
+         zoomControl: true,
+       });
 
-        console.log("Mapa y servicios inicializados.");
-        setMapInitialized(true); // Mark map as initialized
+       directionsServiceRef.current = new window.google.maps.DirectionsService();
+       directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
+         map: mapRef.current,
+         suppressMarkers: true,
+         polylineOptions: {
+           strokeColor: 'hsl(var(--primary))',
+           strokeWeight: 4,
+           strokeOpacity: 0.8,
+         }
+       });
+       geocoderRef.current = new window.google.maps.Geocoder();
 
-    } catch (e) {
-        console.error("Error initializing map:", e);
-        setError("Error al inicializar el mapa.");
-        setMapInitialized(true); // Prevent further attempts
-    }
-  }, []); // Empty dependency array, initMap logic doesn't depend on component state/props
+       console.log("Map and services initialized.");
+       setMapInitialized(true); // Mark map as initialized
+       setMapLoading(false); // Stop loading indicator
+
+     } catch (e) {
+       console.error("Error initializing map:", e);
+       setError("Error al inicializar el mapa.");
+       setMapLoading(false); // Stop loading indicator
+       setMapInitialized(false); // Ensure it's marked as not initialized
+     }
+  }, [mapInitialized]); // Depend on mapInitialized to prevent re-runs
 
   useEffect(() => {
       // Define initMap globally only when component mounts
@@ -88,41 +97,71 @@ export default function CotizadorEnviosExpressPage() {
       if (!document.getElementById('google-maps-script')) {
           const script = document.createElement('script');
           script.id = 'google-maps-script';
-          // IMPORTANT: Replace YOUR_GOOGLE_MAPS_API_KEY with your actual API key
-          // Ensure you have enabled Maps JavaScript API, Directions API, Geocoding API in your Google Cloud Console project.
-          script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&libraries=marker`; // Added marker library
+          const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; // Use environment variable
+          if (!apiKey) {
+              console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
+              setError("Falta la configuración del mapa. Contacta al administrador.");
+              setMapLoading(false);
+              return; // Stop execution if API key is missing
+          }
+          script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker,geometry`; // Added geometry library
           script.async = true;
           script.defer = true;
+          script.onerror = () => { // Handle script loading error
+              console.error("Failed to load Google Maps script.");
+              setError("No se pudo cargar el script del mapa. Revisa tu conexión o la clave API.");
+              setMapLoading(false);
+              setMapInitialized(false);
+          };
           document.head.appendChild(script);
-      } else if (!mapInitialized && window.google) {
-          // If script exists but map not initialized (e.g., HMR), try initializing
-          initMap();
+      } else if (!mapInitialized && window.google && typeof window.initMap === 'function') {
+          // If script exists but map not initialized, try initializing
+           console.log("Script exists, initializing map...");
+           window.initMap();
+      } else if (mapInitialized) {
+          setMapLoading(false); // If already initialized, stop loading
       }
+
 
       // Cleanup function
       return () => {
-         // Clean up Google Maps objects if they exist
+         console.log("Cleaning up Google Maps resources...");
+         // Clean up Google Maps objects if they exist and have the necessary methods
          if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
-           marcadorOrigenRef.current.setMap(null);
+            try { marcadorOrigenRef.current.setMap(null); } catch (e) { console.warn("Error clearing origin marker:", e); }
+            marcadorOrigenRef.current = null; // Clear ref
          }
          if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
-           marcadorDestinoRef.current.setMap(null);
+           try { marcadorDestinoRef.current.setMap(null); } catch (e) { console.warn("Error clearing destination marker:", e); }
+           marcadorDestinoRef.current = null; // Clear ref
          }
          if (directionsRendererRef.current && typeof directionsRendererRef.current.setMap === 'function') {
-           directionsRendererRef.current.setMap(null); // Disassociate from map
+           try { directionsRendererRef.current.setMap(null); } catch (e) { console.warn("Error clearing directions renderer:", e); }
+           directionsRendererRef.current = null; // Clear ref
          }
          // Remove the global callback function if it exists and points to our initMap
          if (window.initMap === initMap) {
+            console.log("Deleting global initMap callback");
             delete window.initMap;
+         } else {
+             console.log("Global initMap was already removed or changed.");
          }
+         // Attempt to release map resources, though direct disposal isn't standard in Maps JS API
+         // Nullifying refs helps garbage collection
+         mapRef.current = null;
+         directionsServiceRef.current = null;
+         geocoderRef.current = null;
       };
-  }, [initMap, mapInitialized]); // Add mapInitialized to dependencies
+  }, [initMap]); // Rerun only if initMap function identity changes (which it shouldn't due to useCallback)
 
   // --- Marker Placement ---
   const colocarMarcadores = useCallback((origenPos: any, destinoPos: any, origenDir: string, destinoDir: string) => {
-    if (!mapRef.current || !window.google || !window.google.maps || !window.google.maps.Marker) return;
+    if (!mapRef.current || !window.google || !window.google.maps || !window.google.maps.Marker) {
+      console.warn("Cannot place markers: Map or Marker API not ready.");
+      return;
+    }
 
-    // Remove previous markers defensively
+    // Ensure previous markers are removed before adding new ones
     if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
       marcadorOrigenRef.current.setMap(null);
     }
@@ -130,43 +169,47 @@ export default function CotizadorEnviosExpressPage() {
       marcadorDestinoRef.current.setMap(null);
     }
 
+    try {
+        // Create origin marker (Green)
+        marcadorOrigenRef.current = new window.google.maps.Marker({
+            position: origenPos,
+            map: mapRef.current,
+            icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                scale: 8,
+                fillColor: "#10B981", // Tailwind Emerald 500
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                strokeWeight: 2,
+            },
+            title: "Origen: " + origenDir,
+        });
 
-    // Create origin marker (Green)
-    marcadorOrigenRef.current = new window.google.maps.Marker({
-      position: origenPos,
-      map: mapRef.current,
-      icon: {
-        path: window.google.maps.SymbolPath.CIRCLE,
-        scale: 8, // Slightly smaller
-        fillColor: "#10B981", // Tailwind Emerald 500
-        fillOpacity: 1,
-        strokeColor: "#ffffff",
-        strokeWeight: 2,
-      },
-      title: "Origen: " + origenDir,
-    });
-
-    // Create destination marker (Orange)
-    marcadorDestinoRef.current = new window.google.maps.Marker({
-      position: destinoPos,
-      map: mapRef.current,
-      icon: {
-        path: window.google.maps.SymbolPath.CIRCLE,
-        scale: 8, // Slightly smaller
-        fillColor: "#F97316", // Tailwind Orange 500
-        fillOpacity: 1,
-        strokeColor: "#ffffff",
-        strokeWeight: 2,
-      },
-      title: "Destino: " + destinoDir,
-    });
-  }, []); // Depends only on google maps objects, which are stable in refs
+        // Create destination marker (Orange)
+        marcadorDestinoRef.current = new window.google.maps.Marker({
+            position: destinoPos,
+            map: mapRef.current,
+            icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                scale: 8,
+                fillColor: "#F97316", // Tailwind Orange 500
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                strokeWeight: 2,
+            },
+            title: "Destino: " + destinoDir,
+        });
+    } catch (e) {
+        console.error("Error creating markers:", e);
+        setError("Error al mostrar los marcadores en el mapa.");
+    }
+  }, []); // No dependencies needed as refs are stable
 
   // --- Price Calculation ---
   const calcularPrecio = useCallback((distanciaKm: number) => {
     let precioValor;
     if (distanciaKm <= 3) {
-        precioValor = 2500; // Updated base price
+        precioValor = 2500;
     } else if (distanciaKm <= 5) {
         precioValor = 3100;
     } else if (distanciaKm <= 6) {
@@ -181,21 +224,20 @@ export default function CotizadorEnviosExpressPage() {
         precioValor = 6850;
     } else {
         const kmExtra = Math.ceil(distanciaKm - 10);
-        precioValor = 7000 + (kmExtra * 700); // Updated extra km price
+        precioValor = 7000 + (kmExtra * 700);
     }
-    // Format as ARS currency
     setPrecio(`$${precioValor.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`);
   }, []); // No dependencies needed
 
   // --- Route Calculation ---
   const calcularRuta = useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
-    if (event) event.preventDefault(); // Prevent form submission if triggered by button
+    if (event) event.preventDefault();
     if (!origen || !destino) {
       setError("Por favor, ingrese tanto la dirección de origen como la de destino.");
       return;
     }
     if (!mapInitialized || !directionsServiceRef.current || !directionsRendererRef.current) {
-       setError("El servicio de mapas no está listo. Por favor, espere un momento.");
+       setError("El servicio de mapas no está listo. Por favor, espere un momento o recargue la página.");
        return;
     }
 
@@ -204,16 +246,23 @@ export default function CotizadorEnviosExpressPage() {
     setDistancia(null);
     setPrecio(null);
 
-    // Clear previous markers and route before calculating new one (Defensive checks)
-    if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
-        marcadorOrigenRef.current.setMap(null);
-    }
-    if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
-        marcadorDestinoRef.current.setMap(null);
-    }
+    // Clear previous route display defensively
     if (directionsRendererRef.current && typeof directionsRendererRef.current.setDirections === 'function') {
+      try {
         directionsRendererRef.current.setDirections({ routes: [] });
+      } catch (e) {
+        console.warn("Error clearing previous directions:", e);
+      }
+    } else {
+      console.warn("DirectionsRenderer ref not ready for clearing.");
     }
+    // Clear previous markers too
+     if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
+        try { marcadorOrigenRef.current.setMap(null); } catch (e) { console.warn("Error clearing origin marker:", e); }
+     }
+     if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
+       try { marcadorDestinoRef.current.setMap(null); } catch (e) { console.warn("Error clearing destination marker:", e); }
+     }
 
 
     try {
@@ -223,19 +272,28 @@ export default function CotizadorEnviosExpressPage() {
         travelMode: window.google.maps.TravelMode.DRIVING,
       };
 
-      // Use a promise wrapper for the callback-based API
       const response = await new Promise<any>((resolve, reject) => {
+        if (!directionsServiceRef.current || typeof directionsServiceRef.current.route !== 'function') {
+            return reject(new Error("DirectionsService no está disponible."));
+        }
         directionsServiceRef.current.route(request, (result: any, status: any) => {
           if (status === window.google.maps.DirectionsStatus.OK) {
             resolve(result);
           } else {
-            reject(new Error(`No se pudo calcular la ruta: ${status}. Asegúrese de que las direcciones sean válidas en Mar del Plata.`));
+             console.error(`Directions request failed due to ${status}`);
+             reject(new Error(`No se pudo calcular la ruta: ${status}. Asegúrese de que las direcciones sean válidas y estén dentro del área de servicio en Mar del Plata.`));
           }
         });
       });
 
+      // Ensure renderer is still available before setting directions
+      if (directionsRendererRef.current && typeof directionsRendererRef.current.setDirections === 'function') {
+          directionsRendererRef.current.setDirections(response);
+      } else {
+          console.warn("DirectionsRenderer became unavailable before setting directions.");
+          throw new Error("Error al mostrar la ruta en el mapa.");
+      }
 
-      directionsRendererRef.current.setDirections(response);
 
       const route = response.routes[0];
       if (route && route.legs && route.legs[0] && route.legs[0].distance) {
@@ -251,14 +309,25 @@ export default function CotizadorEnviosExpressPage() {
           route.legs[0].end_address
         );
       } else {
-          throw new Error("No se pudo obtener la distancia de la ruta.");
+          console.error("Invalid route data received:", response);
+          throw new Error("No se pudo obtener la distancia de la ruta calculada.");
       }
 
     } catch (e: any) {
       console.error("Error al calcular la ruta:", e);
-       setError(e.message || "Error al calcular la ruta. Verifique las direcciones.");
-       setDistancia(null);
-       setPrecio(null);
+      setError(e.message || "Error al calcular la ruta. Verifique las direcciones e inténtelo de nuevo.");
+      setDistancia(null);
+      setPrecio(null);
+       // Clear markers and route on error
+        if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
+          marcadorOrigenRef.current.setMap(null);
+        }
+        if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
+          marcadorDestinoRef.current.setMap(null);
+        }
+        if (directionsRendererRef.current && typeof directionsRendererRef.current.setDirections === 'function') {
+          directionsRendererRef.current.setDirections({ routes: [] });
+        }
     } finally {
       setLoading(false);
     }
@@ -269,9 +338,8 @@ export default function CotizadorEnviosExpressPage() {
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 text-primary">
         Cotizador de Envíos Express
       </h1>
-      <Card className="max-w-6xl mx-auto overflow-hidden"> {/* Allow card to be wider */}
-        <div className="grid grid-cols-1 md:grid-cols-2"> {/* Two-column layout */}
-
+      <Card className="max-w-6xl mx-auto overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left Column: Form and Results */}
           <div className="p-6 md:p-8 border-r border-border flex flex-col">
             <CardHeader className="p-0 pb-6">
@@ -293,6 +361,7 @@ export default function CotizadorEnviosExpressPage() {
                       onChange={(e) => setOrigen(e.target.value)}
                       required
                       className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 flex-grow"
+                      aria-label="Dirección de Origen"
                     />
                   </div>
                 </div>
@@ -307,19 +376,21 @@ export default function CotizadorEnviosExpressPage() {
                       onChange={(e) => setDestino(e.target.value)}
                       required
                       className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 flex-grow"
+                      aria-label="Dirección de Destino"
                     />
                    </div>
                 </div>
                 <Button
                   type="submit"
                   className="w-full bg-accent text-accent-foreground hover:bg-accent/90 mt-2"
-                  disabled={loading || !mapInitialized} // Disable while loading or map not ready
+                  disabled={loading || !mapInitialized || mapLoading} // Disable while loading or map not ready
                 >
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   {loading ? 'Calculando...' : 'Calcular Ruta y Precio'}
                 </Button>
               </form>
             </CardContent>
-             <CardFooter className="p-0 pt-6 mt-auto"> {/* Footer at the bottom */}
+             <CardFooter className="p-0 pt-6 mt-auto">
                <div className="text-center w-full space-y-2">
                  {error && <p className="text-sm text-destructive">{error}</p>}
                  {distancia && (
@@ -337,8 +408,11 @@ export default function CotizadorEnviosExpressPage() {
                  {!distancia && !precio && !error && !loading && mapInitialized && (
                    <p className="text-sm text-foreground/60">Ingresa las direcciones para ver la distancia y el precio.</p>
                  )}
-                  {!mapInitialized && !error && (
-                    <p className="text-sm text-foreground/60 animate-pulse">Cargando mapa...</p>
+                  {mapLoading && !error && (
+                    <p className="text-sm text-foreground/60 flex items-center justify-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Cargando mapa...
+                    </p>
                   )}
                </div>
              </CardFooter>
@@ -350,9 +424,17 @@ export default function CotizadorEnviosExpressPage() {
              <div ref={mapContainerRef} id="mapa" className="absolute inset-0 w-full h-full bg-muted">
                {/* Map will be rendered here by Google Maps API */}
                {/* Show loading state until map is ready */}
-                {!mapInitialized && (
-                 <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
-                   <p className="text-muted-foreground animate-pulse">Cargando mapa...</p>
+                {mapLoading && (
+                 <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm z-10">
+                   <p className="text-muted-foreground flex items-center gap-2">
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Cargando mapa...
+                   </p>
+                 </div>
+               )}
+               {error && !mapLoading && ( // Show error overlay if map failed to load
+                 <div className="absolute inset-0 flex items-center justify-center bg-destructive/10 backdrop-blur-sm z-10">
+                   <p className="text-destructive text-center font-medium p-4">{error}</p>
                  </div>
                )}
              </div>
