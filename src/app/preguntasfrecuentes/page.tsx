@@ -4,12 +4,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { HeroFaq } from "@/components/sections/HeroFaq"; // Import the new component
+import { HeroFaq } from "@/components/sections/HeroFaq"; // Import the Hero section
+import { BusquedaFaq } from "@/components/sections/BusquedaFaq"; // Import the new Search section
 
 export default function PreguntasFrecuentesPage() {
   return (
     <> {/* Added Fragment to wrap multiple top-level elements */}
       <HeroFaq /> {/* Integrate the HeroFaq component here */}
+      <BusquedaFaq /> {/* Integrate the BusquedaFaq component here */}
 
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16 max-w-3xl">
         {/* Removed the h1 as it's now in HeroFaq */}
