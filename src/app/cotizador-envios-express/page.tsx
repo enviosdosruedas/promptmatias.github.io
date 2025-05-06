@@ -124,18 +124,17 @@ export default function CotizadorEnviosExpressPage() {
       scriptElement.async = true;
       scriptElement.defer = true;
 
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      if (!apiKey) {
-        console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
-         if (isMounted) {
-            setError("Falta la configuración del mapa. Contacta al administrador.");
-            setMapLoading(false);
-         }
-         // Clean up potentially assigned global callback if we exit early
-         if (window.initMap === initMap) delete window.initMap;
-         return; // Stop execution
+      // Use an environment variable for the API key
+      // IMPORTANT: This key will be exposed in the client-side bundle.
+      // Ensure it has appropriate restrictions (HTTP referrers, API restrictions).
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY'; // Fallback for safety
+      if (apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
+         console.warn("Google Maps API Key is missing or using fallback. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
+         // Optionally set an error state here if the key is mandatory
+         // setError("Falta la clave API de Google Maps.");
+         // setMapLoading(false);
+         // return; // Stop if key is absolutely required
       }
-
        scriptElement.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker,geometry`;
 
        scriptElement.onerror = () => {
@@ -152,7 +151,6 @@ export default function CotizadorEnviosExpressPage() {
 
     } else if (window.google && window.google.maps && !mapInitialized) {
       // Script exists, Google API loaded, but map not initialized by this component instance yet.
-      // This might happen on fast refreshes or if the script was added by another component.
       console.log("Google Maps script exists and API loaded, attempting direct initMap call.");
       if (isMounted) {
           initMap(); // Call initMap directly
@@ -174,7 +172,6 @@ export default function CotizadorEnviosExpressPage() {
       console.log("Running useEffect cleanup for Google Maps...");
 
        // Clean up the global callback *only if* it's the one this component instance set
-       // It's crucial to check if it still points to *our* initMap instance
        if (window.initMap === initMap) {
            console.log("Deleting global initMap callback assigned by this instance.");
            try {
@@ -183,22 +180,37 @@ export default function CotizadorEnviosExpressPage() {
                console.warn("Could not delete window.initMap, setting to undefined:", e);
                window.initMap = undefined;
            }
-       } else {
-            // console.log("Global initMap was not assigned by this instance or already removed/changed.");
        }
 
-      // Don't remove the script tag itself, as other components might need it,
-      // unless you have a more sophisticated script loading management system.
+      // Clean up map instance and related objects
+      if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
+          try { marcadorOrigenRef.current.setMap(null); } catch (e) { console.warn("Error clearing origin marker:", e); }
+          marcadorOrigenRef.current = null;
+      }
+      if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
+          try { marcadorDestinoRef.current.setMap(null); } catch (e) { console.warn("Error clearing destination marker:", e); }
+          marcadorDestinoRef.current = null;
+      }
+      if (directionsRendererRef.current && typeof directionsRendererRef.current.setMap === 'function') {
+          try { directionsRendererRef.current.setMap(null); } catch (e) { console.warn("Error clearing directions renderer:", e); }
+          directionsRendererRef.current = null;
+      }
 
-      // Note: Nullifying React refs here is generally good practice, but since
-      // the map objects are created *inside* initMap which is called potentially
-      // after cleanup if timing is off, nullifying refs here might be premature.
-      // The critical part is ensuring initMap doesn't run or run on stale refs
-      // if the component unmounts before initialization finishes. The isMounted flag helps.
+      // Explicitly clear the map container's content *before* React unmounts it
+      if (mapContainerRef.current) {
+          console.log("Clearing map container innerHTML.");
+          mapContainerRef.current.innerHTML = '';
+      }
+
+      // Nullify refs helps GC, but the container clearing is likely more direct
+      mapRef.current = null;
+      directionsServiceRef.current = null;
+      geocoderRef.current = null;
+
       console.log("Finished Google Maps cleanup.");
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initMap]); // initMap is memoized with useCallback based on mapInitialized
+  }, [initMap]); // initMap is memoized
 
 
   // --- Marker Placement ---
@@ -266,10 +278,9 @@ export default function CotizadorEnviosExpressPage() {
       setError("Por favor, ingrese tanto la dirección de origen como la de destino.");
       return;
     }
-    // Check for map initialization *and* readiness of services
     if (!mapInitialized || !directionsServiceRef.current || !directionsRendererRef.current || !window.google || !window.google.maps) {
        setError("El servicio de mapas no está listo. Por favor, espere o recargue.");
-       setLoading(false); // Ensure loading stops if we exit early
+       setLoading(false);
        return;
     }
 
@@ -278,17 +289,15 @@ export default function CotizadorEnviosExpressPage() {
     setDistancia(null);
     setPrecio(null);
 
-    // Clear previous route and markers defensively
      if (directionsRendererRef.current && typeof directionsRendererRef.current.setDirections === 'function') {
       try { directionsRendererRef.current.setDirections({ routes: [] }); } catch (e) { console.warn("Error clearing directions:", e); }
-    } else { console.warn("DirectionsRenderer ref not ready for clearing.");}
+    }
      if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
         try { marcadorOrigenRef.current.setMap(null); } catch (e) { console.warn("Error clearing origin marker:", e); }
-     } else { console.warn("Origin marker ref not ready for clearing."); }
+     }
      if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
        try { marcadorDestinoRef.current.setMap(null); } catch (e) { console.warn("Error clearing destination marker:", e); }
-     } else { console.warn("Destination marker ref not ready for clearing."); }
-
+     }
 
     try {
       const request = {
@@ -325,7 +334,6 @@ export default function CotizadorEnviosExpressPage() {
       }
 
       const route = response.routes[0];
-      // Improved check for necessary data before proceeding
       if (route?.legs?.[0]?.distance?.value != null && route.legs[0].distance.text && route.legs[0].start_location && route.legs[0].end_location) {
         const distanciaTexto = route.legs[0].distance.text;
         const distanciaValor = route.legs[0].distance.value / 1000; // km
@@ -335,7 +343,7 @@ export default function CotizadorEnviosExpressPage() {
         colocarMarcadores(
             route.legs[0].start_location,
             route.legs[0].end_location,
-            route.legs[0].start_address || origen, // Fallback to input if address is missing
+            route.legs[0].start_address || origen,
             route.legs[0].end_address || destino
         );
       } else {
@@ -348,7 +356,6 @@ export default function CotizadorEnviosExpressPage() {
       setError(e.message || "Error al calcular la ruta. Verifique las direcciones e inténtelo de nuevo.");
       setDistancia(null);
       setPrecio(null);
-       // Clear markers and route again on error, only if refs are valid
         if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
           marcadorOrigenRef.current.setMap(null);
         }
