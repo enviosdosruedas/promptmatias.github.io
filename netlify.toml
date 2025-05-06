@@ -1,0 +1,14 @@
+# Example netlify.toml
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# The Netlify Functions directory is needed by the plugin for
+# API routes and server-side rendering support.
+# It can be changed to any path you prefer.
+functions = "netlify/functions"
+
+[[plugins]]
+  # Installs the Next.js Runtime for Netlify.
+  # It is essential to keep this plugin installed.
+  package = "@netlify/plugin-nextjs"
