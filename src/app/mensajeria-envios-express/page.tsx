@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PackageCheck, FileClock, Building } from 'lucide-react';
+import { HeroMenEnvExpress } from '@/components/sections/HeroMenEnvExpress'; // Import the new Hero component
 import { Resumenmensajeriaenviosexpress } from '@/components/sections/Resumenmensajeriaenviosexpress';
 import { PasosServicios } from '@/components/sections/PasosServicios';
 import { ExpressPrioritario } from '@/components/sections/ExpressPrioritario'; // Import the new component
@@ -12,12 +13,11 @@ import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales
 export default function MensajeriaEnviosExpressPage() {
   return (
     <> {/* Added Fragment */}
+     <HeroMenEnvExpress /> {/* Integrate the Hero component here */}
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
         <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
           <div>
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary mb-4">
-              Mensajería y Envíos Express
-            </h1>
+            {/* Removed h1 as it's now in the Hero component */}
             <p className="text-foreground/80 mb-6 md:text-lg">
               Soluciones de mensajería urgente para empresas y particulares. Realizamos trámites, entrega de documentos y envío de paquetes con la máxima velocidad y confiabilidad. Llevamos tus envíos importantes a donde necesites, cuando lo necesites.
             </p>
