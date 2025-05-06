@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PackageCheck, FileClock, Building } from 'lucide-react';
 import { Resumenmensajeriaenviosexpress } from '@/components/sections/Resumenmensajeriaenviosexpress';
-import { PasosServicios } from '@/components/sections/PasosServicios'; // Import the new component
+import { PasosServicios } from '@/components/sections/PasosServicios';
+import { ExpressPrioritario } from '@/components/sections/ExpressPrioritario'; // Import the new component
 
 export default function MensajeriaEnviosExpressPage() {
   return (
@@ -60,7 +61,8 @@ export default function MensajeriaEnviosExpressPage() {
         </div>
       </div>
       <Resumenmensajeriaenviosexpress />
-      <PasosServicios /> {/* Integrate the new section here */}
+      <PasosServicios />
+      <ExpressPrioritario /> {/* Integrate the new section here */}
     </>
   );
 }
