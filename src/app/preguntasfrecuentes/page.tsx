@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion"
 import { HeroFaq } from "@/components/sections/HeroFaq"; // Import the Hero section
 import { BusquedaFaq } from "@/components/sections/BusquedaFaq"; // Import the new Search section
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import the new component
 
 export default function PreguntasFrecuentesPage() {
   return (
@@ -127,8 +128,7 @@ export default function PreguntasFrecuentesPage() {
             </AccordionItem>
           </Accordion>
       </div>
+      <BannerRedesSociales /> {/* Add the banner here */}
     </>
   );
 }
-
-    
