@@ -1,8 +1,10 @@
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PackageCheck, FileClock, Building } from 'lucide-react';
-import { Resumenmensajeriaenviosexpress } from '@/components/sections/Resumenmensajeriaenviosexpress'; // Import the new section
+import { Resumenmensajeriaenviosexpress } from '@/components/sections/Resumenmensajeriaenviosexpress';
+import { PasosServicios } from '@/components/sections/PasosServicios'; // Import the new component
 
 export default function MensajeriaEnviosExpressPage() {
   return (
@@ -57,7 +59,8 @@ export default function MensajeriaEnviosExpressPage() {
           </div>
         </div>
       </div>
-      <Resumenmensajeriaenviosexpress /> {/* Integrate the new section */}
+      <Resumenmensajeriaenviosexpress />
+      <PasosServicios /> {/* Integrate the new section here */}
     </>
   );
 }
