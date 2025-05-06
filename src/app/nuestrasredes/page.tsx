@@ -37,7 +37,7 @@ function VerRedesSection() {
                     height="500" // Adjust height as needed
                     frameBorder="0"
                     scrolling="no"
-                    allowTransparency // Changed to lowercase
+                    allowtransparency="true" // Changed to lowercase
                     className="w-full h-full border-0 overflow-hidden"
                     title="Instagram Post"
                   ></iframe>
@@ -175,3 +175,4 @@ export default function NuestrasRedesPage() {
     </>
   );
 }
+
