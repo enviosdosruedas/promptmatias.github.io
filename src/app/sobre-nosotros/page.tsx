@@ -21,35 +21,22 @@ export default function SobreNosotrosPage() {
              <p className="text-foreground/80 md:text-lg leading-relaxed">
               Ya sea que necesites un envío express de última hora, una solución regular para tu negocio o una opción económica para envíos programados, <strong className="text-primary">EnviosDosRuedas es tu aliado</strong> en logística urbana.
             </p>
-             <div className="mt-10">
-              <h2 className="text-2xl font-semibold text-primary mb-4">Nuestro Equipo (Ejemplo)</h2>
-              <div className="flex flex-wrap gap-6">
-                <div className="flex flex-col items-center text-center">
-                  <Avatar className="h-20 w-20 mb-2 border-2 border-secondary">
-                     <AvatarImage src="https://picsum.photos/100/100?random=1" alt="Miembro del equipo 1" data-ai-hint="smiling person" />
-                    <AvatarFallback>JD</AvatarFallback>
-                  </Avatar>
-                  <p className="font-medium text-primary">Juan Perez</p>
-                  <p className="text-sm text-foreground/60">Fundador & Logística</p>
-                </div>
-                 <div className="flex flex-col items-center text-center">
-                  <Avatar className="h-20 w-20 mb-2 border-2 border-secondary">
-                     <AvatarImage src="https://picsum.photos/100/100?random=2" alt="Miembro del equipo 2" data-ai-hint="professional woman" />
-                    <AvatarFallback>MG</AvatarFallback>
-                  </Avatar>
-                   <p className="font-medium text-primary">Maria Garcia</p>
-                  <p className="text-sm text-foreground/60">Atención al Cliente</p>
-                </div>
-                 <div className="flex flex-col items-center text-center">
-                  <Avatar className="h-20 w-20 mb-2 border-2 border-secondary">
-                     <AvatarImage src="https://picsum.photos/100/100?random=3" alt="Miembro del equipo 3" data-ai-hint="delivery rider" />
-                    <AvatarFallback>CR</AvatarFallback>
-                  </Avatar>
-                  <p className="font-medium text-primary">Carlos Rodriguez</p>
-                  <p className="text-sm text-foreground/60">Jefe de Repartidores</p>
-                </div>
+             {/* Animated Logo, Name, Slogan Section */}
+             <div className="mt-16 mb-8 flex flex-col items-center text-center space-y-4 animate-fade-in">
+                <Image
+                  src="/favicon.svg"
+                  alt="EnviosDosRuedas Logo Animado"
+                  width={100} // Increased size
+                  height={100}
+                  className="animate-pulse hover:scale-110 transition-transform duration-300" // Added pulse and hover effect
+                />
+                <h2 className="text-3xl font-bold text-primary mt-4">
+                  Envios DosRuedas
+                </h2>
+                <p className="text-lg italic text-foreground/70 animate-fade-in animation-delay-200">
+                  Tu solución confiable para mensajería y delivery en Mar del Plata.
+                </p>
               </div>
-            </div>
           </div>
           <div className="relative">
             <Image
