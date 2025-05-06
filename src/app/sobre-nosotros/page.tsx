@@ -3,15 +3,54 @@ import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { HeroNosotros } from '@/components/sections/HeroNosotros'; // Import the hero section
 import { ZonadeCobertura } from '@/components/sections/ZonadeCobertura'; // Import the coverage section
+import { Star } from 'lucide-react'; // Import Star icon
+
+// Component for the new "Quiénes Somos" section
+function QuienesSomosSection() {
+  return (
+    <section className="w-full py-12 md:py-20 lg:py-28 bg-muted/30"> {/* Slightly different background */}
+      <div className="container px-4 md:px-6">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
+          <div className="order-last lg:order-first">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary mb-6">
+              Quiénes Somos
+            </h2>
+            <div className="space-y-4 text-foreground/80 md:text-lg leading-relaxed">
+              <p>
+                Envios DosRuedas es tu aliado confiable en mensajería y delivery en Mar del Plata. Mantenemos una calificación de <strong className="text-primary inline-flex items-center">4.9 <Star className="w-4 h-4 ml-1 text-yellow-500 fill-current" /></strong> en Google Reviews gracias a la confianza de nuestros clientes. Nos dedicamos a brindar soluciones rápidas, económicas y seguras para todas tus necesidades de transporte y logística.
+              </p>
+              <p>
+                Nuestro compromiso con la excelencia y la puntualidad nos ha permitido construir una sólida reputación en la ciudad. Contamos con un equipo profesional dedicado a garantizar que cada envío llegue a tiempo y en perfectas condiciones.
+              </p>
+            </div>
+          </div>
+           {/* You can add an image here if desired */}
+           {/* <div className="flex justify-center">
+             <Image
+               src="https://picsum.photos/600/400" // Placeholder image
+               alt="Quiénes Somos Imagen"
+               width={600}
+               height={400}
+               className="rounded-lg shadow-lg object-cover"
+               data-ai-hint="team working logistics"
+             />
+           </div> */}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 export default function SobreNosotrosPage() {
   return (
     <> {/* Use Fragment to wrap multiple top-level elements */}
       <HeroNosotros /> {/* Add the Hero section here */}
+
+      {/* Original About Us Content */}
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
-            {/* Removed h1 as it's now in HeroNosotros */}
             <p className="text-foreground/80 mb-4 md:text-lg leading-relaxed">
               Nacimos de la necesidad de un servicio de mensajería y delivery en moto que sea <strong className="text-primary">confiable, rápido y adaptado</strong> a las dinámicas de la ciudad. Entendemos la urgencia de tus envíos y la importancia de que lleguen a tiempo y en perfecto estado.
             </p>
@@ -51,6 +90,10 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </div>
+
+       {/* Integrate QuienesSomos section here */}
+      <QuienesSomosSection />
+
        {/* Integrate ZonadeCobertura section here */}
        <ZonadeCobertura />
     </>
