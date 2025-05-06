@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Instagram, Facebook, Linkedin, Package, Globe, Phone, MessageSquare } from "lucide-react"; // Added more icons
 import { HeroNuestrasRedes } from '@/components/sections/HeroNuestrasRedes'; // Import the new hero section
+import { MasPreguntas } from "@/components/sections/MasPreguntas"; // Import the new section
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import the new component
 
 // New 'verredes' section component (integrated directly for simplicity)
 function VerRedesSection() {
@@ -26,11 +28,11 @@ function VerRedesSection() {
               <CardTitle className="text-lg font-semibold text-primary">Instagram</CardTitle>
               <Instagram className="h-6 w-6 text-pink-600" />
             </CardHeader>
-            <CardContent className="p-4 md:p-6 space-y-4 flex flex-col items-center">
-                 {/* Replaced content with the user provided iframe */}
+            <CardContent className="p-4 md:p-6 space-y-6 flex flex-col items-center"> {/* Increased space-y */}
+                 {/* Instagram iframe */}
                  <iframe
                     allowFullScreen // Changed to allowFullScreen
-                    className="instagram-media w-full border-0 overflow-hidden rounded-lg shadow-md" // Added Tailwind classes and adjusted existing ones
+                    className="instagram-media w-full border-0 overflow-hidden rounded-lg shadow-md mb-4" // Added mb-4
                     frameBorder="0"
                     scrolling="no"
                     src="https://www.instagram.com/p/DAw1gDUREEV/embed/captioned"
@@ -40,7 +42,26 @@ function VerRedesSection() {
                     data-ss-border=""
                     title="Instagram Post Embed" // Added title for accessibility
                   ></iframe>
-                  {/* Removed the previous text div */}
+                  {/* Added text content below iframe */}
+                   <div className="text-sm text-foreground/80 space-y-3 text-center w-full max-w-sm"> {/* Added width constraint */}
+                     <p className="flex items-center justify-center gap-2 font-semibold text-base">
+                        <Package className="h-5 w-5 text-primary flex-shrink-0" />
+                        MENSAJERÍA ENVÍOS DOSRUEDAS 🚀
+                      </p>
+                      <p className="italic">
+                        ~ ¡Somos la solución para tus envíos en Mar del Plata! ~<br />
+                        Servicio confiable y de calidad.
+                      </p>
+                      <p>
+                         👉 Confianza y responsabilidad son nuestros pilares.
+                      </p>
+                      <p className="flex items-center justify-center gap-1">
+                        <Globe className="h-4 w-4 inline-block mr-1 text-secondary flex-shrink-0"/> Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80 ml-1">enviosdosruedas.com</Link>
+                      </p>
+                       <p className="flex flex-wrap items-center justify-center gap-1">
+                         <MessageSquare className="h-4 w-4 inline-block mr-1 text-green-600 flex-shrink-0"/> WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 mx-1">2236602699</Link> | <Instagram className="h-4 w-4 inline-block mx-1 text-pink-600 flex-shrink-0" /> Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 ml-1">@enviosdosruedas</Link>
+                       </p>
+                   </div>
             </CardContent>
           </Card>
 
@@ -68,7 +89,7 @@ function VerRedesSection() {
               <div className="text-sm text-foreground/80 space-y-3 text-center w-full max-w-sm"> {/* Added width constraint */}
                 <p className="flex items-center justify-center gap-2 font-semibold text-base">
                    <Package className="h-5 w-5 text-primary flex-shrink-0" />
-                   MENSAJERÍA ENVÍOS DOSRUEDAS
+                   MENSAJERÍA ENVÍOS DOSRUEDAS 🚀
                    {/* Removed rocket emoji for cleaner look */}
                  </p>
                  <p className="italic">
@@ -156,6 +177,8 @@ export default function NuestrasRedesPage() {
        <VerRedesSection /> {/* Integrate the new section here */}
       {/* BannerRedesSociales might be redundant now, consider removing or keeping */}
       {/* <BannerRedesSociales /> */}
+       <MasPreguntas /> {/* Integrate the new section here */}
+       <BannerRedesSociales /> {/* Add the banner here */}
     </>
   );
 }
