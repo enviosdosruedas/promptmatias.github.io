@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -26,34 +27,20 @@ function VerRedesSection() {
               <Instagram className="h-6 w-6 text-pink-600" />
             </CardHeader>
             <CardContent className="p-4 md:p-6 space-y-4 flex flex-col items-center">
-               {/* Reverting to single post embed as profile feed embed is unreliable */}
+                 {/* Replaced content with the user provided iframe */}
                  <iframe
-                    src="https://www.instagram.com/p/C5YKXy0un7Y/embed/" // Embed URL for a single post
-                    width="340" // Instagram embed recommended width
-                    height="580" // Adjust height as needed for post content
+                    allowFullScreen // Changed to allowFullScreen
+                    className="instagram-media w-full border-0 overflow-hidden rounded-lg shadow-md" // Added Tailwind classes and adjusted existing ones
                     frameBorder="0"
                     scrolling="no"
-                    allowTransparency // Use correct casing for React prop
-                    className="w-full max-w-sm border-0 overflow-hidden rounded-md shadow-sm mx-auto" // Added max-w and rounded
-                    title="Instagram Post Embed"
+                    src="https://www.instagram.com/p/DAw1gDUREEV/embed/captioned"
+                    style={{ background: 'white', height: '400px' }} // Style as JS object
+                    data-ss-id="SlL1H6Q_IFHOOQ_8ZRD_k"
+                    data-ss-padding=""
+                    data-ss-border=""
+                    title="Instagram Post Embed" // Added title for accessibility
                   ></iframe>
-
-                <div className="text-sm text-foreground/80 space-y-2 text-center md:text-left w-full max-w-sm">
-                 <p>
-                   <strong>📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀</strong><br />
-                   ~ ¡Somos la solución para tus envíos en Mar del Plata! ~<br />
-                   Servicio confiable y de calidad.
-                 </p>
-                 <p>
-                    👉 Confianza y responsabilidad son nuestros pilares.
-                 </p>
-                 <p className="flex items-center justify-center md:justify-start gap-1">
-                   <Globe className="h-4 w-4 inline-block mr-1 text-secondary flex-shrink-0"/> Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80 ml-1">enviosdosruedas.com</Link>
-                 </p>
-                  <p className="flex flex-wrap items-center justify-center md:justify-start gap-1">
-                    <MessageSquare className="h-4 w-4 inline-block mr-1 text-green-600 flex-shrink-0"/> WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 mx-1">2236602699</Link> | <Instagram className="h-4 w-4 inline-block mx-1 text-pink-600 flex-shrink-0" /> Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 ml-1">@enviosdosruedas</Link>
-                  </p>
-              </div>
+                  {/* Removed the previous text div */}
             </CardContent>
           </Card>
 
@@ -72,7 +59,7 @@ function VerRedesSection() {
                   style={{ border: 'none', overflow: 'hidden' }}
                   scrolling="no"
                   frameBorder="0"
-                  allowFullScreen={true} // Use correct casing
+                  allowFullScreen // Changed to allowFullScreen
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                   title="Facebook Page Plugin"
                 ></iframe>
