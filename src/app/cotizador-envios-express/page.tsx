@@ -47,14 +47,27 @@ export default function CotizadorEnviosExpressPage() {
        setMapInitialized(false); // Ensure it's marked as not initialized
        return;
      }
+     // Check if the map container ref is still mounted
+     if (!mapContainerRef.current) {
+        console.warn("Map container ref is null during initMap callback.");
+        setMapLoading(false);
+        return;
+     }
+
      if (mapInitialized) {
         console.log("Map already initialized.");
         setMapLoading(false);
         return; // Avoid re-initialization
      }
 
+
      try {
        const marDelPlata = { lat: -38.0055, lng: -57.5426 };
+
+       // Ensure mapContainerRef.current is valid before creating map
+       if (!mapContainerRef.current) {
+         throw new Error("Map container element not found after script load.");
+       }
 
        mapRef.current = new window.google.maps.Map(mapContainerRef.current, {
          zoom: 12,
@@ -81,9 +94,9 @@ export default function CotizadorEnviosExpressPage() {
        setMapInitialized(true); // Mark map as initialized
        setMapLoading(false); // Stop loading indicator
 
-     } catch (e) {
+     } catch (e: any) {
        console.error("Error initializing map:", e);
-       setError("Error al inicializar el mapa.");
+       setError(`Error al inicializar el mapa: ${e.message || e}`);
        setMapLoading(false); // Stop loading indicator
        setMapInitialized(false); // Ensure it's marked as not initialized
      }
@@ -94,65 +107,117 @@ export default function CotizadorEnviosExpressPage() {
       window.initMap = initMap;
 
       // Check if Google Maps script already exists
-      if (!document.getElementById('google-maps-script')) {
-          const script = document.createElement('script');
-          script.id = 'google-maps-script';
-          const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; // Use environment variable
+      let scriptElement = document.getElementById('google-maps-script');
+      if (!scriptElement) {
+          scriptElement = document.createElement('script');
+          scriptElement.id = 'google-maps-script';
+          const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
           if (!apiKey) {
               console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
               setError("Falta la configuración del mapa. Contacta al administrador.");
               setMapLoading(false);
+              // Clean up potentially added script tag if API key is missing
+              if (scriptElement.parentNode) {
+                scriptElement.parentNode.removeChild(scriptElement);
+              }
               return; // Stop execution if API key is missing
           }
-          script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker,geometry`; // Added geometry library
-          script.async = true;
-          script.defer = true;
-          script.onerror = () => { // Handle script loading error
+          scriptElement.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker,geometry`;
+          scriptElement.async = true;
+          scriptElement.defer = true;
+          scriptElement.onerror = () => { // Handle script loading error
               console.error("Failed to load Google Maps script.");
               setError("No se pudo cargar el script del mapa. Revisa tu conexión o la clave API.");
               setMapLoading(false);
               setMapInitialized(false);
+               // Remove the script if it failed to load
+               if (scriptElement && scriptElement.parentNode) {
+                scriptElement.parentNode.removeChild(scriptElement);
+               }
           };
-          document.head.appendChild(script);
+          document.head.appendChild(scriptElement);
       } else if (!mapInitialized && window.google && typeof window.initMap === 'function') {
           // If script exists but map not initialized, try initializing
-           console.log("Script exists, initializing map...");
-           window.initMap();
+           console.log("Script exists, attempting to initialize map...");
+           try {
+            window.initMap();
+           } catch (initError) {
+             console.error("Error calling existing initMap:", initError);
+             setError("Error al inicializar el mapa existente.");
+             setMapLoading(false);
+             setMapInitialized(false);
+           }
       } else if (mapInitialized) {
           setMapLoading(false); // If already initialized, stop loading
       }
 
 
-      // Cleanup function
+      // --- Robust Cleanup Function ---
       return () => {
-         console.log("Cleaning up Google Maps resources...");
-         // Clean up Google Maps objects if they exist and have the necessary methods
-         if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
-            try { marcadorOrigenRef.current.setMap(null); } catch (e) { console.warn("Error clearing origin marker:", e); }
-            marcadorOrigenRef.current = null; // Clear ref
-         }
-         if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
-           try { marcadorDestinoRef.current.setMap(null); } catch (e) { console.warn("Error clearing destination marker:", e); }
-           marcadorDestinoRef.current = null; // Clear ref
-         }
-         if (directionsRendererRef.current && typeof directionsRendererRef.current.setMap === 'function') {
-           try { directionsRendererRef.current.setMap(null); } catch (e) { console.warn("Error clearing directions renderer:", e); }
-           directionsRendererRef.current = null; // Clear ref
-         }
-         // Remove the global callback function if it exists and points to our initMap
-         if (window.initMap === initMap) {
-            console.log("Deleting global initMap callback");
-            delete window.initMap;
-         } else {
-             console.log("Global initMap was already removed or changed.");
-         }
-         // Attempt to release map resources, though direct disposal isn't standard in Maps JS API
-         // Nullifying refs helps garbage collection
+         console.log("Cleaning up Google Maps resources in useEffect...");
+
+         // Function to safely remove markers
+         const safeRemoveMarker = (markerRef: React.MutableRefObject<any>) => {
+            if (markerRef.current && typeof markerRef.current.setMap === 'function') {
+               try { markerRef.current.setMap(null); } catch (e) { console.warn("Error clearing marker:", e); }
+            }
+            markerRef.current = null; // Clear ref
+         };
+
+         // Function to safely remove directions
+         const safeRemoveDirections = (rendererRef: React.MutableRefObject<any>) => {
+             if (rendererRef.current && typeof rendererRef.current.setMap === 'function') {
+                 try { rendererRef.current.setMap(null); } catch (e) { console.warn("Error clearing directions renderer:", e); }
+             }
+             rendererRef.current = null; // Clear ref
+         };
+
+
+         // Remove markers
+         safeRemoveMarker(marcadorOrigenRef);
+         safeRemoveMarker(marcadorDestinoRef);
+
+         // Remove directions
+         safeRemoveDirections(directionsRendererRef);
+
+         // Nullify other refs
          mapRef.current = null;
          directionsServiceRef.current = null;
          geocoderRef.current = null;
+
+         // Remove the global callback function if it points to our initMap
+         if (window.initMap === initMap) {
+            console.log("Deleting global initMap callback");
+            try {
+              delete window.initMap;
+            } catch (e) {
+              console.warn("Could not delete window.initMap:", e);
+               // Fallback in case delete fails (e.g., in strict mode environments or non-configurable properties)
+               window.initMap = undefined;
+            }
+         } else {
+             console.log("Global initMap was already removed or changed by another instance.");
+         }
+
+         // Attempt to remove the script tag itself
+         const existingScript = document.getElementById('google-maps-script');
+         if (existingScript && existingScript.parentNode) {
+             console.log("Removing Google Maps script tag.");
+             try {
+                existingScript.parentNode.removeChild(existingScript);
+             } catch (e) {
+                 console.warn("Could not remove script tag:", e);
+             }
+         } else {
+             console.log("Google Maps script tag not found for removal or already removed.");
+         }
+
+         // Reset initialization state
+         setMapInitialized(false);
+         setMapLoading(true); // Reset loading state for potential remounts
+
       };
-  }, [initMap]); // Rerun only if initMap function identity changes (which it shouldn't due to useCallback)
+  }, [initMap]); // Rerun only if initMap function identity changes
 
   // --- Marker Placement ---
   const colocarMarcadores = useCallback((origenPos: any, destinoPos: any, origenDir: string, destinoDir: string) => {
