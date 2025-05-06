@@ -4,17 +4,18 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { HeroContacto } from "@/components/sections/HeroContacto"; // Import the new Hero component
+import { HeroContacto } from "@/components/sections/HeroContacto"; // Import the Hero component
+import { Principalcontacto } from "@/components/sections/Principalcontacto"; // Import the new Principalcontacto component
 
 export default function ContactoPage() {
   return (
     <> {/* Added Fragment */}
       <HeroContacto /> {/* Integrate the Hero component */}
+      <Principalcontacto /> {/* Integrate the Principalcontacto component */}
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
-        {/* Removed the original H1 title */}
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
-            <CardTitle>Envíanos un mensaje</CardTitle>
+            <CardTitle>O envíanos un mensaje</CardTitle> {/* Changed title */}
             <CardDescription>
               Completa el formulario y nos pondremos en contacto contigo lo antes posible.
             </CardDescription>
