@@ -1,8 +1,113 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Instagram, Facebook, Linkedin } from "lucide-react"; // Assuming you might add LinkedIn later
 import { HeroNuestrasRedes } from '@/components/sections/HeroNuestrasRedes'; // Import the new hero section
+
+// New 'verredes' section component (integrated directly for simplicity)
+function VerRedesSection() {
+  return (
+    <section className="w-full py-12 md:py-20 lg:py-24 bg-muted/30">
+      <div className="container px-4 md:px-6">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl text-primary">
+            ¡Conéctate con nosotros!
+          </h2>
+          <p className="max-w-[600px] mx-auto text-foreground/80 md:text-lg mt-3">
+            Sigue nuestras redes sociales para acceder a promociones exclusivas, actualizaciones y más beneficios.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+          {/* Instagram Section */}
+          <Card className="overflow-hidden shadow-md">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-background border-b">
+              <CardTitle className="text-lg font-semibold text-primary">Instagram</CardTitle>
+              <Instagram className="h-6 w-6 text-pink-600" />
+            </CardHeader>
+            <CardContent className="p-4 md:p-6 space-y-4">
+              <div className="aspect-square overflow-hidden mx-auto max-w-sm">
+                 {/* Note: Instagram embeds can be tricky and might require official APIs or might break.
+                      This is a basic iframe attempt based on the provided HTML.
+                      Consider using official embed tools if available. */}
+                 <iframe
+                    src="https://www.instagram.com/p/C5YKXy0un7Y/embed/" // Example embed URL
+                    width="100%"
+                    height="500" // Adjust height as needed
+                    frameBorder="0"
+                    scrolling="no"
+                    allowTransparency
+                    className="w-full h-full border-0 overflow-hidden"
+                    title="Instagram Post"
+                  ></iframe>
+              </div>
+              <div className="text-sm text-foreground/80 space-y-2 text-center md:text-left">
+                 {/* Simplified text content */}
+                 <p>
+                   <strong>📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀</strong><br />
+                   ~ ¡Somos la solución para tus envíos en Mar del Plata! ~<br />
+                   Servicio confiable y de calidad.
+                 </p>
+                 <p>
+                    👉 Confianza y responsabilidad son nuestros pilares.
+                 </p>
+                 <p>
+                   🌐 Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80">enviosdosruedas.com</Link>
+                 </p>
+                  <p>
+                    📲 WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">2236602699</Link> | Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">@enviosdosruedas</Link>
+                  </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Facebook Section */}
+          <Card className="overflow-hidden shadow-md">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-background border-b">
+              <CardTitle className="text-lg font-semibold text-primary">Facebook</CardTitle>
+              <Facebook className="h-6 w-6 text-blue-800" />
+            </CardHeader>
+            <CardContent className="p-4 md:p-6 space-y-4">
+               <div className="aspect-video overflow-hidden mx-auto max-w-sm">
+                 {/* Note: Facebook Page Plugin embed */}
+                 <iframe
+                   src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fenviosdosruedas&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                   width="340" // Fixed width might be required by FB plugin
+                   height="500" // Adjust height
+                   style={{ border: 'none', overflow: 'hidden' }}
+                   scrolling="no"
+                   frameBorder="0"
+                   allowFullScreen
+                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                   title="Facebook Page"
+                   className="mx-auto" // Center iframe if container is wider
+                 ></iframe>
+               </div>
+              <div className="text-sm text-foreground/80 space-y-2 text-center md:text-left">
+                 {/* Simplified text content - can reuse or customize */}
+                 <p>
+                   <strong>📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀</strong><br />
+                   ~ ¡Somos la solución para tus envíos en Mar del Plata! ~<br />
+                   Servicio confiable y de calidad.
+                 </p>
+                 <p>
+                    👉 Confianza y responsabilidad son nuestros pilares.
+                 </p>
+                  <p>
+                   🌐 Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80">enviosdosruedas.com</Link>
+                 </p>
+                  <p>
+                    📲 WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">2236602699</Link> | Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">@enviosdosruedas</Link>
+                  </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 export default function NuestrasRedesPage() {
   return (
@@ -63,6 +168,9 @@ export default function NuestrasRedesPage() {
 
         </div>
       </div>
+       <VerRedesSection /> {/* Integrate the new section here */}
+      {/* BannerRedesSociales might be redundant now, consider removing or keeping */}
+      {/* <BannerRedesSociales /> */}
     </>
   );
 }
