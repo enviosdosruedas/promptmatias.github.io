@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -27,7 +26,7 @@ function VerRedesSection() {
               <Instagram className="h-6 w-6 text-pink-600" />
             </CardHeader>
             <CardContent className="p-4 md:p-6 space-y-4">
-              <div className="aspect-square overflow-hidden mx-auto max-w-sm">
+              <div className="overflow-hidden mx-auto max-w-sm">
                  {/* Note: Instagram embeds can be tricky and might require official APIs or might break.
                       This is a basic iframe attempt based on the provided HTML.
                       Consider using official embed tools if available. */}
@@ -37,7 +36,7 @@ function VerRedesSection() {
                     height="500" // Adjust height as needed
                     frameBorder="0"
                     scrolling="no"
-                    allowtransparency="true" // Changed to lowercase
+                    allowTransparency={true} // Changed to camelCase boolean
                     className="w-full h-full border-0 overflow-hidden"
                     title="Instagram Post"
                   ></iframe>
@@ -68,39 +67,20 @@ function VerRedesSection() {
               <CardTitle className="text-lg font-semibold text-primary">Facebook</CardTitle>
               <Facebook className="h-6 w-6 text-blue-800" />
             </CardHeader>
-            <CardContent className="p-4 md:p-6 space-y-4">
-               <div className="aspect-video overflow-hidden mx-auto max-w-sm">
-                 {/* Note: Facebook Page Plugin embed */}
-                 <iframe
-                   src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fenviosdosruedas&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                   width="340" // Fixed width might be required by FB plugin
-                   height="500" // Adjust height
-                   style={{ border: 'none', overflow: 'hidden' }}
-                   scrolling="no"
-                   frameBorder="0"
-                   allowFullScreen
-                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                   title="Facebook Page"
-                   className="mx-auto" // Center iframe if container is wider
-                 ></iframe>
-               </div>
-              <div className="text-sm text-foreground/80 space-y-2 text-center md:text-left">
-                 {/* Simplified text content - can reuse or customize */}
-                 <p>
-                   <strong>📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀</strong><br />
-                   ~ ¡Somos la solución para tus envíos en Mar del Plata! ~<br />
-                   Servicio confiable y de calidad.
-                 </p>
-                 <p>
-                    👉 Confianza y responsabilidad son nuestros pilares.
-                 </p>
-                  <p>
-                   🌐 Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80">enviosdosruedas.com</Link>
-                 </p>
-                  <p>
-                    📲 WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">2236602699</Link> | Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">@enviosdosruedas</Link>
-                  </p>
-              </div>
+            <CardContent className="p-4 md:p-6 space-y-4 flex flex-col items-center">
+               {/* Replaced content with the new Facebook iframe */}
+               <iframe
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fenviosdosruedas&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                  width="340"
+                  height="500"
+                  style={{ border: 'none', overflow: 'hidden' }}
+                  scrolling="no"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  title="Facebook Page Plugin" // Added a descriptive title
+                ></iframe>
+               {/* The text content previously here is removed as per the request to replace with iframe */}
             </CardContent>
           </Card>
         </div>
@@ -175,4 +155,3 @@ export default function NuestrasRedesPage() {
     </>
   );
 }
-
