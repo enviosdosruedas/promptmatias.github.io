@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Instagram, Facebook, Linkedin } from "lucide-react"; // Assuming you might add LinkedIn later
+import { Instagram, Facebook, Linkedin, Package, Globe, Phone, MessageSquare } from "lucide-react"; // Added more icons
 import { HeroNuestrasRedes } from '@/components/sections/HeroNuestrasRedes'; // Import the new hero section
 
 // New 'verredes' section component (integrated directly for simplicity)
@@ -36,7 +36,7 @@ function VerRedesSection() {
                     height="500" // Adjust height as needed
                     frameBorder="0"
                     scrolling="no"
-                    allowTransparency={true} // Changed to camelCase boolean
+                    allowtransparency="true" // Corrected attribute name
                     className="w-full h-full border-0 overflow-hidden"
                     title="Instagram Post"
                   ></iframe>
@@ -51,11 +51,11 @@ function VerRedesSection() {
                  <p>
                     👉 Confianza y responsabilidad son nuestros pilares.
                  </p>
-                 <p>
-                   🌐 Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80">enviosdosruedas.com</Link>
+                 <p className="flex items-center justify-center md:justify-start gap-1">
+                   <Globe className="h-4 w-4 inline-block mr-1 text-secondary flex-shrink-0"/> Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80 ml-1">enviosdosruedas.com</Link>
                  </p>
-                  <p>
-                    📲 WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">2236602699</Link> | Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80">@enviosdosruedas</Link>
+                  <p className="flex flex-wrap items-center justify-center md:justify-start gap-1">
+                    <MessageSquare className="h-4 w-4 inline-block mr-1 text-green-600 flex-shrink-0"/> WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 mx-1">2236602699</Link> | <Instagram className="h-4 w-4 inline-block mx-1 text-pink-600 flex-shrink-0" /> Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 ml-1">@enviosdosruedas</Link>
                   </p>
               </div>
             </CardContent>
@@ -67,20 +67,41 @@ function VerRedesSection() {
               <CardTitle className="text-lg font-semibold text-primary">Facebook</CardTitle>
               <Facebook className="h-6 w-6 text-blue-800" />
             </CardHeader>
-            <CardContent className="p-4 md:p-6 space-y-4 flex flex-col items-center">
-               {/* Replaced content with the new Facebook iframe */}
+            <CardContent className="p-4 md:p-6 space-y-6 flex flex-col items-center"> {/* Increased space-y */}
+               {/* Facebook iframe */}
                <iframe
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fenviosdosruedas&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fenviosdosruedas&tabs=timeline&width=340&height=400&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" // Adjusted height and small_header
                   width="340"
-                  height="500"
+                  height="400" // Reduced height
                   style={{ border: 'none', overflow: 'hidden' }}
                   scrolling="no"
                   frameBorder="0"
                   allowFullScreen={true}
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  title="Facebook Page Plugin" // Added a descriptive title
+                  title="Facebook Page Plugin"
                 ></iframe>
-               {/* The text content previously here is removed as per the request to replace with iframe */}
+
+               {/* Added text content below iframe */}
+              <div className="text-sm text-foreground/80 space-y-3 text-center w-full max-w-sm"> {/* Added width constraint */}
+                <p className="flex items-center justify-center gap-2 font-semibold text-base">
+                   <Package className="h-5 w-5 text-primary flex-shrink-0" />
+                   MENSAJERÍA ENVÍOS DOSRUEDAS
+                   {/* Removed rocket emoji for cleaner look */}
+                 </p>
+                 <p className="italic">
+                   ~ ¡Somos la solución para tus envíos en Mar del Plata! ~<br />
+                   Servicio confiable y de calidad.
+                 </p>
+                 <p>
+                    👉 Confianza y responsabilidad son nuestros pilares.
+                 </p>
+                 <p className="flex items-center justify-center gap-1">
+                   <Globe className="h-4 w-4 inline-block mr-1 text-secondary flex-shrink-0"/> Cotizá en nuestra web: <Link href="/" className="text-secondary underline hover:text-secondary/80 ml-1">enviosdosruedas.com</Link>
+                 </p>
+                  <p className="flex flex-wrap items-center justify-center gap-1">
+                    <MessageSquare className="h-4 w-4 inline-block mr-1 text-green-600 flex-shrink-0"/> WhatsApp <Link href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 mx-1">2236602699</Link> | <Instagram className="h-4 w-4 inline-block mx-1 text-pink-600 flex-shrink-0" /> Instagram <Link href="https://www.instagram.com/enviosdosruedas/" target="_blank" rel="noopener noreferrer" className="text-secondary underline hover:text-secondary/80 ml-1">@enviosdosruedas</Link>
+                  </p>
+              </div>
             </CardContent>
           </Card>
         </div>
