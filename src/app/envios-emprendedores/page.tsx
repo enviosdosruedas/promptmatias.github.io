@@ -7,6 +7,8 @@ import { HeroEmprendedores } from '@/components/sections/HeroEmprendedores'; // 
 import { InfoEmprendedores } from '@/components/sections/InfoEmprendedores'; // Import the new InfoEmprendedores component
 import { PrecioEmprendedores } from '@/components/sections/PrecioEmprendedores'; // Import the new Pricing component
 import { CompromisoEmprendedores } from '@/components/sections/CompromisoEmprendedores'; // Import the new CompromisoEmprendedores component
+import { RecomendacionesEmprendedores } from '@/components/sections/RecomendacionesEmprendedores'; // Import the new component
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import banner
 
 export default function EnviosEmprendedoresPage() {
   return (
@@ -63,6 +65,8 @@ export default function EnviosEmprendedoresPage() {
       <InfoEmprendedores /> {/* Integrate the InfoEmprendedores component here */}
       <PrecioEmprendedores /> {/* Integrate the PrecioEmprendedores component here */}
       <CompromisoEmprendedores /> {/* Integrate the CompromisoEmprendedores component here */}
+      <RecomendacionesEmprendedores /> {/* Integrate the new component */}
+       <BannerRedesSociales /> {/* Add banner at the end */}
     </>
   );
 }
