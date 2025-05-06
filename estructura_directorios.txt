@@ -1,0 +1,135 @@
+Estructura de: c:/Users/Matias/Desktop/promptmatias.github.io/public
+public/
+├── _auth/
+│   ├── experiments.js
+│   ├── handler.html
+│   ├── handler.js
+│   ├── iframe.html
+│   └── iframe.js
+├── img/
+│   ├── Emprendedoresbanner.webp
+│   ├── Emprendedoresbannerrapidas.webp
+│   ├── Emprendedoresbannerrapidas2.webp
+│   ├── Emprendedoresbannerrapidas3.webp
+│   ├── LogoEnviosDosRuedas-180.png
+│   ├── LogoEnviosDosRuedas-192.png
+│   ├── LogoEnviosDosRuedas-32.png
+│   ├── LogoEnviosDosRuedas.png
+│   ├── LogoEnviosDosRuedas.webp
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512.png
+│   ├── apple-touch-icon.png
+│   ├── favicon-16x16.png
+│   ├── favicon-96x96.png
+│   ├── favicon.ico
+│   ├── favicon.svg
+│   └── web-app-manifest-512x512.png
+├── Emprendedoresbanner.webp
+├── Emprendedoresbannerrapidas.webp
+├── Emprendedoresbannerrapidas2.webp
+├── Emprendedoresbannerrapidas3.webp
+├── LogoEnviosDosRuedas-180.png
+├── LogoEnviosDosRuedas-192.png
+├── LogoEnviosDosRuedas-32.png
+├── LogoEnviosDosRuedas.png
+├── LogoEnviosDosRuedas.webp
+├── android-chrome-192x192.png
+├── android-chrome-512x512.png
+├── apple-touch-icon.png
+├── favicon-16x16.png
+├── favicon-96x96.png
+├── favicon.ico
+├── favicon.svg
+└── web-app-manifest-512x512.png
+
+Estructura de: c:/Users/Matias/Desktop/promptmatias.github.io/src
+src/
+├── ai/
+│   ├── ai-instance.ts
+│   └── dev.ts
+├── app/
+│   ├── contacto/
+│   │   └── page.tsx
+│   ├── cotizador-envios-express/
+│   │   └── page.tsx
+│   ├── cotizador-envios-lowcost/
+│   │   └── page.tsx
+│   ├── delivery-moto-express/
+│   │   └── page.tsx
+│   ├── delivery-moto-fija/
+│   │   └── page.tsx
+│   ├── envios-emprendedores/
+│   │   └── page.tsx
+│   ├── enviosflex/
+│   │   └── page.tsx
+│   ├── mensajeria-envios-express/
+│   │   └── page.tsx
+│   ├── mensajeria-envios-lowcost/
+│   │   └── page.tsx
+│   ├── nuestrasredes/
+│   │   └── page.tsx
+│   ├── preguntasfrecuentes/
+│   │   └── page.tsx
+│   ├── sobre-nosotros/
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── layout/
+│   │   ├── footer.tsx
+│   │   └── header.tsx
+│   ├── sections/
+│   │   ├── banner-redes-sociales.tsx
+│   │   ├── cotizar-principal.tsx
+│   │   ├── emprendedores-principal.tsx
+│   │   ├── hero-section.tsx
+│   │   ├── service-overview.tsx
+│   │   ├── servicios-destacados.tsx
+│   │   └── vision-global.tsx
+│   ├── ui/
+│   │   ├── accordion.tsx
+│   │   ├── alert-dialog.tsx
+│   │   ├── alert.tsx
+│   │   ├── avatar.tsx
+│   │   ├── badge.tsx
+│   │   ├── button.tsx
+│   │   ├── calendar.tsx
+│   │   ├── card.tsx
+│   │   ├── carousel.tsx
+│   │   ├── chart.tsx
+│   │   ├── checkbox.tsx
+│   │   ├── dialog.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   ├── form.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   ├── menubar.tsx
+│   │   ├── popover.tsx
+│   │   ├── progress.tsx
+│   │   ├── radio-group.tsx
+│   │   ├── scroll-area.tsx
+│   │   ├── select.tsx
+│   │   ├── separator.tsx
+│   │   ├── sheet.tsx
+│   │   ├── sidebar.tsx
+│   │   ├── skeleton.tsx
+│   │   ├── slider.tsx
+│   │   ├── switch.tsx
+│   │   ├── table.tsx
+│   │   ├── tabs.tsx
+│   │   ├── textarea.tsx
+│   │   ├── toast.tsx
+│   │   ├── toaster.tsx
+│   │   └── tooltip.tsx
+├── hooks/
+│   ├── use-mobile.tsx
+│   └── use-toast.ts
+├── lib/
+│   └── utils.ts
+├── styles/
+│   ├── footer.css
+│   ├── navbar.css
+│   └── redessociales.css
+
