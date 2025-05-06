@@ -8,6 +8,7 @@
     pkgs.nodejs_20
     pkgs.zulu
     pkgs.python3
+    pkgs.pnpm_10
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -20,6 +21,7 @@
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       # "vscodevim.vim"
+      "anilkumarum.compile-ts"
     ];
     workspace = {
       onCreate = {
