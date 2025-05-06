@@ -1,7 +1,8 @@
 
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { HeroNosotros } from '@/components/sections/HeroNosotros'; // Import the new component
+import { HeroNosotros } from '@/components/sections/HeroNosotros'; // Import the hero section
+import { ZonadeCobertura } from '@/components/sections/ZonadeCobertura'; // Import the coverage section
 
 export default function SobreNosotrosPage() {
   return (
@@ -63,6 +64,8 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </div>
+       {/* Integrate ZonadeCobertura section here */}
+       <ZonadeCobertura />
     </>
   );
 }
