@@ -89,7 +89,8 @@ export default function CotizadorEnviosExpressPage() {
           const script = document.createElement('script');
           script.id = 'google-maps-script';
           // IMPORTANT: Replace YOUR_GOOGLE_MAPS_API_KEY with your actual API key
-          script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap`;
+          // Ensure you have enabled Maps JavaScript API, Directions API, Geocoding API in your Google Cloud Console project.
+          script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&libraries=marker`; // Added marker library
           script.async = true;
           script.defer = true;
           document.head.appendChild(script);
@@ -100,20 +101,35 @@ export default function CotizadorEnviosExpressPage() {
 
       // Cleanup function
       return () => {
-         const script = document.getElementById('google-maps-script');
-         // Optional: remove script on unmount? Usually not necessary.
-         // if (script) script.remove();
-         delete window.initMap; // Clean up the global function
+         // Clean up Google Maps objects if they exist
+         if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
+           marcadorOrigenRef.current.setMap(null);
+         }
+         if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
+           marcadorDestinoRef.current.setMap(null);
+         }
+         if (directionsRendererRef.current && typeof directionsRendererRef.current.setMap === 'function') {
+           directionsRendererRef.current.setMap(null); // Disassociate from map
+         }
+         // Remove the global callback function if it exists and points to our initMap
+         if (window.initMap === initMap) {
+            delete window.initMap;
+         }
       };
   }, [initMap, mapInitialized]); // Add mapInitialized to dependencies
 
   // --- Marker Placement ---
   const colocarMarcadores = useCallback((origenPos: any, destinoPos: any, origenDir: string, destinoDir: string) => {
-    if (!mapRef.current) return;
+    if (!mapRef.current || !window.google || !window.google.maps || !window.google.maps.Marker) return;
 
-    // Remove previous markers
-    if (marcadorOrigenRef.current) marcadorOrigenRef.current.setMap(null);
-    if (marcadorDestinoRef.current) marcadorDestinoRef.current.setMap(null);
+    // Remove previous markers defensively
+    if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
+      marcadorOrigenRef.current.setMap(null);
+    }
+    if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
+      marcadorDestinoRef.current.setMap(null);
+    }
+
 
     // Create origin marker (Green)
     marcadorOrigenRef.current = new window.google.maps.Marker({
@@ -188,10 +204,16 @@ export default function CotizadorEnviosExpressPage() {
     setDistancia(null);
     setPrecio(null);
 
-    // Clear previous markers and route before calculating new one
-    if (marcadorOrigenRef.current) marcadorOrigenRef.current.setMap(null);
-    if (marcadorDestinoRef.current) marcadorDestinoRef.current.setMap(null);
-    if (directionsRendererRef.current) directionsRendererRef.current.setDirections({ routes: [] });
+    // Clear previous markers and route before calculating new one (Defensive checks)
+    if (marcadorOrigenRef.current && typeof marcadorOrigenRef.current.setMap === 'function') {
+        marcadorOrigenRef.current.setMap(null);
+    }
+    if (marcadorDestinoRef.current && typeof marcadorDestinoRef.current.setMap === 'function') {
+        marcadorDestinoRef.current.setMap(null);
+    }
+    if (directionsRendererRef.current && typeof directionsRendererRef.current.setDirections === 'function') {
+        directionsRendererRef.current.setDirections({ routes: [] });
+    }
 
 
     try {
@@ -201,30 +223,37 @@ export default function CotizadorEnviosExpressPage() {
         travelMode: window.google.maps.TravelMode.DRIVING,
       };
 
-      const response = await directionsServiceRef.current.route(request);
+      // Use a promise wrapper for the callback-based API
+      const response = await new Promise<any>((resolve, reject) => {
+        directionsServiceRef.current.route(request, (result: any, status: any) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            resolve(result);
+          } else {
+            reject(new Error(`No se pudo calcular la ruta: ${status}. Asegúrese de que las direcciones sean válidas en Mar del Plata.`));
+          }
+        });
+      });
 
-      if (response.status === window.google.maps.DirectionsStatus.OK) {
-        directionsRendererRef.current.setDirections(response);
 
-        const route = response.routes[0];
-        if (route && route.legs && route.legs[0] && route.legs[0].distance) {
-          const distanciaTexto = route.legs[0].distance.text;
-          const distanciaValor = route.legs[0].distance.value / 1000; // Convert to km
+      directionsRendererRef.current.setDirections(response);
 
-          setDistancia(distanciaTexto);
-          calcularPrecio(distanciaValor);
-          colocarMarcadores(
-            route.legs[0].start_location,
-            route.legs[0].end_location,
-            route.legs[0].start_address,
-            route.legs[0].end_address
-          );
-        } else {
-            throw new Error("No se pudo obtener la distancia de la ruta.");
-        }
+      const route = response.routes[0];
+      if (route && route.legs && route.legs[0] && route.legs[0].distance) {
+        const distanciaTexto = route.legs[0].distance.text;
+        const distanciaValor = route.legs[0].distance.value / 1000; // Convert to km
+
+        setDistancia(distanciaTexto);
+        calcularPrecio(distanciaValor);
+        colocarMarcadores(
+          route.legs[0].start_location,
+          route.legs[0].end_location,
+          route.legs[0].start_address,
+          route.legs[0].end_address
+        );
       } else {
-         throw new Error(`No se pudo calcular la ruta: ${response.status}. Asegúrese de que las direcciones sean válidas en Mar del Plata.`);
+          throw new Error("No se pudo obtener la distancia de la ruta.");
       }
+
     } catch (e: any) {
       console.error("Error al calcular la ruta:", e);
        setError(e.message || "Error al calcular la ruta. Verifique las direcciones.");
