@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { HeroDeliveyMotoExpress } from '@/components/sections/HeroDeliveyMotoExpress'; // Import the new Hero component
 import { MasInfoDeliveyMotoExpress } from '@/components/sections/MasInfoDeliveyMotoExpress'; // Import the new MasInfo component
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import banner
+import { CoberturaDeliveyMotoExpress } from '@/components/sections/CoberturaDeliveyMotoExpress'; // Import the new component
 
 export default function DeliveryMotoExpressPage() {
   return (
@@ -43,6 +44,7 @@ export default function DeliveryMotoExpressPage() {
         </div>
       </div>
       <MasInfoDeliveyMotoExpress /> {/* Integrate the MasInfoDeliveyMotoExpress component here */}
+      <CoberturaDeliveyMotoExpress /> {/* Integrate the CoberturaDeliveyMotoExpress component here */}
       <BannerRedesSociales /> {/* Add banner at the end */}
     </>
   );
