@@ -1,22 +1,26 @@
 
+import { HeroContacto } from "@/components/sections/HeroContacto"; 
+import { Principalcontacto } from "@/components/sections/Principalcontacto"; 
+import { EmprendedorContacto } from "@/components/sections/EmprendedorContacto"; 
+import { InfoContacto } from "@/components/sections/InfoContacto"; 
+import { MasPreguntas } from "@/components/sections/MasPreguntas"; 
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; 
+import type { Metadata } from 'next';
 
-import { HeroContacto } from "@/components/sections/HeroContacto"; // Import the Hero component
-import { Principalcontacto } from "@/components/sections/Principalcontacto"; // Import the new Principalcontacto component
-import { EmprendedorContacto } from "@/components/sections/EmprendedorContacto"; // Import the new EmprendedorContacto component
-import { InfoContacto } from "@/components/sections/InfoContacto"; // Import the new InfoContacto component
-import { MasPreguntas } from "@/components/sections/MasPreguntas"; // Import the new section
-import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import the new component
+export const metadata: Metadata = {
+  title: 'Contacto | Envios DosRuedas | Mensajería en Mar del Plata',
+  description: 'Contáctanos para tus envíos y mensajería en Mar del Plata. WhatsApp, email, y más. Estamos listos para ayudarte con tus entregas.',
+};
 
 export default function ContactoPage() {
   return (
-    <> {/* Added Fragment */}
-      <HeroContacto /> {/* Integrate the Hero component */}
-      <Principalcontacto /> {/* Integrate the Principalcontacto component */}
-     
-      <EmprendedorContacto /> {/* Integrate the EmprendedorContacto component */}
-      <InfoContacto /> {/* Integrate the InfoContacto component */}
-      <MasPreguntas /> {/* Integrate the MasPreguntas component */}
-      <BannerRedesSociales /> {/* Integrate the BannerRedesSociales component */} 
+    <> 
+      <HeroContacto /> 
+      <Principalcontacto /> 
+      <EmprendedorContacto /> 
+      <InfoContacto /> 
+      <MasPreguntas /> 
+      <BannerRedesSociales />  
     </>
   );
 }

@@ -1,14 +1,20 @@
 
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
-import CaluloCotizadorExpress from '@/components/sections/CaluloCotizadorExpress'; // Import the new component
-import { HeroCotizadorExpress } from '@/components/sections/HeroCotizadorExpress'; // Import the Hero component
+import CaluloCotizadorExpress from '@/components/sections/CaluloCotizadorExpress'; 
+import { HeroCotizadorExpress } from '@/components/sections/HeroCotizadorExpress'; 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cotizador Envíos Express | Envios DosRuedas | Entregas Rápidas',
+  description: 'Cotiza tu envío express en Mar del Plata con Envios DosRuedas. Entregas urgentes el mismo día. Calcula el precio de tu envío rápido ahora.',
+};
 
 export default function CotizadorExpressPage() {
   return (
     <>
-      <HeroCotizadorExpress /> {/* Add the Hero component */}
+      <HeroCotizadorExpress /> 
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
-        <CaluloCotizadorExpress /> {/* Add the new calculator component here */}
+        <CaluloCotizadorExpress /> 
       </div>
       <BannerRedesSociales />
     </>

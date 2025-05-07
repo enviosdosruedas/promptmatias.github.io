@@ -6,16 +6,22 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { HeroFaq } from "@/components/sections/HeroFaq"; // Import the Hero section
-import { BusquedaFaq } from "@/components/sections/BusquedaFaq"; // Import the new Search section
-import { MasPreguntas } from "@/components/sections/MasPreguntas"; // Import the new section
-import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import the new component
+import { HeroFaq } from "@/components/sections/HeroFaq"; 
+import { BusquedaFaq } from "@/components/sections/BusquedaFaq"; 
+import { MasPreguntas } from "@/components/sections/MasPreguntas"; 
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Preguntas Frecuentes | Envios DosRuedas | Dudas y Consultas',
+  description: 'Encuentra respuestas a tus dudas sobre nuestros servicios de mensajería y delivery en Mar del Plata. Contacta con Envios DosRuedas si necesitas más ayuda.',
+};
 
 export default function PreguntasFrecuentesPage() {
   return (
-    <> {/* Added Fragment to wrap multiple top-level elements */}
-      <HeroFaq /> {/* Integrate the HeroFaq component here */}
-      <BusquedaFaq /> {/* Integrate the BusquedaFaq component here */}
+    <> 
+      <HeroFaq /> 
+      <BusquedaFaq /> 
 
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16 max-w-3xl">
 
@@ -130,8 +136,8 @@ export default function PreguntasFrecuentesPage() {
             </AccordionItem>
           </Accordion>
       </div>
-       <MasPreguntas /> {/* Integrate the new section here */}
-      <BannerRedesSociales /> {/* Add the banner here */}
+       <MasPreguntas /> 
+      <BannerRedesSociales /> 
     </>
   );
 }

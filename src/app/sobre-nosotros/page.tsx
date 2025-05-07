@@ -1,14 +1,20 @@
 
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { HeroNosotros } from '@/components/sections/HeroNosotros'; // Import the hero section
-import { ZonadeCobertura } from '@/components/sections/ZonadeCobertura'; // Import the coverage section
-import { Star } from 'lucide-react'; // Import Star icon
+import { HeroNosotros } from '@/components/sections/HeroNosotros'; 
+import { ZonadeCobertura } from '@/components/sections/ZonadeCobertura'; 
+import { Star } from 'lucide-react'; 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Sobre Nosotros | Envios DosRuedas | Conócenos',
+  description: 'Conoce más sobre Envios DosRuedas, tu aliado en mensajería y delivery en Mar del Plata. Nuestro compromiso, visión y área de cobertura.',
+};
 
 // Component for the new "Quiénes Somos" section
 function QuienesSomosSection() {
   return (
-    <section className="w-full py-12 md:py-20 lg:py-28 bg-muted/30"> {/* Slightly different background */}
+    <section className="w-full py-12 md:py-20 lg:py-28 bg-muted/30"> 
       <div className="container px-4 md:px-6">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
           <div className="order-last lg:order-first">
@@ -24,18 +30,18 @@ function QuienesSomosSection() {
               </p>
             </div>
           </div>
-           {/* You can add an image here if desired */}
-           {/* <div className="flex justify-center">
+           
+           <div className="flex justify-center">
              <Image
-               src="
-              src="/img/Headeritems-2.webp" // Placeholder image
+              
+              src="/img/Headeritems-2.webp" 
                alt="Quiénes Somos Imagen"
                width={600}
                height={400}
                className="rounded-lg shadow-lg object-cover"
                data-ai-hint="team working logistics"
              />
-           </div> */}
+           </div> 
         </div>
       </div>
     </section>
@@ -45,8 +51,8 @@ function QuienesSomosSection() {
 
 export default function SobreNosotrosPage() {
   return (
-    <> {/* Use Fragment to wrap multiple top-level elements */}
-      <HeroNosotros /> {/* Add the Hero section here */}
+    <> 
+      <HeroNosotros /> 
 
       {/* Original About Us Content */}
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
@@ -61,14 +67,14 @@ export default function SobreNosotrosPage() {
              <p className="text-foreground/80 md:text-lg leading-relaxed">
               Ya sea que necesites un envío express de última hora, una solución regular para tu negocio o una opción económica para envíos programados, <strong className="text-primary">EnviosDosRuedas es tu aliado</strong> en logística urbana.
             </p>
-             {/* Animated Logo, Name, Slogan Section */}
+             
              <div className="mt-16 mb-8 flex flex-col items-center text-center space-y-4 animate-fade-in">
                 <Image
                   src="/favicon.svg"
                   alt="EnviosDosRuedas Logo Animado"
-                  width={100} // Increased size
+                  width={100} 
                   height={100}
-                  className="animate-pulse hover:scale-110 transition-transform duration-300" // Added pulse and hover effect
+                  className="animate-pulse hover:scale-110 transition-transform duration-300" 
                 />
                 <h2 className="text-3xl font-bold text-primary mt-4">
                   Envios DosRuedas
@@ -92,10 +98,10 @@ export default function SobreNosotrosPage() {
         </div>
       </div>
 
-       {/* Integrate QuienesSomos section here */}
+       
       <QuienesSomosSection />
 
-       {/* Integrate ZonadeCobertura section here */}
+       
        <ZonadeCobertura />
     </>
   );

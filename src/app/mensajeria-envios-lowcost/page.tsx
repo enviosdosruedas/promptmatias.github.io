@@ -3,15 +3,21 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PiggyBank, CalendarDays, Map } from 'lucide-react';
-import { HeroMenEnvLowCost } from '@/components/sections/HeroMenEnvLowCost'; // Import the new Hero component
-import { PreciosMenEnvLowCost } from '@/components/sections/PreciosMenEnvLowCost'; // Import the new pricing section
-import { ContactMenEnvLowCost } from '@/components/sections/ContactMenEnvLowCost'; // Import the new contact section
+import { HeroMenEnvLowCost } from '@/components/sections/HeroMenEnvLowCost'; 
+import { PreciosMenEnvLowCost } from '@/components/sections/PreciosMenEnvLowCost'; 
+import { ContactMenEnvLowCost } from '@/components/sections/ContactMenEnvLowCost'; 
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mensajería Low Cost | Envios DosRuedas | Envíos Económicos',
+  description: 'Ahorra en tus envíos con nuestro servicio de mensajería low cost en Mar del Plata. Entregas programadas y flexibles a precios bajos.',
+};
 
 export default function MensajeriaEnviosLowcostPage() {
   return (
     <>
-      <HeroMenEnvLowCost /> {/* Integrate the Hero component here */}
+      <HeroMenEnvLowCost /> 
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
         <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
           <div className="order-last md:order-first">
@@ -63,8 +69,8 @@ export default function MensajeriaEnviosLowcostPage() {
           </div>
         </div>
       </div>
-      <PreciosMenEnvLowCost /> {/* Integrate the new pricing section */}
-      <ContactMenEnvLowCost /> {/* Integrate the new contact section */}
+      <PreciosMenEnvLowCost /> 
+      <ContactMenEnvLowCost /> 
       <BannerRedesSociales />
     </>
   );

@@ -2,23 +2,28 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { HeroDeliveyMotoFija } from '@/components/sections/HeroDeliveyMotoFija'; // Import the new Hero component
-import { CaracteristicasDeliveyMotoFija } from '@/components/sections/CaracteristicasDeliveyMotoFija'; // Import the new Caracteristicas component
-import { CancelacionDeliveyMotoFija } from '@/components/sections/CancelacionDeliveyMotoFija'; // Import the new Cancelacion component
-import { CompromisoDeliveyMotoFija } from '@/components/sections/CompromisoDeliveyMotoFija'; // Import the new Compromiso component
-import { GuiaDeliveyMotoFija } from '@/components/sections/GuiaDeliveyMotoFija'; // Import the new Guia component
-import { ContactoDeliveyMotoFija } from '@/components/sections/ContactoDeliveyMotoFija'; // Import the new Contacto component
+import { HeroDeliveyMotoFija } from '@/components/sections/HeroDeliveyMotoFija'; 
+import { CaracteristicasDeliveyMotoFija } from '@/components/sections/CaracteristicasDeliveyMotoFija'; 
+import { CancelacionDeliveyMotoFija } from '@/components/sections/CancelacionDeliveyMotoFija'; 
+import { CompromisoDeliveyMotoFija } from '@/components/sections/CompromisoDeliveyMotoFija'; 
+import { GuiaDeliveyMotoFija } from '@/components/sections/GuiaDeliveyMotoFija'; 
+import { ContactoDeliveyMotoFija } from '@/components/sections/ContactoDeliveyMotoFija'; 
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Delivery Moto Fija | Envios DosRuedas | Repartidor Dedicado',
+  description: 'Servicio de delivery con moto fija en Mar del Plata. Repartidor exclusivo para tu negocio, ideal para entregas regulares y programadas.',
+};
 
 export default function DeliveryMotoFijaPage() {
   return (
     <>
-      <HeroDeliveyMotoFija /> {/* Add the Hero component here */}
+      <HeroDeliveyMotoFija /> 
       <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
         <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
           <div>
-            {/* The h1 from the original content is now part of HeroDeliveyMotoFija */}
+            
             <p className="text-foreground/80 mb-6 md:text-lg">
               Optimiza tus entregas regulares con nuestro servicio de delivery con moto fija. Asignamos un repartidor exclusivo para tu negocio, garantizando puntualidad, conocimiento de tus rutas y un servicio personalizado. Ideal para restaurantes, comercios y empresas con envíos frecuentes.
             </p>
@@ -48,11 +53,11 @@ export default function DeliveryMotoFijaPage() {
           </div>
         </div>
       </div>
-      <CaracteristicasDeliveyMotoFija /> {/* Integrate the Caracteristicas component here */}
-      <GuiaDeliveyMotoFija /> {/* Integrate the GuiaDeliveyMotoFija component here */}
-      <CancelacionDeliveyMotoFija /> {/* Integrate the Cancelacion component here */}
-      <CompromisoDeliveyMotoFija /> {/* Integrate the Compromiso component here */}
-      <ContactoDeliveyMotoFija /> {/* Integrate the new Contacto component here */}
+      <CaracteristicasDeliveyMotoFija /> 
+      <GuiaDeliveyMotoFija /> 
+      <CancelacionDeliveyMotoFija /> 
+      <CompromisoDeliveyMotoFija /> 
+      <ContactoDeliveyMotoFija /> 
       <BannerRedesSociales />
     </>
   );
