@@ -1,11 +1,11 @@
 
-import HeroFlex from '@/components/sections/HeroFlex';
+import { PrincipalEnviosFlex } from '@/components/sections/PrincipalEnviosFlex'; // Import the new component
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import the new component
 
-export default function Home() {
+export default function EnviosFlexPage() {
   return (
     <>
-    <HeroFlex />
+      <PrincipalEnviosFlex /> {/* Use the new component */}
       <BannerRedesSociales /> {/* Add the new component here */}
     </>
   );
