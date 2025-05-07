@@ -12,9 +12,14 @@
   --nav-dropdown-text: hsl(var(--popover-foreground)); /* Dropdown text */
   --nav-dropdown-hover-bg: hsl(var(--accent)); /* Dropdown item hover bg */
   --nav-dropdown-hover-text: hsl(var(--accent-foreground)); /* Dropdown item hover text */
-  --nav-mobile-bg: hsl(var(--background)); /* Mobile menu background */
-  --nav-mobile-text: hsl(var(--foreground)); /* Mobile menu text */
-  --nav-mobile-border: hsl(var(--border)); /* Mobile menu item border */
+  
+  /* Mobile menu variables - updated for darker theme */
+  --nav-mobile-bg: hsl(var(--primary)); /* Use primary color for dark background */
+  --nav-mobile-text: hsl(var(--primary-foreground)); /* Use primary foreground for text */
+  --nav-mobile-border: hsl(var(--primary-foreground) / 0.2); /* Lighter border for contrast */
+  --nav-mobile-link-hover-bg: hsla(var(--primary-foreground) / 0.1); /* Subtle hover for links */
+  --nav-mobile-link-hover-text: hsl(var(--accent)); /* Accent color for hover text */
+
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Softer shadow */
   --transition: all 0.2s ease-in-out;
   --nav-icon-size: 1rem; /* 16px */
@@ -25,18 +30,15 @@
 .main-nav {
   background: var(--nav-bg);
   box-shadow: var(--shadow);
-  /* border-bottom: 1px solid var(--nav-border); /* Optional bottom border */
   position: sticky;
   top: 0;
   z-index: 50; /* Ensure it's above content */
 }
 
 .nav-container {
-  /* Centering and padding are applied via Tailwind `container` class */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Height applied via Tailwind `h-16` */
 }
 
 /* Estilos del Logo */
@@ -45,41 +47,31 @@
   align-items: center;
   gap: 0.75rem; /* Tailwind `gap-3` */
   transition: var(--transition);
-  text-decoration: none; /* Asegurar que no haya subrayado */
+  text-decoration: none; 
 }
 .nav-logo:hover {
-  opacity: 0.9; /* Efecto hover sutil */
+  opacity: 0.9; 
 }
 
 .logo-image {
-   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)); /* Sombra más sutil */
+   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)); 
 }
 
 .logo-text {
-  display: flex; /* Default to flex for server render */
+  display: flex; 
   flex-direction: column;
 }
-
-/* Desktop: Ensure .logo-text is block (or flex) */
-@media (min-width: 768px) { /* md breakpoint or your preferred breakpoint */
-  .logo-text {
-    display: flex; /* Or 'block' if that's the desktop style */
-  }
-}
-
 
 .logo-title {
   color: var(--nav-logo-title);
   margin: 0;
-  font-weight: 700; /* Tailwind `font-bold` */
+  font-weight: 700; 
   line-height: 1.2;
-  /* Font size controlled by Tailwind */
 }
 
 .logo-text p {
   margin: 0;
   color: var(--nav-logo-subtitle);
-  /* Font size controlled by Tailwind */
 }
 
 /* Estilos del Menú de Navegación Desktop */
@@ -92,69 +84,61 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  align-items: center; /* Align items vertically */
-  gap: 0.25rem; /* Tailwind `gap-1` Reduced gap for tighter desktop nav */
+  align-items: center; 
+  gap: 0.25rem; 
 }
 
-/* Aplica a todos los items, incluyendo dropdown triggers */
 .desktop-nav-item {
   position: relative;
 }
 
-/* Estilos base para enlaces y triggers de dropdown Desktop */
 .nav-link, .desktop-dropdown-trigger {
   color: var(--nav-text);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: var(--nav-icon-margin); /* Gap between icon and text */
-  padding: 0.5rem 0.75rem; /* Tailwind `py-2 px-3` Adjusted padding */
+  gap: var(--nav-icon-margin); 
+  padding: 0.5rem 0.75rem; 
   transition: var(--transition);
-  font-weight: 500; /* Tailwind `font-medium` */
-  border-radius: 0.375rem; /* Tailwind `rounded-md` */
-  background-color: transparent !important; /* Override button ghost */
+  font-weight: 500; 
+  border-radius: 0.375rem; 
+  background-color: transparent !important; 
   border: none;
   height: auto !important;
-  line-height: normal; /* Ensure text aligns well */
+  line-height: normal; 
 }
 .nav-link:hover, .desktop-dropdown-trigger:hover, .desktop-dropdown-trigger[data-state=open] {
   color: var(--nav-text-hover);
-  background-color: hsla(var(--primary-foreground) / 0.1) !important; /* Subtle hover background */
+  background-color: hsla(var(--primary-foreground) / 0.1) !important; 
 }
 
-/* Icono dentro del NavLink/Trigger */
 .nav-icon {
     width: var(--nav-icon-size);
     height: var(--nav-icon-size);
-    flex-shrink: 0; /* Prevent icon shrinking */
+    flex-shrink: 0; 
 }
 
-
-/* Icono del Dropdown (Chevron) Desktop */
 .desktop-dropdown-trigger .dropdown-icon {
-  margin-left: 0.25rem; /* Tailwind `ml-1` */
+  margin-left: 0.25rem; 
   transition: transform 0.2s ease;
   width: var(--nav-icon-size);
   height: var(--nav-icon-size);
-  opacity: 0.7; /* Slightly less prominent */
+  opacity: 0.7; 
 }
 .desktop-dropdown-trigger[data-state=open] .dropdown-icon {
    transform: rotate(180deg);
    opacity: 1;
 }
 
-
-/* Contenido del Dropdown (Estilos base de Shadcn) */
 .dropdown-menu {
-   background-color: var(--nav-dropdown-bg) !important; /* Override potential conflicts */
+   background-color: var(--nav-dropdown-bg) !important; 
    color: var(--nav-dropdown-text) !important;
-   border-radius: 0.375rem !important; /* Tailwind `rounded-md` */
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Softer shadow */
-   /* Other styles like min-width, padding are handled by Shadcn */
+   border-radius: 0.375rem !important; 
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
-.dropdown-item { /* Style for Shadcn DropdownMenuItem */
-    color: var(--nav-dropdown-text) !important; /* Ensure correct text color */
+.dropdown-item { 
+    color: var(--nav-dropdown-text) !important; 
     transition: var(--transition);
 }
 
@@ -162,39 +146,41 @@
     background-color: var(--nav-dropdown-hover-bg) !important;
     color: var(--nav-dropdown-hover-text) !important;
 }
-.dropdown-item .nav-icon { /* Style for icons within dropdown items */
-   color: hsl(var(--secondary)); /* Use secondary color for icons */
-   margin-right: 0.5rem; /* Tailwind `mr-2` */
+.dropdown-item .nav-icon { 
+   color: hsl(var(--secondary)); 
+   margin-right: 0.5rem; 
 }
 .dropdown-item:hover .nav-icon, .dropdown-item:focus .nav-icon {
-   color: inherit; /* Inherit hover color */
+   color: inherit; 
 }
 
-/* Botón de Navegación Móvil */
 .mobile-menu-button {
   /* Colors and basic styles handled by Tailwind + variant="ghost" */
 }
-
 
 /* Menú Móvil (SheetContent) */
 .mobile-menu {
     background-color: var(--nav-mobile-bg) !important;
     color: var(--nav-mobile-text) !important;
-    /* Width handled by className prop in component */
 }
 .mobile-menu .nav-logo {
     border-bottom: 1px solid var(--nav-mobile-border);
 }
+
+/* Updated logo title color for mobile menu for better contrast on dark background */
 .mobile-menu .logo-title {
-    color: var(--nav-logo-title); /* Use primary for mobile logo title too */
+    color: var(--nav-mobile-text); /* Use mobile text color */
+}
+.mobile-menu .logo-text p {
+    color: var(--nav-accent); /* Use accent for subtitle for better visibility */
 }
 
-/* Estilos para la lista dentro del menú móvil */
+
 .mobile-menu .nav-list {
     flex-direction: column;
     gap: 0;
     width: 100%;
-    align-items: stretch; /* Stretch items to full width */
+    align-items: stretch; 
 }
 
 .mobile-nav-item {
@@ -205,71 +191,85 @@
     border-bottom: none;
 }
 
-/* Links y Triggers en menú móvil */
 .mobile-nav-link,
 .mobile-dropdown-button {
-    padding: 0.75rem 1rem; /* Tailwind `py-3 px-4` Padding interno para items */
+    padding: 0.75rem 1rem; 
     width: 100%;
-    justify-content: flex-start; /* Alinear texto a la izquierda */
-    color: var(--nav-mobile-text);
-    font-weight: 500; /* Tailwind `font-medium` */
-    border-radius: 0; /* Remover bordes redondeados */
-    height: auto !important; /* Reset height */
-    background: transparent !important; /* Ensure no button BG */
+    justify-content: flex-start; 
+    color: var(--nav-mobile-text); /* Use mobile text color */
+    font-weight: 500; 
+    border-radius: 0; 
+    height: auto !important; 
+    background: transparent !important; 
     transition: var(--transition);
-    display: flex; /* Ensure flex for alignment */
+    display: flex; 
     align-items: center;
-    gap: var(--nav-icon-margin); /* Gap for icon */
+    gap: var(--nav-icon-margin); 
 }
 .mobile-nav-link:hover,
 .mobile-dropdown-button:hover,
 .mobile-dropdown-button[data-state=open] {
-    background-color: hsl(var(--accent) / 0.1) !important; /* Fondo sutil */
-    color: var(--nav-text-hover); /* Use primary hover color */
+    background-color: var(--nav-mobile-link-hover-bg) !important; 
+    color: var(--nav-mobile-link-hover-text); 
 }
-/* Mobile dropdown icon position */
+.mobile-nav-link .nav-icon,
+.mobile-dropdown-button .nav-icon {
+    color: var(--nav-mobile-text); /* Ensure icons also use mobile text color */
+}
+.mobile-nav-link:hover .nav-icon,
+.mobile-dropdown-button:hover .nav-icon,
+.mobile-dropdown-button[data-state=open] .nav-icon {
+    color: var(--nav-mobile-link-hover-text); /* Match text hover color */
+}
+
+
 .mobile-dropdown-button .dropdown-icon {
-    margin-left: auto; /* Push chevron to the right */
+    margin-left: auto; 
+    color: var(--nav-mobile-text); /* Chevron icon color */
 }
 .mobile-dropdown-button[data-state=open] .dropdown-icon {
    transform: rotate(180deg);
+   color: var(--nav-mobile-link-hover-text); /* Chevron hover color */
 }
 
-/* Dropdown dentro del menú móvil */
 .mobile-menu .dropdown-menu {
-    /* Shadcn/Radix handles the basic structure */
-    background-color: hsl(var(--muted) / 0.5) !important; /* Slightly different bg for sub-menu */
+    background-color: hsl(var(--primary) / 0.9) !important; /* Slightly lighter than main mobile nav bg */
     box-shadow: none !important;
     border: none !important;
-    padding-left: calc(var(--nav-icon-margin) + var(--nav-icon-size) + 1rem) !important; /* Indentación */
+    padding-left: calc(var(--nav-icon-margin) + var(--nav-icon-size) + 1rem) !important; 
     margin: 0 !important;
     border-radius: 0 !important;
 }
 
 .mobile-dropdown-item {
-    padding: 0.5rem 1rem 0.5rem 0 !important; /* Padding solo a derecha/vertical */
-    font-size: 0.875rem; /* Tailwind `text-sm` */
-    color: hsl(var(--muted-foreground)) !important;
+    padding: 0.5rem 1rem 0.5rem 0 !important; 
+    font-size: 0.875rem; 
+    color: var(--nav-mobile-text) !important; /* Ensure text has good contrast */
     transition: var(--transition);
 }
 .mobile-dropdown-item:hover, .mobile-dropdown-item:focus {
-    background: hsl(var(--accent) / 0.1) !important;
-    color: var(--nav-text-hover) !important; /* Use primary hover color */
+    background: var(--nav-mobile-link-hover-bg) !important;
+    color: var(--nav-mobile-link-hover-text) !important; 
+}
+.mobile-dropdown-item .nav-icon {
+    color: var(--nav-mobile-text) !important; /* Sub-item icon color */
+}
+.mobile-dropdown-item:hover .nav-icon, .mobile-dropdown-item:focus .nav-icon {
+    color: var(--nav-mobile-link-hover-text) !important; /* Match text hover color */
 }
 
-/* Overlay para menú móvil */
 .nav-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Semi-transparente */
-    z-index: 40; /* Debajo del Sheet (z-50 por defecto) */
+    background: rgba(0, 0, 0, 0.4); 
+    z-index: 40; 
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    backdrop-filter: blur(1px); /* Efecto blur sutil */
+    backdrop-filter: blur(1px); 
 }
 
 .nav-overlay.active {
@@ -277,12 +277,8 @@
     visibility: visible;
 }
 
-/* Ajustes finos responsivos */
-@media (min-width: 1024px) { /* Tailwind `lg` breakpoint */
-  /* Ocultar overlay en desktop */
+@media (min-width: 1024px) { 
   .nav-overlay {
     display: none;
   }
 }
-/* Removed media queries that were hiding .logo-text by default */
-/* The client-side logic in Header.tsx will handle hiding/showing based on isMobile */

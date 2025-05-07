@@ -74,19 +74,23 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
             <DropdownMenuContent className={cn("dropdown-menu", isMobile && "w-[calc(100%-2rem)] ml-4 mt-1")}> {/* Adjust width/margin for mobile */}
               {item.subItems.map((subItem) => (
                 <DropdownMenuItem key={subItem.title} asChild className={cn(isMobile ? 'mobile-dropdown-item' : 'dropdown-item')}>
-                  <Link href={subItem.href} onClick={closeSheet}>
-                    {subItem.icon && <subItem.icon className="nav-icon mr-2" />} {/* Sub-item icon */}
-                    {subItem.title}
-                  </Link>
+                  <SheetClose asChild>
+                    <Link href={subItem.href} onClick={closeSheet}>
+                      {subItem.icon && <subItem.icon className="nav-icon mr-2" />} {/* Sub-item icon */}
+                      {subItem.title}
+                    </Link>
+                  </SheetClose>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Link href={item.href!} className={cn(isMobile ? 'mobile-nav-link' : 'nav-link')} onClick={closeSheet}>
-            {item.icon && <item.icon className="nav-icon" />}
-            {item.title}
-          </Link>
+          <SheetClose asChild>
+            <Link href={item.href!} className={cn(isMobile ? 'mobile-nav-link' : 'nav-link')} onClick={closeSheet}>
+              {item.icon && <item.icon className="nav-icon" />}
+              {item.title}
+            </Link>
+          </SheetClose>
         )}
       </li>
     ))}
@@ -96,7 +100,7 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
-  const isMobile = useIsMobile(); // Assuming useIsMobile hook exists and works correctly
+  const isMobile = useIsMobile(); 
 
   React.useEffect(() => {
     setMounted(true);
@@ -109,13 +113,13 @@ export function Header() {
   const NavOverlay = () => (
     <div
       className={`nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-      onClick={closeMobileMenu} // Close menu when overlay is clicked
+      onClick={closeMobileMenu} 
     />
   );
 
   return (
     <header className="main-nav">
-      <div className="container mx-auto px-4 py-2">
+      <div className={cn("container mx-auto px-4 py-2", !mounted || !isMobile ? "nav-container" : "")}>
         <div className="flex justify-between items-center">
           {/* Logo y nombre */}
           <Link href="/" className="flex items-center space-x-2 py-2 nav-logo">
@@ -126,42 +130,49 @@ export function Header() {
               height={50}
               className="h-10 sm:h-12 w-auto transition-all logo-image"
             />
-            <div className={cn("logo-text", mounted && isMobile ? "hidden" : "flex flex-col md:flex")}>
+            <div className={cn("logo-text", mounted && isMobile ? "" : "hidden md:flex md:flex-col")}>
               <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
               <p className="text-mikado_yellow text-xs">Tu Solución Confiable</p>
             </div>
           </Link>
 
           {/* Menú Desktop */}
-          <div className="hidden lg:block">
-            <NavItemsRenderer items={navItems} isMobile={false} />
-          </div>
+          {mounted && !isMobile && (
+            <div className="hidden lg:block">
+              <NavItemsRenderer items={navItems} isMobile={false} />
+            </div>
+          )}
+          
 
           {/* Menú móvil Toggle button */}
-          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden text-white focus:outline-none p-2 rounded-md hover:bg-persian_blue-700 transition-colors mobile-menu-button"
-                aria-label="Abrir menú"
-              >
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="mobile-menu w-[300px] sm:w-[350px] p-0">
-              <Link href="/" className="nav-logo p-4 border-b border-nav-mobile-border block" onClick={closeMobileMenu}>
-                <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image inline-block mr-2" />
-                <div className="logo-text inline-block align-middle">
-                  <h1 className="logo-title text-base">Envios DosRuedas</h1>
-                   <p className="text-xs text-mikado_yellow">Tu Solución Confiable</p>
-                 </div>
-              </Link>
-              <nav className="p-4">
-                <NavItemsRenderer items={navItems} isMobile={true} closeSheet={closeMobileMenu} />
-              </nav>
-            </SheetContent>
-          </Sheet>
+          {mounted && isMobile && (
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="lg:hidden text-white focus:outline-none p-2 rounded-md hover:bg-persian_blue-700 transition-colors mobile-menu-button"
+                  aria-label="Abrir menú"
+                >
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="mobile-menu w-[300px] sm:w-[350px] p-0">
+                <SheetClose asChild>
+                <Link href="/" className="nav-logo p-4 border-b border-nav-mobile-border block" onClick={closeMobileMenu}>
+                  <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image inline-block mr-2" />
+                  <div className="logo-text inline-block align-middle">
+                    <h1 className="logo-title text-base">Envios DosRuedas</h1>
+                    <p className="text-xs text-mikado_yellow">Tu Solución Confiable</p>
+                  </div>
+                </Link>
+                </SheetClose>
+                <nav className="p-4">
+                  <NavItemsRenderer items={navItems} isMobile={true} closeSheet={closeMobileMenu} />
+                </nav>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
       </div>
        {mounted && isMobileMenuOpen && <NavOverlay />}
