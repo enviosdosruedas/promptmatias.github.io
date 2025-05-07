@@ -6,9 +6,10 @@ import { Handshake, PackageSearch, BadgePercent } from 'lucide-react';
 import { HeroEmprendedores } from '@/components/sections/HeroEmprendedores';
 import { InfoEmprendedores } from '@/components/sections/info-emprendedores'; 
 import { PrecioEmprendedores } from '@/components/sections/precio-emprendedores'; 
-import { CompromisoEmprendedores } from '@/components/sections/CompromisoEmprendedores'; // Import the new CompromisoEmprendedores component
-import { RecomendacionesEmprendedores } from '@/components/sections/RecomendacionesEmprendedores'; // Import the new component
-import { ListoEmprendedores } from '@/components/sections/ListoEmprendedores'; // Import the new ListoEmprendedores component
+import { CompromisoEmprendedores } from '@/components/sections/CompromisoEmprendedores';
+import { RecomendacionesEmprendedores } from '@/components/sections/RecomendacionesEmprendedores';
+import { ComenzarEmprendedores } from '@/components/sections/ComenzarEmprendedores'; // New import
+import { ListoEmprendedores } from '@/components/sections/ListoEmprendedores'; 
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; 
 
 export default function EnviosEmprendedoresPage() {
@@ -17,8 +18,9 @@ export default function EnviosEmprendedoresPage() {
      <HeroEmprendedores />
       <InfoEmprendedores /> 
       <PrecioEmprendedores /> 
-      <CompromisoEmprendedores /> {/* Integrate the CompromisoEmprendedores component here */}
+      <CompromisoEmprendedores />
       <RecomendacionesEmprendedores /> 
+      <ComenzarEmprendedores /> {/* Integrate the new component */}
       <ListoEmprendedores /> 
        <BannerRedesSociales /> 
     </>
