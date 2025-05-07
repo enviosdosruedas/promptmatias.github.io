@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Handshake, PackageSearch, BadgePercent } from 'lucide-react';
 import { HeroEmprendedores } from '@/components/sections/HeroEmprendedores'; // Import the new Hero component
-import { InfoEmprendedores } from '@/components/sections/info-emprendedores'; // Import the new InfoEmprendedores component
-import { PrecioEmprendedores } from '@/components/sections/precio-emprendedores'; // Import the new Pricing component
-import { CompromisoEmprendedores } from '@/components/sections/compromiso-emprendedores'; // Import the new CompromisoEmprendedores component
-import { RecomendacionesEmprendedores } from '@/components/sections/recomendaciones-emprendedores'; // Import the new component
-import { ListoEmprendedores } from '@/components/sections/listo-emprendedores'; // Import the new ListoEmprendedores component
-import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import banner
+import { InfoEmprendedores } from '@/components/sections/info-emprendedores'; 
+import { PrecioEmprendedores } from '@/components/sections/precio-emprendedores'; 
+import { CompromisoEmprendedores } from '@/components/sections/compromiso-emprendedores'; 
+import { RecomendacionesEmprendedores } from '@/components/sections/recomendaciones-emprendedores'; 
+import { ListoEmprendedores } from '@/components/sections/listo-emprendedores'; 
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; 
 
 export default function EnviosEmprendedoresPage() {
   return (
