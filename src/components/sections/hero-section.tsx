@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Bike, ShieldCheck, Zap, PiggyBank, Mail, Calculator } from 'lucide-react';
+import { ChevronDown, ShieldCheck, Zap, PiggyBank, Mail, Calculator } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function HeroSection() {
@@ -26,8 +26,7 @@ export function HeroSection() {
             </div>
             {/* Main Title */}
             <div className="animate-fade-in animation-delay-400">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-primary flex items-center justify-center lg:justify-start">
-                <Bike className="mr-3 h-10 w-10 sm:h-12 sm:w-12 xl:h-14 xl:w-14 text-primary" />
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-accent flex items-center justify-center lg:justify-start">
                 Envios DosRuedas
               </h1>
             </div>
