@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Info, MessageSquare, MapPinIcon } from "lucide-react"; 
+import { Terminal, Info, MessageSquare, MapPinIcon, Rocket } from "lucide-react"; 
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -19,7 +19,7 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
-const CalculoCotizadorNuevo: React.FC = () => {
+const CaluloCotizadorExpress: React.FC = () => {
   const [origen, setOrigen] = useState<string>('');
   const [destino, setDestino] = useState<string>('');
   const [distancia, setDistancia] = useState<string | null>(null);
@@ -27,6 +27,7 @@ const CalculoCotizadorNuevo: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [mapLoading, setMapLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
@@ -37,12 +38,13 @@ const CalculoCotizadorNuevo: React.FC = () => {
   const marcadorDestinoRef = useRef<google.maps.Marker | null>(null);
 
   const initMap = useCallback(() => {
-    if (!window.google || !window.google.maps || !mapRef.current) {
-      // setError("Error al cargar el mapa. Intente de nuevo o verifique la configuración de la API Key.");
-      // setMapLoading(false);
-      // console.error("Google Maps API not loaded or mapRef is null");
+    if (!window.google || !window.google.maps || !mapRef.current || mapInstanceRef.current) {
+      if (!window.google || !window.google.maps) console.error("Google Maps API not loaded.");
+      if (!mapRef.current) console.error("Map container not found.");
+      if (mapInstanceRef.current) console.log("Map already initialized.");
       return;
     }
+    console.log("Initializing map...");
 
     const marDelPlata = { lat: -38.0055, lng: -57.5426 };
     const map = new window.google.maps.Map(mapRef.current, {
@@ -62,14 +64,22 @@ const CalculoCotizadorNuevo: React.FC = () => {
     });
     geocoderRef.current = new window.google.maps.Geocoder();
     setMapLoading(false);
+    console.log("Map initialized successfully.");
   }, []);
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
-      if (window.google && window.google.maps) {
-        initMap();
+      const scriptId = "google-maps-script";
+      if (document.getElementById(scriptId)) {
+        if (window.google && window.google.maps && !mapInstanceRef.current) {
+          console.log("Google Maps script already loaded, initializing map.");
+          initMap();
+        } else if (mapInstanceRef.current) {
+            console.log("Map already initialized, skipping script load.");
+        }
         return;
       }
+      
       const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
       if (!apiKey) {
         console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
@@ -77,51 +87,51 @@ const CalculoCotizadorNuevo: React.FC = () => {
         setMapLoading(false);
         return;
       }
-
-      const scriptId = "google-maps-script";
-      if (document.getElementById(scriptId)) {
-        if (window.google && window.google.maps && !mapInstanceRef.current) {
-         initMap();
-        }
-        return;
-      }
+      console.log("Loading Google Maps script...");
       
-      window.initMapGlobally = initMap;
+      (window as any).initMapGlobally = initMap;
 
       const script = document.createElement('script');
       script.id = scriptId;
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMapGlobally&libraries=marker,geometry`; 
       script.async = true;
       script.defer = true;
+      script.onerror = () => {
+        console.error("Failed to load Google Maps script.");
+        setError("Error al cargar el script del mapa.");
+        setMapLoading(false);
+      };
       document.head.appendChild(script);
-      
-      // No cleanup function to remove the script to avoid multiple loads
     };
-    loadGoogleMapsScript();
+
+    if (typeof window !== 'undefined') {
+        loadGoogleMapsScript();
+    }
+    
   }, [initMap]);
 
 
   const calcularPrecio = (distanciaKm: number) => {
     let precioValor: number | string;
-    if (distanciaKm <= 2.9) {
-      precioValor = 2000;
-    } else if (distanciaKm > 2.9 && distanciaKm <= 4.9) {
-      precioValor = 2700;
-    } else if (distanciaKm > 4.9 && distanciaKm <= 8.9) {
-      precioValor = 3800;
-    } else if (distanciaKm > 8.9 && distanciaKm <= 13) {
+    if (distanciaKm <= 3) {
+      precioValor = 2500;
+    } else if (distanciaKm > 3 && distanciaKm <= 5) {
+      precioValor = 3100;
+    } else if (distanciaKm > 5 && distanciaKm <= 6) {
+      precioValor = 3900;
+    } else if (distanciaKm > 6 && distanciaKm <= 7) {
+      precioValor = 4600;
+    } else if (distanciaKm > 7 && distanciaKm <= 8) {
       precioValor = 5400;
-    } else if (distanciaKm > 13 && distanciaKm <= 15) {
-      precioValor = 7600;
-    } else if (distanciaKm > 15 && distanciaKm <= 17) {
-      precioValor = 7600; 
-    } else if (distanciaKm > 17 && distanciaKm <= 19) {
-      precioValor = 9500;
-    } else if (distanciaKm > 19 && distanciaKm <= 21) {
-      precioValor = 9500; 
+    } else if (distanciaKm > 8 && distanciaKm <= 9) {
+      precioValor = 6000;
+    } else if (distanciaKm > 9 && distanciaKm <= 10) {
+      precioValor = 6850;
     } else {
-      precioValor = "Consulte por WhatsApp";
+      const kmExtra = Math.ceil(distanciaKm - 10);
+      precioValor = 7000 + (kmExtra * 700);
     }
+
 
     if (typeof precioValor === 'number') {
       setPrecio(`$${precioValor.toLocaleString('es-AR')}`);
@@ -234,9 +244,12 @@ const CalculoCotizadorNuevo: React.FC = () => {
   return (
     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 lg:p-8 bg-card shadow-xl rounded-lg animate-fade-in">
       <div className="mb-6 text-center">
-        <h3 className="text-2xl font-semibold text-primary">Cotizador de Envíos Low Cost</h3>
+        <h3 className="text-2xl font-semibold text-primary flex items-center justify-center">
+          <Rocket className="mr-2 h-6 w-6 text-accent" />
+          Cotizador de Envíos Express
+        </h3>
         <p className="text-muted-foreground mt-1">
-          Ingresa las direcciones para estimar el costo de tu envío económico.
+          Calculá el costo de tu envío express. Ingresá las direcciones de origen y destino para obtener una cotización instantánea.
         </p>
       </div>
       <div className="grid md:grid-cols-2 gap-8">
@@ -292,7 +305,7 @@ const CalculoCotizadorNuevo: React.FC = () => {
           </div>
           </TooltipProvider>
           <Button onClick={calcularRuta} disabled={loading || mapLoading} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 py-3 text-base font-semibold transition-transform hover:scale-105 duration-200">
-            {loading ? 'Calculando...' : 'Calcular Ruta y Precio'}
+            {loading ? 'Calculando...' : 'Calcular Ruta y Precio Express'}
           </Button>
           {error && (
              <Alert variant="destructive" className="animate-fade-in">
@@ -303,7 +316,7 @@ const CalculoCotizadorNuevo: React.FC = () => {
           )}
           <div className="space-y-2 text-foreground/80 animate-fade-in animation-delay-200">
             {distancia && <p id="distancia" className="text-lg">Distancia: <span className="font-semibold text-primary">{distancia}</span></p>}
-            {precio && <p id="precio" className="text-lg">Precio estimado: <span className="font-semibold text-primary">{precio}</span></p>}
+            {precio && <p id="precio" className="text-lg">Precio Express estimado: <span className="font-semibold text-primary">{precio}</span></p>}
           </div>
 
           <Alert className="mt-6 animate-fade-in animation-delay-400">
@@ -315,13 +328,15 @@ const CalculoCotizadorNuevo: React.FC = () => {
           </Alert>
           <div className="mt-4 text-center animate-fade-in animation-delay-400">
             <Button asChild variant="outline" className="border-green-600 text-green-700 hover:bg-green-50 hover:text-green-700 shadow-sm">
-                <Link href="https://wa.me/+542236602699?text=Hola!%20Quisiera%20una%20cotización%20exacta%20para%20mi%20envío%20LowCost." target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <Link href="https://wa.me/+542236602699?text=Hola!%20Quisiera%20una%20cotización%20exacta%20para%20mi%20envío%20Express." target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                     <WhatsAppIcon className="h-5 w-5"/>
                     <span>WhatsApp para cotización exacta: 223-660-2699</span>
                 </Link>
             </Button>
           </div>
-
+            <p className="text-center mt-8 text-sm text-foreground/70">
+                Para envíos más económicos, utilizá nuestro <Link href="/cotizador-envios-lowcost" className="text-secondary underline hover:text-secondary/80">Cotizador Low Cost</Link>.
+            </p>
         </div>
         <div className="relative animate-fade-in">
           {mapLoading && (
@@ -336,7 +351,7 @@ const CalculoCotizadorNuevo: React.FC = () => {
   );
 };
 
-export default CalculoCotizadorNuevo;
+export default CaluloCotizadorExpress;
 
 // Ensure google is available on the window object for the callback
 declare global {
