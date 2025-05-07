@@ -1,80 +1,72 @@
 /* Estilos específicos para el footer */
 
-/* Define CSS variables or use Tailwind theme variables */
 :root {
-  /* Using Shadcn HSL variables defined in globals.css */
+  /* Shadcn HSL variables (ensure these are defined in globals.css or tailwind.config.ts) */
   --footer-bg: hsl(var(--muted));
   --footer-text: hsl(var(--muted-foreground));
-  --footer-primary: hsl(var(--primary)); /* Mapped in globals.css */
-  --footer-accent: hsl(var(--accent)); /* Mapped in globals.css */
+  --footer-primary: hsl(var(--primary));
+  --footer-accent: hsl(var(--accent));
   --footer-accent-foreground: hsl(var(--accent-foreground));
   --footer-primary-foreground: hsl(var(--primary-foreground));
-  --footer-secondary-foreground: hsl(var(--secondary-foreground));
-  --footer-background: hsl(var(--background)); /* Added background for icon hovers */
+  --footer-popover-bg: hsl(var(--popover)); /* For dropdown background */
+  --footer-popover-foreground: hsl(var(--popover-foreground)); /* For dropdown text */
   --footer-border: hsl(var(--border));
+  --radius-sm: calc(var(--radius) - 4px); /* Shadcn like radius */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
-  --footer-gap: 2rem; /* Gap for the grid */
+  --footer-gap: 2rem;
   --font-size-lg: 1.125rem; /* 18px */
   --font-size-base: 1rem; /* 16px */
   --font-size-sm: 0.875rem; /* 14px */
   --font-weight-bold: 600;
-  --transition: all 0.3s ease;
+  --transition-fast: all 0.2s ease-in-out;
+  --transition-std: all 0.3s ease-in-out;
 }
 
 .main-footer {
   background: var(--footer-bg);
   color: var(--footer-text);
-  border-radius: 0 !important; /* Override potential Shadcn rounding */
   padding: var(--spacing-xl) 0 var(--spacing-md);
-  border-top: 1px solid var(--footer-border); /* Added top border */
+  border-top: 1px solid var(--footer-border);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted minmax */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Min width for columns */
   gap: var(--footer-gap);
   margin-bottom: var(--spacing-xl);
 }
 
-/* Logo del footer */
 .footer-logo-flex {
-  display: flex; /* Ensure flex layout */
-  align-items: center; /* Vertically align items */
-  gap: 10px !important;
-}
-
-.footer-logo-link {
-  height: fit-content !important;
-  width: fit-content !important;
-  display: inline-block; /* Allow image to size correctly */
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md); /* Increased gap */
+  margin-bottom: var(--spacing-md); /* Add some bottom margin */
 }
 
 .footer-logo-img {
-    max-width: 50px; /* Reduced max-width for better proportion */
-    height: auto !important;
-    /* margin-bottom: 25px;  Removed, spacing handled by flex gap */
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15)); /* Softer shadow */
-    width: auto !important;
+  max-width: 60px; /* Slightly larger logo */
+  height: auto;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
 }
 
-
-.footer-spacer {
-  margin-bottom: 20px !important;
+.footer-title-main { /* Specific class for the main brand title */
+  font-size: 1.25rem; /* Tailwind text-xl */
+  font-weight: 700; /* Tailwind font-bold */
+  color: var(--footer-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
-/* Títulos del footer */
 .footer-title {
   font-size: var(--font-size-lg);
-  margin-bottom: var(--spacing-lg);
-  color: var(--footer-primary); /* Use primary color for titles */
+  margin-bottom: var(--spacing-md); /* Consistent spacing */
+  color: var(--footer-primary);
   font-weight: var(--font-weight-bold);
 }
 
-/* Enlaces del footer */
 .footer-links {
   list-style: none;
   padding: 0;
@@ -83,90 +75,133 @@
 
 .footer-links li {
   margin-bottom: var(--spacing-sm);
-  position: relative;
+  position: relative; /* For dropdown positioning */
 }
 
 .footer-links a {
   color: var(--footer-text);
   display: flex;
   align-items: center;
-  transition: var(--transition);
   text-decoration: none;
-  font-size: var(--font-size-sm); /* Match overall text size */
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-xs) 0; /* Add some padding for better click area */
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
 .footer-links a:hover {
-  color: var(--footer-accent); /* Use accent for hover */
-  /* Optional: remove transform for cleaner look */
-  /* transform: translateX(5px); */
+  color: var(--footer-accent);
+  /* transform: translateX(3px); /* Subtle hover effect */
 }
 
-/* Dropdown en el footer */
+.footer-links .lucide-icon {
+  margin-right: var(--spacing-sm); /* Space between icon and text */
+  width: 1em; /* Control icon size relative to font */
+  height: 1em;
+  flex-shrink: 0; /* Prevent icon shrinking */
+  color: var(--footer-primary); /* Icon color matching titles */
+}
+.footer-links a:hover .lucide-icon {
+  color: var(--footer-accent); /* Match text hover color */
+}
+
+
+/* Dropdown Styles */
 .footer-links .dropdown {
   position: relative;
 }
 
-.footer-links .dropdown > a {
-  cursor: pointer; /* Indicate interactivity */
+.footer-links .dropdown > a .lucide-chevron { /* Style chevron specifically if needed */
+  margin-left: auto;
+  transition: transform var(--transition-fast);
+}
+
+.footer-links .dropdown:hover > a .lucide-chevron {
+  transform: rotate(180deg);
 }
 
 .footer-links .dropdown-content {
-  /* Use padding/margin for nesting instead of display none/block */
-  padding-left: var(--spacing-lg);
-  margin-top: var(--spacing-xs);
-  /* Remove hover logic, handle via Shadcn/Radix components */
+  display: none; /* Hidden by default */
+  position: absolute;
+  bottom: calc(100% + var(--spacing-xs)); /* Position above the parent with a small gap */
+  left: 0;
+  background-color: var(--footer-popover-bg);
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm);
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s linear 0.2s;
+  visibility: hidden;
 }
 
+.footer-links .dropdown:hover .dropdown-content {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition-delay: 0s;
+}
 
 .footer-links .dropdown-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .footer-links .dropdown-content a {
-  padding: var(--spacing-xs) 0;
-  font-size: 0.85rem; /* Slightly smaller for sub-items */
-  color: var(--footer-text); /* Muted color for sub-items */
-}
-.footer-links .dropdown-content a:hover {
-    color: var(--footer-accent); /* Hover for sub-items */
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--footer-popover-foreground);
+  white-space: nowrap;
 }
 
-/* Información de contacto */
+.footer-links .dropdown-content a:hover {
+  background-color: var(--footer-accent);
+  color: var(--footer-accent-foreground);
+  border-radius: var(--radius-sm); /* Add radius on hover for sub-items */
+}
+.footer-links .dropdown-content a .lucide-icon {
+  color: var(--footer-accent); /* Sub-item icon color */
+}
+.footer-links .dropdown-content a:hover .lucide-icon {
+  color: var(--footer-accent-foreground);
+}
+
+
+/* Contact Info */
 .contact-info {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  font-size: var(--font-size-sm); /* Match text size */
+  font-size: var(--font-size-sm);
 }
 
 .contact-item {
   display: flex;
-  align-items: flex-start; /* Align icon top */
+  align-items: center; /* Vertically center icon and text */
   gap: var(--spacing-sm);
 }
 
-.contact-item .lucide { /* Target Lucide icons */
-  color: var(--footer-primary); /* Use primary for icons */
-  width: 1rem; /* Consistent icon size */
-  height: 1rem;
-  flex-shrink: 0; /* Prevent icon shrinking */
-  margin-top: 0.125rem; /* Slight adjustment for alignment */
+.contact-item .lucide {
+  color: var(--footer-primary);
+  width: 1.125rem; /* 18px */
+  height: 1.125rem;
+  flex-shrink: 0;
 }
 
-
-.whatsapp-link { /* Reusing class for mailto */
+.whatsapp-link { /* Also used for mailto */
   color: var(--footer-text);
   text-decoration: none;
-  transition: var(--transition);
+  transition: color var(--transition-fast);
 }
 
 .whatsapp-link:hover {
-  color: var(--footer-accent); /* Use accent for hover */
+  color: var(--footer-accent);
 }
 
-/* Redes sociales */
+/* Social Media */
 .social-container {
   margin-top: var(--spacing-lg);
 }
@@ -174,7 +209,7 @@
 .social-title {
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-sm);
-  color: var(--footer-primary); /* Use primary color */
+  color: var(--footer-primary);
   font-weight: 500;
 }
 
@@ -187,116 +222,137 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px; /* Slightly smaller */
-  height: 36px;
+  width: 38px; /* Slightly larger */
+  height: 38px;
   border-radius: 50%;
-  background-color: var(--footer-background); /* Use background */
-  color: var(--footer-primary); /* Use primary color for icons */
-  transition: var(--transition);
-  border: 1px solid var(--footer-border); /* Add subtle border */
+  background-color: hsl(var(--primary) / 0.1); /* Subtle background using primary */
+  color: var(--footer-primary);
+  transition: var(--transition-std);
+  border: 1px solid transparent; /* Prepare for potential border on hover */
 }
+
 .social-icon:hover {
   background-color: var(--footer-accent);
-  color: var(--footer-accent-foreground); /* Use accent foreground */
-  transform: translateY(-2px); /* Slightly less movement */
-  border-color: transparent; /* Remove border on hover */
+  color: var(--footer-accent-foreground);
+  transform: translateY(-2px) scale(1.05); /* Add scale for more pop */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Add subtle shadow on hover */
+}
+.social-icon .lucide {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem;
 }
 
 
-/* Parte inferior del footer */
+/* Footer Bottom */
 .footer-bottom {
   border-top: 1px solid var(--footer-border);
   padding-top: var(--spacing-md);
   text-align: center;
-  margin-top: var(--spacing-xl); /* Add margin top */
+  margin-top: var(--spacing-xl);
 }
 
 .copyright {
   font-size: var(--font-size-sm);
-  color: var(--footer-text); /* Use muted foreground */
+  color: var(--footer-text);
   margin-bottom: 0;
 }
 
-/* Botón volver arriba */
+/* Back to Top Button */
 .back-to-top {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 40px; /* Adjusted size */
-  height: 40px;
+  width: 44px; /* Adjusted size */
+  height: 44px;
   border-radius: 50%;
-  background-color: var(--footer-primary); /* Use primary color */
-  color: var(--footer-primary-foreground); /* Use primary foreground */
+  background-color: var(--footer-primary);
+  color: var(--footer-primary-foreground);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Smoother transition */
+  transform: translateY(20px) scale(0.9); /* Start slightly lower and smaller */
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out, transform 0.3s ease-out;
   z-index: 999;
   border: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Adjusted shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .back-to-top.visible {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0) scale(1); /* Animate to original position and size */
 }
 
 .back-to-top:hover {
-  background-color: var(--footer-accent); /* Use accent color on hover */
+  background-color: var(--footer-accent);
   color: var(--footer-accent-foreground);
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.05); /* Enhanced hover effect */
 }
+.back-to-top .lucide {
+    width: 1.25rem; /* 20px */
+    height: 1.25rem;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
   .footer-grid {
-    grid-template-columns: 1fr; /* Stack columns on mobile */
-    gap: var(--spacing-xl);
-    text-align: center; /* Center align text in columns */
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg); /* Slightly reduced gap for mobile */
+    text-align: center;
   }
 
   .footer-logo-flex {
-      justify-content: center; /* Center logo section */
+      justify-content: center;
   }
 
-  .footer-title {
-      text-align: center; /* Center titles */
+  .footer-title, .social-title {
+      text-align: center;
   }
 
-  .footer-links li, .footer-links .dropdown > a {
-      justify-content: center; /* Center links */
+  .footer-links a, .contact-item, .social-links {
+      justify-content: center;
   }
   .footer-links .dropdown-content {
-      padding-left: 0; /* Remove indent for sub-items */
-      text-align: center; /* Center sub-items */
+      padding-left: 0; 
+      text-align: center;
+      position: static; /* Let dropdown content flow naturally on mobile */
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      display: none; /* Initially hidden, toggle with JS or keep hover for desktop-like behavior if simple */
+      background-color: transparent;
+      box-shadow: none;
+      border: none;
+      padding-top: var(--spacing-xs);
+  }
+  .footer-links .dropdown:hover .dropdown-content {
+      display: block; /* Still use hover for simplicity if no JS toggle */
+  }
+   .footer-links .dropdown-content a {
+    color: var(--footer-text); /* Match main link color on mobile */
+    padding: var(--spacing-xs) 0;
+  }
+  .footer-links .dropdown-content a:hover {
+    color: var(--footer-accent);
+    background-color: transparent;
   }
 
   .contact-info {
-    align-items: center; /* Center contact items */
-  }
-  .contact-item {
-    justify-content: center; /* Center contact items */
-  }
-
-  .social-container {
-      text-align: center; /* Center social title */
-  }
-
-  .social-links {
-    justify-content: center; /* Center social icons */
+    align-items: center;
   }
 
   .back-to-top {
     bottom: 20px;
     right: 20px;
-    width: 36px; /* Slightly smaller */
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
-    .back-to-top .lucide {
-        width: 1rem; /* Adjust icon size */
-        height: 1rem;
+   .back-to-top .lucide {
+        width: 1.125rem; /* 18px */
+        height: 1.125rem;
     }
 }
