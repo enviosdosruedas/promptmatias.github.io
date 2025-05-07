@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { HeroDeliveyMotoFija } from '@/components/sections/HeroDeliveyMotoFija'; // Import the new Hero component
+import { CaracteristicasDeliveyMotoFija } from '@/components/sections/CaracteristicasDeliveyMotoFija'; // Import the new Caracteristicas component
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
 
 
@@ -42,6 +43,7 @@ export default function DeliveryMotoFijaPage() {
           </div>
         </div>
       </div>
+      <CaracteristicasDeliveyMotoFija /> {/* Integrate the Caracteristicas component here */}
       <BannerRedesSociales />
     </>
   );
