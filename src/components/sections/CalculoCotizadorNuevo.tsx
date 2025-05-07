@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -5,8 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Info, MessageSquare } from "lucide-react"; // Added Info and MessageSquare
+import { Terminal, Info, MessageSquare, MapPinIcon } from "lucide-react"; 
 import Link from 'next/link';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
 
 // WhatsApp Icon SVG Component
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -35,8 +38,9 @@ const CalculoCotizadorNuevo: React.FC = () => {
 
   const initMap = useCallback(() => {
     if (!window.google || !window.google.maps || !mapRef.current) {
-      setError("Error al cargar el mapa. Intente de nuevo o verifique la configuración de la API Key.");
-      setMapLoading(false);
+      // setError("Error al cargar el mapa. Intente de nuevo o verifique la configuración de la API Key.");
+      // setMapLoading(false);
+      // console.error("Google Maps API not loaded or mapRef is null");
       return;
     }
 
@@ -76,28 +80,22 @@ const CalculoCotizadorNuevo: React.FC = () => {
 
       const scriptId = "google-maps-script";
       if (document.getElementById(scriptId)) {
-        // Script already loaded or loading
-        if (window.google && window.google.maps) {
-          initMap();
+        if (window.google && window.google.maps && !mapInstanceRef.current) {
+         initMap();
         }
         return;
       }
+      
+      window.initMapGlobally = initMap;
 
       const script = document.createElement('script');
       script.id = scriptId;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMapGlobally&libraries=marker,geometry`; // Added marker library for advanced markers
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMapGlobally&libraries=marker,geometry`; 
       script.async = true;
       script.defer = true;
-      window.initMapGlobally = initMap;
       document.head.appendChild(script);
-
-      return () => {
-        delete window.initMapGlobally;
-        const existingScript = document.getElementById(scriptId);
-        if (existingScript) {
-          // existingScript.remove(); // Avoid removing the script to prevent issues if other components use it
-        }
-      };
+      
+      // No cleanup function to remove the script to avoid multiple loads
     };
     loadGoogleMapsScript();
   }, [initMap]);
@@ -148,8 +146,8 @@ const CalculoCotizadorNuevo: React.FC = () => {
       map: mapInstanceRef.current,
       icon: {
         path: window.google.maps.SymbolPath.CIRCLE,
-        scale: 8, // Slightly smaller
-        fillColor: "hsl(var(--primary))", // Green for origin using theme
+        scale: 8, 
+        fillColor: "hsl(var(--primary))", 
         fillOpacity: 1,
         strokeColor: "hsl(var(--primary-foreground))",
         strokeWeight: 2,
@@ -163,8 +161,8 @@ const CalculoCotizadorNuevo: React.FC = () => {
       map: mapInstanceRef.current,
       icon: {
         path: window.google.maps.SymbolPath.CIRCLE,
-        scale: 8, // Slightly smaller
-        fillColor: "hsl(var(--accent))", // Orange for destination using theme
+        scale: 8, 
+        fillColor: "hsl(var(--accent))", 
         fillOpacity: 1,
         strokeColor: "hsl(var(--accent-foreground))",
         strokeWeight: 2,
@@ -173,12 +171,10 @@ const CalculoCotizadorNuevo: React.FC = () => {
       animation: window.google.maps.Animation.DROP,
     });
 
-    // Adjust map bounds to fit markers
     const bounds = new window.google.maps.LatLngBounds();
     bounds.extend(origenPos);
     bounds.extend(destinoPos);
     mapInstanceRef.current.fitBounds(bounds);
-    // Add a bit of padding if markers are too close to edges
     if (mapInstanceRef.current.getZoom()! > 15) {
         mapInstanceRef.current.setZoom(15);
     }
@@ -237,30 +233,64 @@ const CalculoCotizadorNuevo: React.FC = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 lg:p-8 bg-card shadow-xl rounded-lg animate-fade-in">
+      <div className="mb-6 text-center">
+        <h3 className="text-2xl font-semibold text-primary">Cotizador de Envíos Low Cost</h3>
+        <p className="text-muted-foreground mt-1">
+          Ingresa las direcciones para estimar el costo de tu envío económico.
+        </p>
+      </div>
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-6 animate-fade-in">
+        <TooltipProvider>
           <div>
-            <Label htmlFor="direccion-origen" className="block text-sm font-medium text-foreground">Dirección de Origen</Label>
-            <Input
-              id="direccion-origen"
-              type="text"
-              value={origen}
-              onChange={(e) => setOrigen(e.target.value)}
-              placeholder="Ej: Av. Colón 2000"
-              className="mt-1 block w-full rounded-md border-input shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-3"
-            />
+            <Label htmlFor="direccion-origen" className="block text-sm font-medium text-foreground mb-1">
+              Dirección de Origen
+               <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="inline-block ml-1 h-4 w-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Ingresa la calle y altura donde se retira el paquete.</p>
+                  </TooltipContent>
+                </Tooltip>
+            </Label>
+             <div className="flex items-center gap-2 rounded-md border border-input bg-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                <MapPinIcon className="h-5 w-5 text-muted-foreground ml-3 flex-shrink-0" />
+                <Input
+                id="direccion-origen"
+                type="text"
+                value={origen}
+                onChange={(e) => setOrigen(e.target.value)}
+                placeholder="Ej: Av. Colón 2000"
+                className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 flex-grow p-3"
+                />
+            </div>
           </div>
           <div>
-            <Label htmlFor="direccion-destino" className="block text-sm font-medium text-foreground">Dirección de Destino</Label>
-            <Input
-              id="direccion-destino"
-              type="text"
-              value={destino}
-              onChange={(e) => setDestino(e.target.value)}
-              placeholder="Ej: Juan B. Justo 1500"
-              className="mt-1 block w-full rounded-md border-input shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-3"
-            />
+            <Label htmlFor="direccion-destino" className="block text-sm font-medium text-foreground mb-1">
+                Dirección de Destino
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="inline-block ml-1 h-4 w-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Ingresa la calle y altura donde se entrega el paquete.</p>
+                  </TooltipContent>
+                </Tooltip>
+            </Label>
+            <div className="flex items-center gap-2 rounded-md border border-input bg-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                <MapPinIcon className="h-5 w-5 text-muted-foreground ml-3 flex-shrink-0" />
+                <Input
+                id="direccion-destino"
+                type="text"
+                value={destino}
+                onChange={(e) => setDestino(e.target.value)}
+                placeholder="Ej: Juan B. Justo 1500"
+                className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 flex-grow p-3"
+                />
+            </div>
           </div>
+          </TooltipProvider>
           <Button onClick={calcularRuta} disabled={loading || mapLoading} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 py-3 text-base font-semibold transition-transform hover:scale-105 duration-200">
             {loading ? 'Calculando...' : 'Calcular Ruta y Precio'}
           </Button>
@@ -280,14 +310,14 @@ const CalculoCotizadorNuevo: React.FC = () => {
             <Info className="h-5 w-5 text-secondary" />
             <AlertTitle className="text-secondary font-semibold">Importante</AlertTitle>
             <AlertDescription className="text-sm text-foreground/70">
-              Los valores son aproximados. Pueden existir adicionales (Distancia retiro, bulto, demora, lluvia, etc).
+              Los valores son aproximados. Pueden existir adicionales (Distancia retiro, bulto, demora, lluvia, etc). Para un valor exacto, comunícate por WhatsApp.
             </AlertDescription>
           </Alert>
           <div className="mt-4 text-center animate-fade-in animation-delay-400">
             <Button asChild variant="outline" className="border-green-600 text-green-700 hover:bg-green-50 hover:text-green-700 shadow-sm">
-                <Link href="https://wa.me/+542236602699?text=Hola!%20Quisiera%20una%20cotización%20exacta%20para%20mi%20envío." target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <Link href="https://wa.me/+542236602699?text=Hola!%20Quisiera%20una%20cotización%20exacta%20para%20mi%20envío%20LowCost." target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                     <WhatsAppIcon className="h-5 w-5"/>
-                    <span>Consultar por WhatsApp: 223-660-2699</span>
+                    <span>WhatsApp para cotización exacta: 223-660-2699</span>
                 </Link>
             </Button>
           </div>
@@ -307,3 +337,10 @@ const CalculoCotizadorNuevo: React.FC = () => {
 };
 
 export default CalculoCotizadorNuevo;
+
+// Ensure google is available on the window object for the callback
+declare global {
+  interface Window {
+    initMapGlobally?: () => void;
+  }
+}
