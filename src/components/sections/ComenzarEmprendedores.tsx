@@ -1,74 +1,45 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { BarChart, MessageCircle, FileText, CheckCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { MessageCircle } from 'lucide-react'; // Or another relevant icon
+
+// WhatsApp Icon SVG Component - Reusing from other components
+const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 4.315 1.731 6.086l-.579 2.168 2.129-.565z" />
+    </svg>
+  );
 
 export function ComenzarEmprendedores() {
   return (
-    <section className="w-full py-12 md:py-20 lg:py-24 bg-background">
+    <section className="w-full py-12 md:py-20 lg:py-24 bg-primary text-primary-foreground"> {/* Primary background */}
       <div className="container px-4 md:px-6">
-        <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-2 border-secondary text-secondary text-sm">
-             📘 Recomendaciones
-          </Badge>
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary">
-            Recomendaciones Generales
+        <div className="flex flex-col items-center justify-center space-y-6 text-center">
+           <div className="bg-background/10 p-4 rounded-full">
+            <MessageCircle className="h-12 w-12 text-accent" /> {/* Icon */}
+          </div>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            ¿Listo para comenzar?
           </h2>
-        </div>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 max-w-5xl mx-auto">
-          {/* Análisis de Costos Card */}
-          <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden">
-            <CardHeader className="items-center text-center pb-4">
-              <div className="bg-primary/10 p-3 rounded-full mb-3">
-                <BarChart className="h-8 w-8 text-primary" />
-              </div>
-              <CardTitle className="text-xl text-primary font-semibold">Análisis de Costos</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm text-foreground/80 text-center">
-                <li className="flex items-center justify-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-secondary flex-shrink-0" />
-                  <span>Revisa periódicamente tus costos de envío para mantener precios competitivos.</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* Comunicación Clara Card */}
-          <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden">
-            <CardHeader className="items-center text-center pb-4">
-              <div className="bg-primary/10 p-3 rounded-full mb-3">
-                <MessageCircle className="h-8 w-8 text-primary" />
-              </div>
-              <CardTitle className="text-xl text-primary font-semibold">Comunicación Clara</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm text-foreground/80 text-center">
-                <li className="flex items-center justify-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-secondary flex-shrink-0" />
-                  <span>Comunica de manera transparente tus tarifas fijas de envío a tus clientes.</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* Acuerdos con Clientes Card */}
-          <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden">
-            <CardHeader className="items-center text-center pb-4">
-              <div className="bg-primary/10 p-3 rounded-full mb-3">
-                 <FileText className="h-8 w-8 text-primary" />
-              </div>
-              <CardTitle className="text-xl text-primary font-semibold">Acuerdos con Clientes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm text-foreground/80 text-center">
-                <li className="flex items-center justify-center gap-2">
-                   <CheckCircle className="h-4 w-4 text-secondary flex-shrink-0" />
-                   <span>Establece términos y condiciones claros para tus servicios de envío.</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
+          <p className="max-w-[600px] text-primary-foreground/80 md:text-lg">
+            Contáctanos para más información sobre nuestros servicios de Emprendedores.
+          </p>
+          <Button
+            asChild
+            size="lg"
+            variant="secondary" // Use secondary variant for contrast on primary bg
+            className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg hover:scale-105 transition-transform" // Accent button style
+          >
+            <Link
+              href="https://wa.me/+542236602699?text=Hola!%20Encontré%20su%20contacto%20en%20el%20sitio%20web%20y%20me%20gustaría%20más%20información%20sobre%20el%20servicio%20de%20Delivery%20Moto%20Express."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              <WhatsAppIcon className="h-5 w-5" /> {/* WhatsApp Icon */}
+              <span>Contactar por WhatsApp</span>
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
