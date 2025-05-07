@@ -56,9 +56,17 @@
 }
 
 .logo-text {
-  display: flex;
+  display: flex; /* Default to flex for server render */
   flex-direction: column;
 }
+
+/* Desktop: Ensure .logo-text is block (or flex) */
+@media (min-width: 768px) { /* md breakpoint or your preferred breakpoint */
+  .logo-text {
+    display: flex; /* Or 'block' if that's the desktop style */
+  }
+}
+
 
 .logo-title {
   color: var(--nav-logo-title);
@@ -276,11 +284,5 @@
     display: none;
   }
 }
-@media (max-width: 768px) { /* Tailwind `md` breakpoint */
-    /* Optionally hide desktop logo text earlier if needed */
-     .nav-logo .logo-text {
-        /* display: none; */ /* This was already commented out, ensuring it stays visible if Tailwind classes allow */
-    }
-}
-/* Removed the rule that was hiding .nav-logo .logo-text on screens < 640px */
-/* @media (max-width: 640px) { ... } */
+/* Removed media queries that were hiding .logo-text by default */
+/* The client-side logic in Header.tsx will handle hiding/showing based on isMobile */

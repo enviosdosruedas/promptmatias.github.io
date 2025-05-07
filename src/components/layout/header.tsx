@@ -15,7 +15,6 @@ import { cn } from '@/lib/utils';
 import '@/styles/navbar.css';
 import * as React from "react";
 
-
 // Define navigation structure for reuse
 const navItems = [
   { title: 'Inicio', href: '/', icon: Home },
@@ -96,6 +95,14 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+  const isMobile = useIsMobile(); // Assuming useIsMobile hook exists and works correctly
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   // Overlay component
@@ -119,7 +126,7 @@ export function Header() {
               height={50}
               className="h-10 sm:h-12 w-auto transition-all logo-image"
             />
-            <div className="flex flex-col logo-text"> {/* Hydration fix: ensure this class matches server/client */}
+            <div className={cn("logo-text", mounted && isMobile ? "hidden" : "flex flex-col md:flex")}>
               <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
               <p className="text-mikado_yellow text-xs">Tu Solución Confiable</p>
             </div>
@@ -157,7 +164,9 @@ export function Header() {
           </Sheet>
         </div>
       </div>
-       {isMobileMenuOpen && <NavOverlay />}
+       {mounted && isMobileMenuOpen && <NavOverlay />}
     </header>
   );
 }
+// Import useIsMobile hook if it's not globally available or part of this file
+import { useIsMobile } from '@/hooks/use-mobile'; // Ensure this path is correct
