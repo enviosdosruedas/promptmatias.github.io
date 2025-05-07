@@ -6,6 +6,7 @@ import { HeroDeliveyMotoFija } from '@/components/sections/HeroDeliveyMotoFija';
 import { CaracteristicasDeliveyMotoFija } from '@/components/sections/CaracteristicasDeliveyMotoFija'; // Import the new Caracteristicas component
 import { CancelacionDeliveyMotoFija } from '@/components/sections/CancelacionDeliveyMotoFija'; // Import the new Cancelacion component
 import { CompromisoDeliveyMotoFija } from '@/components/sections/CompromisoDeliveyMotoFija'; // Import the new Compromiso component
+import { GuiaDeliveyMotoFija } from '@/components/sections/GuiaDeliveyMotoFija'; // Import the new Guia component
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
 
 
@@ -46,6 +47,7 @@ export default function DeliveryMotoFijaPage() {
         </div>
       </div>
       <CaracteristicasDeliveyMotoFija /> {/* Integrate the Caracteristicas component here */}
+      <GuiaDeliveyMotoFija /> {/* Integrate the GuiaDeliveyMotoFija component here */}
       <CancelacionDeliveyMotoFija /> {/* Integrate the Cancelacion component here */}
       <CompromisoDeliveyMotoFija /> {/* Integrate the Compromiso component here */}
       <BannerRedesSociales />
