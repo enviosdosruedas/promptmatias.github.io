@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { HeroDeliveyMotoExpress } from '@/components/sections/HeroDeliveyMotoExpress'; // Import the new Hero component
+import { MasInfoDeliveyMotoExpress } from '@/components/sections/MasInfoDeliveyMotoExpress'; // Import the new MasInfo component
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import banner
 
 export default function DeliveryMotoExpressPage() {
   return (
@@ -40,6 +42,8 @@ export default function DeliveryMotoExpressPage() {
           </div>
         </div>
       </div>
+      <MasInfoDeliveyMotoExpress /> {/* Integrate the MasInfoDeliveyMotoExpress component here */}
+      <BannerRedesSociales /> {/* Add banner at the end */}
     </>
   );
 }
