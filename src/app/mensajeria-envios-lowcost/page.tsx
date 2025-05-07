@@ -1,8 +1,11 @@
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PiggyBank, CalendarDays, Map } from 'lucide-react';
 import { HeroMenEnvLowCost } from '@/components/sections/HeroMenEnvLowCost'; // Import the new Hero component
+import { PreciosMenEnvLowCost } from '@/components/sections/PreciosMenEnvLowCost'; // Import the new pricing section
+import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
 
 export default function MensajeriaEnviosLowcostPage() {
   return (
@@ -58,6 +61,8 @@ export default function MensajeriaEnviosLowcostPage() {
           </div>
         </div>
       </div>
+      <PreciosMenEnvLowCost /> {/* Integrate the new pricing section */}
+      <BannerRedesSociales />
     </>
   );
 }
