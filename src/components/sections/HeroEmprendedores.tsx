@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Badge } from '@/components/ui/badge';
 
 export function HeroEmprendedores() {
   return (
@@ -8,9 +9,9 @@ export function HeroEmprendedores() {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2">
             {/* Benefit Tag */}
-            <span className="inline-block rounded-lg bg-secondary/10 px-3 py-1 text-sm font-medium text-secondary">
+            <Badge variant="secondary" className="px-3 py-1 text-sm font-medium">
               Beneficio Emprendedores
-            </span>
+            </Badge>
             {/* Main Title */}
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-primary">
               📊 Plan Emprendedor 🛒
