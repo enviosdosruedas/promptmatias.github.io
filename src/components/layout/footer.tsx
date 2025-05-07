@@ -1,8 +1,33 @@
-import React from 'next/link';
-import Image from 'next/image';
+'use client'; // Add use client for useEffect and useState
+
+import Link from 'next/link';
+import Image from 'next/image'; // Import Image component
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { Menu, ChevronDown, Home, Package, Calculator, UsersIcon, MailIcon as MailFooterIcon, Phone as PhoneFooterIcon, Clock as ClockIcon, Store, Box, PiggyBank, Zap, Building, HelpCircle, Hash, MessageSquare, Instagram, Facebook, Bike } from 'lucide-react'; // Added more icons
+import {
+  Menu,
+  ChevronDown,
+  Home,
+  Package,
+  Calculator,
+  Users,
+  Mail as MailFooterIcon,
+  Phone as PhoneFooterIcon,
+  Clock as ClockIcon,
+  Store,
+  Box,
+  PiggyBank,
+  Zap,
+  Building,
+  HelpCircle,
+  Hash,
+  MessageSquare,
+  Instagram,
+  Facebook,
+  Bike as BikeIcon,
+  ChevronUp,
+  MapPin as MapPinIcon // Aliased MapPin to MapPinIcon
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,12 +35,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
-import '@/styles/navbar.css';
-import * as React from "react";
-import { Icon } from '@radix-ui/react-icons';
+import '@/styles/footer.css'; // Import the specific CSS file
+import * as React from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
+
 
 // Define navigation structure for reuse
-const navItems = [
+const footerNavItems = [
   { title: 'Inicio', href: '/', icon: Home },
   {
     title: 'Servicios',
@@ -23,7 +49,7 @@ const navItems = [
     subItems: [
       { title: 'Envíos Express', href: '/mensajeria-envios-express', icon: Zap },
       { title: 'Envíos LowCost', href: '/mensajeria-envios-lowcost', icon: PiggyBank },
-      { title: 'Moto Express', href: '/delivery-moto-express', icon: Bike },
+      { title: 'Moto Express', href: '/delivery-moto-express', icon: BikeIcon },
       { title: 'Moto Fija', href: '/delivery-moto-fija', icon: ClockIcon },
       { title: 'Plan Emprendedores', href: '/envios-emprendedores', icon: Store },
       { title: 'Envios Flex', href: '/enviosflex', icon: Box },
@@ -39,12 +65,11 @@ const navItems = [
   },
   {
     title: 'Nosotros',
-    icon: UsersIcon,
+    icon: Users,
     subItems: [
       { title: 'Sobre Nosotros', href: '/sobre-nosotros', icon: Building },
       { title: 'Preguntas Frecuentes', href: '/preguntasfrecuentes', icon: HelpCircle },
       { title: 'Nuestras Redes', href: '/nuestrasredes', icon: Hash },
-      // { title: 'Noticias', href: '/noticias', icon: Newspaper }, // Uncomment if needed
     ],
   },
   { title: 'Contacto', href: '/contacto', icon: MailFooterIcon },
@@ -52,59 +77,78 @@ const navItems = [
 
 
 // Component for rendering navigation items (Desktop and Mobile)
-const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navItems; isMobile: boolean; closeSheet?: () => void }) => (
-  <ul className={cn("nav-list", isMobile ? "flex-col items-start gap-0" : "items-center gap-1")}>
+const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof footerNavItems; isMobile: boolean; closeSheet?: () => void }) => (
+  <ul className={cn("footer-links", isMobile ? "flex-col items-start gap-0" : "items-center gap-1")}>
     {items.map((item) => (
-      <li key={item.title} className={cn(isMobile ? "mobile-nav-item w-full" : "desktop-nav-item")}>
+      <li key={item.title} className={cn(isMobile ? "w-full" : "", item.subItems ? "dropdown" : "")}>
         {item.subItems ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className={cn(isMobile ? 'mobile-dropdown-button justify-between' : 'nav-link desktop-dropdown-trigger')}
-              >
-                 <span className="flex items-center gap-2"> {/* Wrap icon and text */}
-                    {item.icon && <item.icon className="nav-icon" />}
-                    {item.title}
-                 </span>
-                 <ChevronDown className={cn("dropdown-icon", isMobile && "ml-auto")} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className={cn("dropdown-menu", isMobile && "w-[calc(100%-2rem)] ml-4 mt-1")}> {/* Adjust width/margin for mobile */}
-              {item.subItems.map((subItem) => (
-                <DropdownMenuItem key={subItem.title} asChild className={cn(isMobile ? 'mobile-dropdown-item' : 'dropdown-item')}>
-                  <SheetClose asChild>
+          <>
+            <a onClick={(e) => e.preventDefault()} className="flex items-center justify-between cursor-pointer">
+              {item.icon && <item.icon className="lucide-icon" />}
+              {item.title}
+              <ChevronDown className="lucide-chevron h-4 w-4 ml-1 transition-transform group-hover:rotate-180" />
+            </a>
+            <div className="dropdown-content">
+              <ul>
+                {item.subItems.map((subItem) => (
+                  <li key={subItem.title}>
                     <Link href={subItem.href} onClick={closeSheet}>
-                      {subItem.icon && <subItem.icon className="nav-icon mr-2" />} {/* Sub-item icon */}
+                      {subItem.icon && <subItem.icon className="lucide-icon" />}
                       {subItem.title}
                     </Link>
-                  </SheetClose>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
         ) : (
-          <SheetClose asChild>
-            <Link href={item.href!} className={cn(isMobile ? 'mobile-nav-link' : 'nav-link')} onClick={closeSheet}>
-              {item.icon && <item.icon className="nav-icon" />}
-              {item.title}
-            </Link>
-          </SheetClose>
+          <Link href={item.href!} onClick={closeSheet}>
+            {item.icon && <item.icon className="lucide-icon" />}
+            {item.title}
+          </Link>
         )}
       </li>
     ))}
   </ul>
 );
 
-import { useIsMobile } from '@/hooks/use-mobile'; // Ensure this path is correct
-
-export function Header() {
+export function Footer() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
-  const isMobile = useIsMobile(); 
+  const isMobile = useIsMobile();
+  const [isVisible, setIsVisible] = React.useState(false);
+
 
   React.useEffect(() => {
     setMounted(true);
+  }, []);
+
+  const toggleVisibility = () => {
+    if (typeof window !== 'undefined') {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    }
+  };
+
+  const scrollToTop = () => {
+      if (typeof window !== 'undefined') {
+          window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+          });
+      }
+  };
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', toggleVisibility);
+      return () => {
+        window.removeEventListener('scroll', toggleVisibility);
+      };
+    }
   }, []);
 
 
@@ -114,71 +158,96 @@ export function Header() {
   const NavOverlay = () => (
     <div
       className={`nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-      onClick={closeMobileMenu} 
+      onClick={closeMobileMenu}
     />
   );
 
   return (
-    <header className="main-nav">
-      <div className={cn("container mx-auto px-4 py-2", !mounted || !isMobile ? "nav-container" : "")}>
-        <div className="flex justify-between items-center">
-          {/* Logo y nombre */}
-          <Link href="/" className="flex items-center space-x-2 py-2 nav-logo">
-            <Image
-              src="/favicon.svg"
-              alt="EnviosDosRuedas Logo"
-              width={50}
-              height={50}
-              className="h-10 sm:h-12 w-auto transition-all logo-image"
-            />
-            <div className={cn("logo-text", mounted && isMobile ? "" : "hidden md:flex md:flex-col")}>
-              <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
-              <p className="text-mikado_yellow text-xs">Tu Solución Confiable</p>
+    <footer className="main-footer">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="footer-grid">
+          {/* Column 1: Logo and Brand */}
+          <div>
+            <div className="footer-logo-flex mb-4">
+              <Link href="/" className="footer-logo-link">
+                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={50} height={50} className="footer-logo-img" />
+              </Link>
+              <div>
+                <h3 className="footer-title-main">
+                  Envios DosRuedas
+                </h3>
+                <p className="text-sm text-foreground/70">
+                  Tu solución confiable para mensajería y delivery en Mar del Plata.
+                </p>
+              </div>
             </div>
-          </Link>
+          </div>
 
-          {/* Menú Desktop */}
-          {mounted && !isMobile && (
-            <div className="hidden lg:block">
-              <NavItemsRenderer items={navItems} isMobile={false} />
+          {/* Column 2: Menu */}
+          <div>
+            <h4 className="footer-title">
+              Menú
+            </h4>
+            <nav>
+               <NavItemsRenderer items={footerNavItems} isMobile={isMobile} closeSheet={closeMobileMenu} />
+            </nav>
+          </div>
+
+          {/* Column 3: Contacto */}
+          <div>
+            <h4 className="footer-title">
+              Contacto
+            </h4>
+            <div className="contact-info">
+              <div className="contact-item">
+                <MapPinIcon className="lucide" /> {/* Using aliased MapPinIcon */}
+                <span>Mar del Plata, Argentina</span>
+              </div>
+              <div className="contact-item">
+                <PhoneFooterIcon className="lucide" /> {/* Use Lucide Icon */}
+                <a href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="whatsapp-link">
+                  +54 223 660 2699
+                </a>
+              </div>
+              <div className="contact-item">
+                <MailFooterIcon className="lucide" /> {/* Use Lucide Icon */}
+                <a href="mailto:dosruedasmdq@gmail.com" className="whatsapp-link">dosruedasmdq@gmail.com</a>
+              </div>
+              <div className="social-container">
+                <h3 className="social-title">
+                  Síguenos en:
+                </h3>
+                <div className="social-links">
+                  <Link href="https://instagram.com/enviosdosruedas" target="_blank" rel="noopener noreferrer" className="social-icon instagram" aria-label="Instagram">
+                     <Instagram className="lucide h-5 w-5" /> {/* Use Lucide Icon */}
+                  </Link>
+                  <Link href="https://facebook.com/enviosdosruedas" target="_blank" rel="noopener noreferrer" className="social-icon facebook" aria-label="Facebook">
+                    <Facebook className="lucide h-5 w-5" /> {/* Use Lucide Icon */}
+                  </Link>
+                  <Link href="https://wa.me/+542236602699?text=Hola!%20Encontre%20su%20contacto%20en%20el%20sitio%20web%20y%20me%20gustaria%20mas%20informacion%20sobre%20su%20servicio." target="_blank" rel="noopener noreferrer" className="social-icon whatsapp" aria-label="WhatsApp">
+                     <MessageSquare className="lucide h-5 w-5" />
+                  </Link>
+                </div>
+              </div>
             </div>
-          )}
-          
-
-          {/* Menú móvil Toggle button */}
-          {mounted && isMobile && (
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="lg:hidden text-white focus:outline-none p-2 rounded-md hover:bg-persian_blue-700 transition-colors mobile-menu-button"
-                  aria-label="Abrir menú"
-                >
-                  <Menu className="h-6 w-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="mobile-menu w-[300px] sm:w-[350px] p-0">
-                <SheetClose asChild>
-                <Link href="/" className="nav-logo p-4 border-b border-nav-mobile-border block" onClick={closeMobileMenu}>
-                  <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image inline-block mr-2" />
-                  <div className="logo-text inline-block align-middle">
-                    <h1 className="logo-title text-base">Envios DosRuedas</h1>
-                    <p className="text-xs text-mikado_yellow">Tu Solución Confiable</p>
-                  </div>
-                </Link>
-                </SheetClose>
-                <nav className="p-4">
-                  <NavItemsRenderer items={navItems} isMobile={true} closeSheet={closeMobileMenu} />
-                </nav>
-              </SheetContent>
-            </Sheet>
-          )}
+          </div>
+        </div>
+        {/* Bottom Section */}
+        <div className="footer-bottom">
+          <div>
+            <p className="copyright">
+              © {new Date().getFullYear()} Envios DosRuedas. Todos los derechos reservados.
+            </p>
+          </div>
         </div>
       </div>
-       {mounted && isMobileMenuOpen && <NavOverlay />}
-    </header>
+      <button
+        onClick={scrollToTop}
+        className={`back-to-top ${isVisible ? 'visible' : ''}`}
+        aria-label="Volver arriba"
+      >
+        <ChevronUp className="lucide h-6 w-6" />
+      </button>
+    </footer>
   );
 }
-// Import useIsMobile hook if it's not globally available or part of this file
-import { useIsMobile } from '@/hooks/use-mobile'; // Ensure this path is correct
