@@ -2,7 +2,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 
-export function HeroEmprendedores() {
+export function BeneficiosEmprendedores() {
   return (
     <section className="w-full py-12 md:py-20 lg:py-28 bg-gradient-to-b from-primary/10 to-background"> {/* Subtle gradient using primary color */}
       <div className="container px-4 md:px-6">
