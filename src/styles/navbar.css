@@ -8,17 +8,21 @@
   --nav-border: hsl(var(--border)); /* Border color */
   --nav-logo-title: hsl(var(--primary-foreground)); /* Logo title */
   --nav-logo-subtitle: hsl(var(--accent)); /* Logo subtitle (accent) */
+  
+  /* Dropdown variables (used for both desktop and mobile submenus for consistency) */
   --nav-dropdown-bg: hsl(var(--popover)); /* Dropdown background */
   --nav-dropdown-text: hsl(var(--popover-foreground)); /* Dropdown text */
   --nav-dropdown-hover-bg: hsl(var(--accent)); /* Dropdown item hover bg */
   --nav-dropdown-hover-text: hsl(var(--accent-foreground)); /* Dropdown item hover text */
-  
-  /* Mobile menu variables - updated for darker theme */
-  --nav-mobile-bg: hsl(var(--primary)); /* Use primary color for dark background */
-  --nav-mobile-text: hsl(var(--primary-foreground)); /* Use primary foreground for text */
-  --nav-mobile-border: hsl(var(--primary-foreground) / 0.2); /* Lighter border for contrast */
-  --nav-mobile-link-hover-bg: hsla(var(--primary-foreground) / 0.1); /* Subtle hover for links */
-  --nav-mobile-link-hover-text: hsl(var(--accent)); /* Accent color for hover text */
+  --nav-dropdown-icon-color: hsl(var(--secondary)); /* Icon color in dropdown items */
+
+  /* Mobile menu specific variables (for the main mobile sheet) */
+  --nav-mobile-bg: hsl(var(--primary)); /* Mobile menu background (dark, like PC navbar) */
+  --nav-mobile-text: hsl(var(--primary-foreground)); /* Mobile menu text (contrasts with dark bg) */
+  --nav-mobile-border: hsl(var(--primary-foreground) / 0.2); /* Mobile menu item border */
+  --nav-mobile-link-hover-bg: hsla(var(--primary-foreground) / 0.1); /* Subtle hover for main mobile links */
+  --nav-mobile-link-hover-text: hsl(var(--accent)); /* Accent color for main mobile link hover text */
+
 
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Softer shadow */
   --transition: all 0.2s ease-in-out;
@@ -58,7 +62,7 @@
 }
 
 .logo-text {
-  display: flex; 
+  /* display: flex; */ /* Managed by Tailwind on parent for mobile/desktop */
   flex-direction: column;
 }
 
@@ -130,14 +134,15 @@
    opacity: 1;
 }
 
-.dropdown-menu {
+/* Contenido del Dropdown (Estilos base de Shadcn) - APPLIES TO DESKTOP */
+.dropdown-menu { /* This class seems to be for the Radix DropdownMenuContent */
    background-color: var(--nav-dropdown-bg) !important; 
    color: var(--nav-dropdown-text) !important;
    border-radius: 0.375rem !important; 
    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
-.dropdown-item { 
+.dropdown-item { /* Style for Shadcn DropdownMenuItem - APPLIES TO DESKTOP */
     color: var(--nav-dropdown-text) !important; 
     transition: var(--transition);
 }
@@ -146,19 +151,19 @@
     background-color: var(--nav-dropdown-hover-bg) !important;
     color: var(--nav-dropdown-hover-text) !important;
 }
-.dropdown-item .nav-icon { 
-   color: hsl(var(--secondary)); 
+.dropdown-item .nav-icon { /* Style for icons within dropdown items - APPLIES TO DESKTOP */
+   color: var(--nav-dropdown-icon-color); 
    margin-right: 0.5rem; 
 }
 .dropdown-item:hover .nav-icon, .dropdown-item:focus .nav-icon {
-   color: inherit; 
+   color: var(--nav-dropdown-hover-text); /* Inherit hover text color for icon */
 }
 
 .mobile-menu-button {
   /* Colors and basic styles handled by Tailwind + variant="ghost" */
 }
 
-/* Menú Móvil (SheetContent) */
+/* Menú Móvil (SheetContent) - Main container for the slide-out menu */
 .mobile-menu {
     background-color: var(--nav-mobile-bg) !important;
     color: var(--nav-mobile-text) !important;
@@ -166,16 +171,14 @@
 .mobile-menu .nav-logo {
     border-bottom: 1px solid var(--nav-mobile-border);
 }
-
-/* Updated logo title color for mobile menu for better contrast on dark background */
 .mobile-menu .logo-title {
-    color: var(--nav-mobile-text); /* Use mobile text color */
+    color: var(--nav-mobile-text); 
 }
 .mobile-menu .logo-text p {
-    color: var(--nav-accent); /* Use accent for subtitle for better visibility */
+    color: var(--nav-logo-subtitle); /* Using the general logo subtitle color */
 }
 
-
+/* Estilos para la lista dentro del menú móvil */
 .mobile-menu .nav-list {
     flex-direction: column;
     gap: 0;
@@ -191,12 +194,13 @@
     border-bottom: none;
 }
 
+/* Links y Triggers en menú móvil (main level) */
 .mobile-nav-link,
 .mobile-dropdown-button {
     padding: 0.75rem 1rem; 
     width: 100%;
     justify-content: flex-start; 
-    color: var(--nav-mobile-text); /* Use mobile text color */
+    color: var(--nav-mobile-text);
     font-weight: 500; 
     border-radius: 0; 
     height: auto !important; 
@@ -214,50 +218,53 @@
 }
 .mobile-nav-link .nav-icon,
 .mobile-dropdown-button .nav-icon {
-    color: var(--nav-mobile-text); /* Ensure icons also use mobile text color */
+    color: var(--nav-mobile-text); 
 }
 .mobile-nav-link:hover .nav-icon,
 .mobile-dropdown-button:hover .nav-icon,
 .mobile-dropdown-button[data-state=open] .nav-icon {
-    color: var(--nav-mobile-link-hover-text); /* Match text hover color */
+    color: var(--nav-mobile-link-hover-text); 
 }
-
 
 .mobile-dropdown-button .dropdown-icon {
     margin-left: auto; 
-    color: var(--nav-mobile-text); /* Chevron icon color */
+    color: var(--nav-mobile-text);
 }
 .mobile-dropdown-button[data-state=open] .dropdown-icon {
    transform: rotate(180deg);
-   color: var(--nav-mobile-link-hover-text); /* Chevron hover color */
+   color: var(--nav-mobile-link-hover-text);
 }
 
-.mobile-menu .dropdown-menu {
-    background-color: hsl(var(--primary) / 0.9) !important; /* Slightly lighter than main mobile nav bg */
+/* Dropdown SUB-MENU dentro del menú móvil */
+.mobile-menu .dropdown-menu { /* This targets the Radix DropdownMenuContent within mobile */
+    background-color: var(--nav-dropdown-bg) !important; /* Aligns with desktop dropdown bg */
     box-shadow: none !important;
     border: none !important;
+    /* Indentation to align with parent icon + text */
     padding-left: calc(var(--nav-icon-margin) + var(--nav-icon-size) + 1rem) !important; 
     margin: 0 !important;
     border-radius: 0 !important;
 }
 
-.mobile-dropdown-item {
+.mobile-dropdown-item { /* Style for Shadcn DropdownMenuItem within mobile submenu */
     padding: 0.5rem 1rem 0.5rem 0 !important; 
     font-size: 0.875rem; 
-    color: var(--nav-mobile-text) !important; /* Ensure text has good contrast */
+    color: var(--nav-dropdown-text) !important; /* Aligns with desktop dropdown text */
     transition: var(--transition);
 }
 .mobile-dropdown-item:hover, .mobile-dropdown-item:focus {
-    background: var(--nav-mobile-link-hover-bg) !important;
-    color: var(--nav-mobile-link-hover-text) !important; 
+    background: var(--nav-dropdown-hover-bg) !important; /* Aligns with desktop dropdown hover */
+    color: var(--nav-dropdown-hover-text) !important; 
 }
 .mobile-dropdown-item .nav-icon {
-    color: var(--nav-mobile-text) !important; /* Sub-item icon color */
+    color: var(--nav-dropdown-icon-color) !important; /* Aligns with desktop dropdown icon */
+    margin-right: 0.5rem;
 }
 .mobile-dropdown-item:hover .nav-icon, .mobile-dropdown-item:focus .nav-icon {
-    color: var(--nav-mobile-link-hover-text) !important; /* Match text hover color */
+    color: var(--nav-dropdown-hover-text) !important; /* Aligns with desktop dropdown icon hover */
 }
 
+/* Overlay para menú móvil */
 .nav-overlay {
     position: fixed;
     top: 0;
@@ -281,4 +288,21 @@
   .nav-overlay {
     display: none;
   }
+}
+/* Ensure logo text is visible by default on mobile unless specifically hidden by Tailwind */
+/* This could be removed if Tailwind responsive classes handle it correctly in the component */
+.nav-logo .logo-text {
+    display: flex; 
+    flex-direction: column;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+    .nav-logo .logo-text {
+        /* display: flex; */ /* Already flex by default */
+    }
+}
+@media (max-width: 639px) { /* sm breakpoint and below */
+     .main-nav .nav-container .nav-logo .logo-text { /* More specific selector */
+        display: none;
+    }
 }
