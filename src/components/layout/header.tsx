@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { Menu, ChevronDown, Home, Package, Calculator, Users, Mail, Bike, Clock, Store, Box, PiggyBank, Zap, Building, HelpCircle, Hash } from 'lucide-react'; // Added more icons
+import { Menu, ChevronDown, Home, Package, Calculator, Users, Mail, Bike, Clock, Store, Box, PiggyBank, Zap, Building, HelpCircle, Hash } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
-import '@/styles/navbar.css'; // Import the new CSS file
+import '@/styles/navbar.css';
 import * as React from "react";
 
 
@@ -107,19 +107,19 @@ export function Header() {
   );
 
   return (
-    <header className="main-nav"> {/* Use main-nav class from navbar.css */}
+    <header className="main-nav">
       <div className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center">
           {/* Logo y nombre */}
           <Link href="/" className="flex items-center space-x-2 py-2 nav-logo">
             <Image
-              src="/favicon.svg" // Use the specified SVG logo
+              src="/favicon.svg"
               alt="Envios DosRuedas Logo"
-              width={50} // Adjust size as needed
+              width={50}
               height={50}
-              className="h-10 sm:h-12 w-auto transition-all logo-image" // Added logo-image class
+              className="h-10 sm:h-12 w-auto transition-all logo-image"
             />
-            <div className="flex flex-col logo-text"> {/* Ensure logo text is visible on mobile */}
+            <div className="flex flex-col logo-text"> {/* Hydration fix: ensure this class matches server/client */}
               <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
               <p className="text-mikado_yellow text-xs">Tu Solución Confiable</p>
             </div>
@@ -131,20 +131,18 @@ export function Header() {
           </div>
 
           {/* Menú móvil Toggle button */}
-           {/* Use Sheet for the off-canvas menu */}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="lg:hidden text-white focus:outline-none p-2 rounded-md hover:bg-persian_blue-700 transition-colors mobile-menu-button" // Added mobile-menu-button class
+                className="lg:hidden text-white focus:outline-none p-2 rounded-md hover:bg-persian_blue-700 transition-colors mobile-menu-button"
                 aria-label="Abrir menú"
               >
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="mobile-menu w-[300px] sm:w-[350px] p-0"> {/* Added mobile-menu class */}
-               {/* Logo inside mobile menu */}
+            <SheetContent side="left" className="mobile-menu w-[300px] sm:w-[350px] p-0">
               <Link href="/" className="nav-logo p-4 border-b border-nav-mobile-border block" onClick={closeMobileMenu}>
                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image inline-block mr-2" />
                 <div className="logo-text inline-block align-middle">
@@ -152,7 +150,6 @@ export function Header() {
                    <p className="text-xs text-mikado_yellow">Tu Solución Confiable</p>
                  </div>
               </Link>
-              {/* Mobile Navigation Items */}
               <nav className="p-4">
                 <NavItemsRenderer items={navItems} isMobile={true} closeSheet={closeMobileMenu} />
               </nav>
@@ -160,7 +157,6 @@ export function Header() {
           </Sheet>
         </div>
       </div>
-       {/* Render overlay conditionally */}
        {isMobileMenuOpen && <NavOverlay />}
     </header>
   );
