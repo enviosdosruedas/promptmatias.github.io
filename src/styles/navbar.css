@@ -279,11 +279,8 @@
 @media (max-width: 768px) { /* Tailwind `md` breakpoint */
     /* Optionally hide desktop logo text earlier if needed */
      .nav-logo .logo-text {
-        /* display: none; */
+        /* display: none; */ /* This was already commented out, ensuring it stays visible if Tailwind classes allow */
     }
 }
-@media (max-width: 640px) { /* Tailwind `sm` breakpoint */
-    .nav-logo .logo-text {
-        display: none; /* Ocultar texto del logo en pantallas muy pequeñas */
-    }
-}
+/* Removed the rule that was hiding .nav-logo .logo-text on screens < 640px */
+/* @media (max-width: 640px) { ... } */

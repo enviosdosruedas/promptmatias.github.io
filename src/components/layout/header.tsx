@@ -119,7 +119,7 @@ export function Header() {
               height={50}
               className="h-10 sm:h-12 w-auto transition-all logo-image" // Added logo-image class
             />
-            <div className="hidden md:block logo-text">
+            <div className="flex flex-col logo-text"> {/* Ensure logo text is visible on mobile */}
               <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
               <p className="text-mikado_yellow text-xs">Tu Solución Confiable</p>
             </div>
