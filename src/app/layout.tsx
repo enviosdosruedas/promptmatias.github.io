@@ -82,7 +82,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning> {/* Added lang and suppressHydrationWarning for theme */}
+    <html lang="es" suppressHydrationWarning>
       <head>
         {/* Theme color meta tag already handled by viewport export */}
       </head>
