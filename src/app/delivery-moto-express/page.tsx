@@ -6,6 +6,7 @@ import { HeroDeliveyMotoExpress } from '@/components/sections/HeroDeliveyMotoExp
 import { MasInfoDeliveyMotoExpress } from '@/components/sections/MasInfoDeliveyMotoExpress'; // Import the new MasInfo component
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; // Import banner
 import { CoberturaDeliveyMotoExpress } from '@/components/sections/CoberturaDeliveyMotoExpress'; // Import the new component
+import { ContactoDeliveyMotoExpress } from '@/components/sections/ContactoDeliveyMotoExpress'; // Import the new contact section
 
 export default function DeliveryMotoExpressPage() {
   return (
@@ -45,6 +46,7 @@ export default function DeliveryMotoExpressPage() {
       </div>
       <MasInfoDeliveyMotoExpress /> {/* Integrate the MasInfoDeliveyMotoExpress component here */}
       <CoberturaDeliveyMotoExpress /> {/* Integrate the CoberturaDeliveyMotoExpress component here */}
+      <ContactoDeliveyMotoExpress /> {/* Integrate the new contact section */}
       <BannerRedesSociales /> {/* Add banner at the end */}
     </>
   );
