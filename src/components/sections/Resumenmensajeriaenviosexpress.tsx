@@ -71,7 +71,7 @@ export function Resumenmensajeriaenviosexpress() {
             {/* Optional subtle background shape */}
             {/* <div className="absolute inset-0 bg-accent/10 rounded-full blur-3xl opacity-30 transform -translate-x-4 translate-y-4"></div> */}
             <Image
-              src="https://picsum.photos/600/400"
+              src="/img/Headeritems-2.webp"
               alt="Servicio de mensajería express en moto"
               width={600}
               height={400}

@@ -16,7 +16,8 @@ export default function DeliveryMotoExpressPage() {
         <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
           <div className="order-last md:order-first">
             <Image
-              src="https://picsum.photos/600/400"
+              
+              src="/img/Headeritems-2.webp"
               alt="Delivery Moto Express"
               width={600}
               height={400}

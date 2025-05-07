@@ -14,9 +14,6 @@ export default function MensajeriaEnviosExpressPage() {
   return (
     <> {/* Added Fragment */}
      <HeroMenEnvExpress /> {/* Integrate the Hero component here */}
-      <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
-        {/* Section removed as requested */}
-      </div>
       <Resumenmensajeriaenviosexpress />
       <PasosServicios />
       <ExpressPrioritario /> {/* Integrate the new section here */}

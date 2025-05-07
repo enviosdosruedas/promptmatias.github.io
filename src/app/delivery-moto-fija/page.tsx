@@ -37,7 +37,8 @@ export default function DeliveryMotoFijaPage() {
           </div>
           <div>
             <Image
-              src="https://picsum.photos/600/400"
+             
+              src="/img/Headeritems-2.webp"
               alt="Delivery Moto Fija"
               width={600}
               height={400}

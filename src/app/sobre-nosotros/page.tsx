@@ -27,7 +27,8 @@ function QuienesSomosSection() {
            {/* You can add an image here if desired */}
            {/* <div className="flex justify-center">
              <Image
-               src="https://picsum.photos/600/400" // Placeholder image
+               src="
+              src="/img/Headeritems-2.webp" // Placeholder image
                alt="Quiénes Somos Imagen"
                width={600}
                height={400}
@@ -79,7 +80,7 @@ export default function SobreNosotrosPage() {
           </div>
           <div className="relative">
             <Image
-              src="https://picsum.photos/600/700"
+              src="/img/Headeritems-2.webp"
               alt="Equipo EnviosDosRuedas"
               width={600}
               height={700}
