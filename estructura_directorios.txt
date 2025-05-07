@@ -6,6 +6,11 @@ public/
 │   ├── handler.js
 │   ├── iframe.html
 │   └── iframe.js
+├── icon/
+│   ├── icon-facebook.svg
+│   ├── icon-gmail.svg
+│   ├── icon-instagram.svg
+│   └── icon-whatsapp.svg
 ├── img/
 │   ├── Emprendedoresbanner.webp
 │   ├── Emprendedoresbannerrapidas.webp
@@ -38,6 +43,7 @@ public/
 ├── apple-touch-icon.png
 ├── favicon-16x16.png
 ├── favicon-96x96.png
+├── favicon.ico
 ├── favicon.svg
 └── web-app-manifest-512x512.png
 
@@ -47,6 +53,8 @@ src/
 │   ├── ai-instance.ts
 │   └── dev.ts
 ├── app/
+│   ├── CotizadorNuevo/
+│   │   └── page.tsx
 │   ├── contacto/
 │   │   └── page.tsx
 │   ├── cotizador-envios-express/
@@ -81,17 +89,45 @@ src/
 │   │   └── header.tsx
 │   ├── sections/
 │   │   ├── BusquedaFaq.tsx
+│   │   ├── CancelacionDeliveyMotoFija.tsx
+│   │   ├── CaracteristicasDeliveyMotoFija.tsx
+│   │   ├── CoberturaDeliveyMotoExpress.tsx
+│   │   ├── ComenzarEmprendedores.tsx
+│   │   ├── CompromisoDeliveyMotoFija.tsx
+│   │   ├── CompromisoEmprendedores.tsx
+│   │   ├── CompromisoEnviosFlex.tsx
+│   │   ├── ContactMenEnvLowCost.tsx
+│   │   ├── ContactoDeliveyMotoExpress.tsx
+│   │   ├── ContactoDeliveyMotoFija.tsx
+│   │   ├── ContactoEnviosFlex.tsx
+│   │   ├── CotizarEnviosExpresForm.tsx
 │   │   ├── EmprendedorContacto.tsx
 │   │   ├── ExpressPrioritario.tsx
+│   │   ├── GuiaDeliveyMotoFija.tsx
 │   │   ├── HeroContacto.tsx
+│   │   ├── HeroDeliveyMotoExpress.tsx
+│   │   ├── HeroDeliveyMotoFija.tsx
+│   │   ├── HeroEmprendedores.tsx
+│   │   ├── HeroEnviosFlex.tsx
 │   │   ├── HeroFaq.tsx
 │   │   ├── HeroMenEnvExpress.tsx
+│   │   ├── HeroMenEnvLowCost.tsx
 │   │   ├── HeroNosotros.tsx
 │   │   ├── HeroNuestrasRedes.tsx
 │   │   ├── InfoContacto.tsx
+│   │   ├── InfoEmprendedores.tsx
+│   │   ├── InfoEnviosFlex.tsx
+│   │   ├── ListoEmprendedores.tsx
+│   │   ├── MasInfoDeliveyMotoExpress.tsx
 │   │   ├── MasPreguntas.tsx
 │   │   ├── PasosServicios.tsx
+│   │   ├── PrecioEmprendedores.tsx
+│   │   ├── PreciosEnviosFlex.tsx
+│   │   ├── PreciosMenEnvLowCost.tsx
+│   │   ├── PrincipalEnviosFlex.tsx
 │   │   ├── Principalcontacto.tsx
+│   │   ├── RecomendacionesEmprendedores.tsx
+│   │   ├── RecomendacionesEnviosFlex.tsx
 │   │   ├── Resumenmensajeriaenviosexpress.tsx
 │   │   ├── ZonadeCobertura.tsx
 │   │   ├── banner-redes-sociales.tsx
@@ -99,6 +135,8 @@ src/
 │   │   ├── emprendedores-principal.tsx
 │   │   ├── faqmenenvexpress.tsx
 │   │   ├── hero-section.tsx
+│   │   ├── info-emprendedores.tsx
+│   │   ├── precio-emprendedores.tsx
 │   │   ├── service-overview.tsx
 │   │   ├── servicios-destacados.tsx
 │   │   └── vision-global.tsx
