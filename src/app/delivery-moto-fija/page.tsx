@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { HeroDeliveyMotoFija } from '@/components/sections/HeroDeliveyMotoFija'; // Import the new Hero component
 import { CaracteristicasDeliveyMotoFija } from '@/components/sections/CaracteristicasDeliveyMotoFija'; // Import the new Caracteristicas component
+import { CancelacionDeliveyMotoFija } from '@/components/sections/CancelacionDeliveyMotoFija'; // Import the new Cancelacion component
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
 
 
@@ -44,6 +45,7 @@ export default function DeliveryMotoFijaPage() {
         </div>
       </div>
       <CaracteristicasDeliveyMotoFija /> {/* Integrate the Caracteristicas component here */}
+      <CancelacionDeliveyMotoFija /> {/* Integrate the Cancelacion component here */}
       <BannerRedesSociales />
     </>
   );
