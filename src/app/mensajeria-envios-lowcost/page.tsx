@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { PiggyBank, CalendarDays, Map } from 'lucide-react';
 import { HeroMenEnvLowCost } from '@/components/sections/HeroMenEnvLowCost'; // Import the new Hero component
 import { PreciosMenEnvLowCost } from '@/components/sections/PreciosMenEnvLowCost'; // Import the new pricing section
+import { ContactMenEnvLowCost } from '@/components/sections/ContactMenEnvLowCost'; // Import the new contact section
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales';
 
 export default function MensajeriaEnviosLowcostPage() {
@@ -62,6 +63,7 @@ export default function MensajeriaEnviosLowcostPage() {
         </div>
       </div>
       <PreciosMenEnvLowCost /> {/* Integrate the new pricing section */}
+      <ContactMenEnvLowCost /> {/* Integrate the new contact section */}
       <BannerRedesSociales />
     </>
   );
