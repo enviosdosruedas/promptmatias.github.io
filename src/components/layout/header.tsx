@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
 import '@/styles/navbar.css';
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { useIsMobile } from '@/hooks/use-mobile'; // Ensure this path is correct
 
 
@@ -94,19 +94,10 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          isMobile ? (
-            <SheetClose asChild>
-              <Link href={item.href!} className={cn('mobile-nav-link')} onClick={closeSheet}>
-                {item.icon && <item.icon className="nav-icon" />}
-                {item.title}
-              </Link>
-            </SheetClose>
-          ) : (
-            <Link href={item.href!} className={cn('nav-link')}>
-              {item.icon && <item.icon className="nav-icon" />}
-              {item.title}
-            </Link>
-          )
+          <Link href={item.href!} className={cn(isMobile ? 'mobile-nav-link' : 'nav-link')} onClick={isMobile ? closeSheet : undefined}>
+            {item.icon && <item.icon className="nav-icon" />}
+            {item.title}
+          </Link>
         )}
       </li>
     ))}
@@ -115,11 +106,11 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
 
 
 export function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [mounted, setMounted] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const isMobile = useIsMobile();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 
@@ -136,8 +127,8 @@ export function Header() {
 
   return (
     <header className="main-nav">
-      <div className={cn("container mx-auto px-4 py-2", !mounted || !isMobile ? "nav-container" : "")}>
-        <div className="flex justify-between items-center">
+      {/* Adjusted container: removed inner flex div, nav-container handles layout */}
+      <div className="container mx-auto px-4 py-2 nav-container">
           {/* Logo y nombre */}
           <Link href="/" className="flex items-center space-x-2 py-2 nav-logo">
             <Image
@@ -147,21 +138,33 @@ export function Header() {
               height={50}
               className="h-10 sm:h-12 w-auto transition-all logo-image"
             />
-            <div className={cn("logo-text", mounted && isMobile ? "hidden" : "hidden md:flex md:flex-col")}>
-              <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
-              <p className="text-mikado-yellow text-xs">Tu Solución Confiable</p>
-            </div>
+            {/* Use mounted state to prevent hydration mismatch for conditionally rendered text */}
+             {mounted && (
+                 <div className={cn("logo-text", isMobile ? "hidden" : "flex flex-col")}>
+                    <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
+                    <p className="text-mikado-yellow text-xs">Tu Solución Confiable</p>
+                </div>
+             )}
+             {/* Fallback for SSR/initial load if needed, or keep simple */}
+             {!mounted && (
+                 <div className="hidden md:flex md:flex-col logo-text">
+                    <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
+                    <p className="text-mikado-yellow text-xs">Tu Solución Confiable</p>
+                </div>
+             )}
+
           </Link>
 
           {/* Menú Desktop */}
+          {/* Render desktop nav only when not mobile and mounted */}
           {mounted && !isMobile && (
             <div className="hidden lg:block">
               <NavItemsRenderer items={navItems} isMobile={false} />
             </div>
           )}
 
-
           {/* Menú móvil Toggle button */}
+          {/* Render mobile trigger only when mobile and mounted */}
           {mounted && isMobile && (
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
@@ -176,13 +179,13 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="left" className="mobile-menu w-[300px] sm:w-[350px] p-0">
                 <SheetClose asChild>
-                <Link href="/" className="nav-logo p-4 border-b border-nav-mobile-border block" onClick={closeMobileMenu}>
-                  <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image inline-block mr-2" />
-                  <div className="logo-text inline-block align-middle">
-                    <h1 className="logo-title text-base">Envios DosRuedas</h1>
-                    <p className="text-xs text-mikado_yellow">Tu Solución Confiable</p>
-                  </div>
-                </Link>
+                  <Link href="/" className="nav-logo p-4 border-b border-nav-mobile-border block" onClick={closeMobileMenu}>
+                    <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={35} height={35} className="logo-image inline-block mr-2" />
+                    <div className="logo-text inline-block align-middle">
+                      <h1 className="logo-title text-base">Envios DosRuedas</h1>
+                      <p className="text-xs text-mikado_yellow">Tu Solución Confiable</p>
+                    </div>
+                  </Link>
                 </SheetClose>
                 <nav className="p-4">
                   <NavItemsRenderer items={navItems} isMobile={true} closeSheet={closeMobileMenu} />
@@ -190,7 +193,9 @@ export function Header() {
               </SheetContent>
             </Sheet>
           )}
-        </div>
+          {/* Fallback or empty div for SSR/initial load if mobile button isn't ready */}
+          {!mounted && <div className="lg:hidden w-[40px] h-[40px]"></div>}
+
       </div>
        {mounted && isMobileMenuOpen && <NavOverlay />}
     </header>
