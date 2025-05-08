@@ -1,7 +1,7 @@
 'use client'; // Needs to be a client component for potential future interactions or if useEffect is needed
 
 import Link from 'next/link';
-import { Instagram, Facebook, MessageSquare } from 'lucide-react'; // Use Lucide icons
+import Image from 'next/image'; // Import Image component
 import '@/styles/redessociales.css'; // Import the specific CSS
 import { cn } from '@/lib/utils'; // Import cn for conditional classes
 
@@ -9,27 +9,25 @@ const socialLinks = [
   {
     platform: 'instagram',
     url: 'https://www.instagram.com/enviosdosruedas/',
-    icon: Instagram,
+    icon: '/icon/icon-instagram.svg', // Path to SVG
     text: '¡Síguenos en Instagram!',
-    // Using Tailwind classes for background. Gradient can be complex to maintain.
-    // Using a pink shade as an approximation for Instagram's gradient feel.
     bgColor: 'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500',
-    textColor: 'text-white', // Ensure contrast
+    textColor: 'text-white',
   },
   {
     platform: 'facebook',
     url: 'https://www.facebook.com/enviosdosruedas',
-    icon: Facebook,
+    icon: '/icon/icon-facebook.svg', // Path to SVG
     text: '¡Visítanos en Facebook!',
-    bgColor: 'bg-blue-600', // Standard Facebook blue
+    bgColor: 'bg-blue-600',
     textColor: 'text-white',
   },
   {
     platform: 'whatsapp',
     url: 'https://wa.me/+542236602699?text=Hola!%20Encontre%20su%20contacto%20en%20el%20sitio%20web%20y%20me%20gustaria%20mas%20informacion%20sobre%20su%20servicio.',
-    icon: MessageSquare, // Using MessageSquare as a common icon for WhatsApp
+    icon: '/icon/icon-whatsapp.svg', // Path to SVG
     text: 'WhatsApp: 2236602699',
-    bgColor: 'bg-green-600', // Standard WhatsApp green
+    bgColor: 'bg-green-600',
     textColor: 'text-white',
   },
 ];
@@ -57,8 +55,13 @@ export function BannerRedesSociales() {
               )}
               aria-label={`Visitar ${social.platform}`}
             >
-              <social.icon className="h-5 w-5 mr-2" />{' '}
-              {/* Render Lucide icon */}
+              <Image
+                src={social.icon}
+                alt={`${social.platform} icon`}
+                width={20} // Adjust width as needed
+                height={20} // Adjust height as needed
+                className="mr-2 filter invert brightness-0" // Basic styling for SVG within link, adjust filter if needed for white SVGs
+              />
               <span className="font-medium text-sm whitespace-nowrap">
                 {social.text}
               </span>{' '}
