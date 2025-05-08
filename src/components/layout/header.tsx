@@ -14,6 +14,8 @@ import {
 import { cn } from '@/lib/utils';
 import '@/styles/navbar.css';
 import * as React from "react";
+import { useIsMobile } from '@/hooks/use-mobile'; // Ensure this path is correct
+
 
 // Define navigation structure for reuse
 const navItems = [
@@ -74,33 +76,48 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
             <DropdownMenuContent className={cn("dropdown-menu", isMobile && "w-[calc(100%-2rem)] ml-4 mt-1")}> {/* Adjust width/margin for mobile */}
               {item.subItems.map((subItem) => (
                 <DropdownMenuItem key={subItem.title} asChild className={cn(isMobile ? 'mobile-dropdown-item' : 'dropdown-item')}>
-                  <SheetClose asChild>
-                    <Link href={subItem.href} onClick={closeSheet}>
+                  {isMobile ? (
+                    <SheetClose asChild>
+                      <Link href={subItem.href} onClick={closeSheet}>
+                        {subItem.icon && <subItem.icon className="nav-icon mr-2" />} {/* Sub-item icon */}
+                        {subItem.title}
+                      </Link>
+                    </SheetClose>
+                  ) : (
+                    <Link href={subItem.href}>
                       {subItem.icon && <subItem.icon className="nav-icon mr-2" />} {/* Sub-item icon */}
                       {subItem.title}
                     </Link>
-                  </SheetClose>
+                  )}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <SheetClose asChild>
-            <Link href={item.href!} className={cn(isMobile ? 'mobile-nav-link' : 'nav-link')} onClick={closeSheet}>
+          isMobile ? (
+            <SheetClose asChild>
+              <Link href={item.href!} className={cn('mobile-nav-link')} onClick={closeSheet}>
+                {item.icon && <item.icon className="nav-icon" />}
+                {item.title}
+              </Link>
+            </SheetClose>
+          ) : (
+            <Link href={item.href!} className={cn('nav-link')}>
               {item.icon && <item.icon className="nav-icon" />}
               {item.title}
             </Link>
-          </SheetClose>
+          )
         )}
       </li>
     ))}
   </ul>
 );
 
+
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
-  const isMobile = useIsMobile(); 
+  const isMobile = useIsMobile();
 
   React.useEffect(() => {
     setMounted(true);
@@ -113,7 +130,7 @@ export function Header() {
   const NavOverlay = () => (
     <div
       className={`nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-      onClick={closeMobileMenu} 
+      onClick={closeMobileMenu}
     />
   );
 
@@ -130,9 +147,9 @@ export function Header() {
               height={50}
               className="h-10 sm:h-12 w-auto transition-all logo-image"
             />
-            <div className={cn("logo-text", mounted && isMobile ? "" : "hidden md:flex md:flex-col")}>
+            <div className={cn("logo-text", mounted && isMobile ? "hidden" : "hidden md:flex md:flex-col")}>
               <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
-              <p className="text-mikado_yellow text-xs">Tu Solución Confiable</p>
+              <p className="text-mikado-yellow text-xs">Tu Solución Confiable</p>
             </div>
           </Link>
 
@@ -142,7 +159,7 @@ export function Header() {
               <NavItemsRenderer items={navItems} isMobile={false} />
             </div>
           )}
-          
+
 
           {/* Menú móvil Toggle button */}
           {mounted && isMobile && (
@@ -179,5 +196,3 @@ export function Header() {
     </header>
   );
 }
-// Import useIsMobile hook if it's not globally available or part of this file
-import { useIsMobile } from '@/hooks/use-mobile'; // Ensure this path is correct
