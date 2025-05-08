@@ -389,6 +389,21 @@ body {
       transform: translateY(0);
     }
   }
+
+  .animate-subtle-pulse {
+    animation: subtlePulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  }
+
+  @keyframes subtlePulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 hsl(var(--accent) / 0.4);
+    }
+    50% {
+      transform: scale(1.03);
+      box-shadow: 0 0 0 10px hsl(var(--accent) / 0);
+    }
+  }
 }
 
 

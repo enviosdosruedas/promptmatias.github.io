@@ -1,212 +1,282 @@
 {
-  "public": {
-    "_auth": {
-      "experiments.js": null,
-      "handler.html": null,
-      "handler.js": null,
-      "iframe.html": null,
-      "iframe.js": null
-    },
-    "icon": {
-      "icon-facebook.svg": null,
-      "icon-gmail.svg": null,
-      "icon-instagram.svg": null,
-      "icon-whatsapp.svg": null
-    },
-    "img": {
-      "Emprendedoresbanner.webp": null,
-      "Emprendedoresbannerrapidas.webp": null,
-      "Emprendedoresbannerrapidas2.webp": null,
-      "Emprendedoresbannerrapidas3.webp": null,
-      "LogoEnviosDosRuedas-180.png": null,
-      "LogoEnviosDosRuedas-192.png": null,
-      "LogoEnviosDosRuedas-32.png": null,
-      "LogoEnviosDosRuedas.png": null,
-      "LogoEnviosDosRuedas.webp": null,
-      "android-chrome-192x192.png": null,
-      "android-chrome-512x512.png": null,
-      "apple-touch-icon.png": null,
-      "favicon-16x16.png": null,
-      "favicon-96x96.png": null,
-      "favicon.ico": null,
-      "favicon.svg": null,
-      "web-app-manifest-512x512.png": null
-    },
-    "Emprendedoresbanner.webp": null,
-    "Emprendedoresbannerrapidas.webp": null,
-    "Emprendedoresbannerrapidas2.webp": null,
-    "Emprendedoresbannerrapidas3.webp": null,
-    "LogoEnviosDosRuedas-180.png": null,
-    "LogoEnviosDosRuedas-192.png": null,
-    "LogoEnviosDosRuedas-32.png": null,
-    "LogoEnviosDosRuedas.png": null,
-    "LogoEnviosDosRuedas.webp": null,
-    "android-chrome-192x192.png": null,
-    "android-chrome-512x512.png": null,
-    "apple-touch-icon.png": null,
-    "favicon-16x16.png": null,
-    "favicon-96x96.png": null,
-    "favicon.ico": null,
-    "favicon.svg": null,
-    "web-app-manifest-512x512.png": null
-  },
   "src": {
+    "lib": {
+      "__files__": [
+        "utils.ts"
+      ]
+    },
+    "styles": {
+      "__files__": [
+        "redessociales.css",
+        "footer.css",
+        "navbar.css"
+      ]
+    },
     "ai": {
-      "ai-instance.ts": null,
-      "dev.ts": null
+      "__files__": [
+        "ai-instance.ts",
+        "dev.ts"
+      ]
     },
     "app": {
+      "__files__": [
+        "globals.css",
+        "page.tsx",
+        "layout.tsx"
+      ],
+      "mensajeria-envios-express": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
       "CotizadorNuevo": {
-        "page.tsx": null
-      },
-      "contacto": {
-        "page.tsx": null
-      },
-      "cotizador-envios-express": {
-        "page.tsx": null
+        "__files__": [
+          "page.tsx"
+        ]
       },
       "cotizador-envios-lowcost": {
-        "page.tsx": null
+        "__files__": [
+          "page.tsx"
+        ]
       },
-      "delivery-moto-express": {
-        "page.tsx": null
+      "cotizador-envios-express2": {
+        "__files__": [
+          "page.tsx"
+        ]
       },
-      "delivery-moto-fija": {
-        "page.tsx": null
-      },
-      "envios-emprendedores": {
-        "page.tsx": null
-      },
-      "enviosflex": {
-        "page.tsx": null
-      },
-      "mensajeria-envios-express": {
-        "page.tsx": null
-      },
-      "mensajeria-envios-lowcost": {
-        "page.tsx": null
-      },
-      "nuestrasredes": {
-        "page.tsx": null
-      },
-      "preguntasfrecuentes": {
-        "page.tsx": null
+      "cotizador-envios-lowcost2": {
+        "__files__": [
+          "page.tsx"
+        ]
       },
       "sobre-nosotros": {
-        "page.tsx": null
+        "__files__": [
+          "page.tsx"
+        ]
       },
-      "favicon.ico": null,
-      "globals.css": null,
-      "layout.tsx": null,
-      "page.tsx": null
+      "mensajeria-envios-lowcost": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "contacto": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "enviosflex": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "delivery-moto-express": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "delivery-moto-fija": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "nuestrasredes": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "envios-emprendedores": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "preguntasfrecuentes": {
+        "__files__": [
+          "page.tsx"
+        ]
+      },
+      "cotizador-envios-express": {
+        "__files__": [
+          "page.tsx"
+        ]
+      }
     },
     "components": {
-      "layout": {
-        "footer.tsx": null,
-        "header.tsx": null
+      "ui": {
+        "__files__": [
+          "table.tsx",
+          "avatar.tsx",
+          "label.tsx",
+          "sidebar.tsx",
+          "skeleton.tsx",
+          "slider.tsx",
+          "sheet.tsx",
+          "calendar.tsx",
+          "popover.tsx",
+          "badge.tsx",
+          "form.tsx",
+          "radio-group.tsx",
+          "select.tsx",
+          "carousel.tsx",
+          "alert-dialog.tsx",
+          "dropdown-menu.tsx",
+          "switch.tsx",
+          "toaster.tsx",
+          "dialog.tsx",
+          "tooltip.tsx",
+          "card.tsx",
+          "toast.tsx",
+          "button.tsx",
+          "progress.tsx",
+          "alert.tsx",
+          "tabs.tsx",
+          "checkbox.tsx",
+          "textarea.tsx",
+          "accordion.tsx",
+          "menubar.tsx",
+          "scroll-area.tsx",
+          "input.tsx",
+          "separator.tsx",
+          "chart.tsx"
+        ]
       },
       "sections": {
-        "BusquedaFaq.tsx": null,
-        "CancelacionDeliveyMotoFija.tsx": null,
-        "CaracteristicasDeliveyMotoFija.tsx": null,
-        "CoberturaDeliveyMotoExpress.tsx": null,
-        "ComenzarEmprendedores.tsx": null,
-        "CompromisoDeliveyMotoFija.tsx": null,
-        "CompromisoEmprendedores.tsx": null,
-        "CompromisoEnviosFlex.tsx": null,
-        "ContactMenEnvLowCost.tsx": null,
-        "ContactoDeliveyMotoExpress.tsx": null,
-        "ContactoDeliveyMotoFija.tsx": null,
-        "ContactoEnviosFlex.tsx": null,
-        "CotizarEnviosExpresForm.tsx": null,
-        "EmprendedorContacto.tsx": null,
-        "ExpressPrioritario.tsx": null,
-        "GuiaDeliveyMotoFija.tsx": null,
-        "HeroContacto.tsx": null,
-        "HeroDeliveyMotoExpress.tsx": null,
-        "HeroDeliveyMotoFija.tsx": null,
-        "HeroEmprendedores.tsx": null,
-        "HeroEnviosFlex.tsx": null,
-        "HeroFaq.tsx": null,
-        "HeroMenEnvExpress.tsx": null,
-        "HeroMenEnvLowCost.tsx": null,
-        "HeroNosotros.tsx": null,
-        "HeroNuestrasRedes.tsx": null,
-        "InfoContacto.tsx": null,
-        "InfoEmprendedores.tsx": null,
-        "InfoEnviosFlex.tsx": null,
-        "ListoEmprendedores.tsx": null,
-        "MasInfoDeliveyMotoExpress.tsx": null,
-        "MasPreguntas.tsx": null,
-        "PasosServicios.tsx": null,
-        "PrecioEmprendedores.tsx": null,
-        "PreciosEnviosFlex.tsx": null,
-        "PreciosMenEnvLowCost.tsx": null,
-        "PrincipalEnviosFlex.tsx": null,
-        "Principalcontacto.tsx": null,
-        "RecomendacionesEmprendedores.tsx": null,
-        "RecomendacionesEnviosFlex.tsx": null,
-        "Resumenmensajeriaenviosexpress.tsx": null,
-        "ZonadeCobertura.tsx": null,
-        "banner-redes-sociales.tsx": null,
-        "cotizar-principal.tsx": null,
-        "emprendedores-principal.tsx": null,
-        "faqmenenvexpress.tsx": null,
-        "hero-section.tsx": null,
-        "info-emprendedores.tsx": null,
-        "precio-emprendedores.tsx": null,
-        "service-overview.tsx": null,
-        "servicios-destacados.tsx": null,
-        "vision-global.tsx": null
+        "__files__": [
+          "EmprendedorContacto.tsx",
+          "emprendedores-principal.tsx",
+          "CompromisoEnviosFlex.tsx",
+          "RecomendacionesEnviosFlex.tsx",
+          "HeroMenEnvLowCost.tsx",
+          "hero-section.tsx",
+          "HeroContacto.tsx",
+          "service-overview.tsx",
+          "PreciosEnviosFlex.tsx",
+          "faqmenenvexpress.tsx",
+          "HeroMenEnvExpress.tsx",
+          "PreciosMenEnvLowCost.tsx",
+          "PasosServicios.tsx",
+          "CaluloCotizadorLowCost.tsx",
+          "InfoContacto.tsx",
+          "vision-global.tsx",
+          "GuiaDeliveyMotoFija.tsx",
+          "MasInfoDeliveyMotoExpress.tsx",
+          "cotizar-principal.tsx",
+          "InfoEnviosFlex.tsx",
+          "CoberturaDeliveyMotoExpress.tsx",
+          "banner-redes-sociales.tsx",
+          "ContactoDeliveyMotoFija.tsx",
+          "ExpressPrioritario.tsx",
+          "precio-emprendedores.tsx",
+          "Resumenmensajeriaenviosexpress.tsx",
+          "HeroEnviosFlex.tsx",
+          "Principalcontacto.tsx",
+          "servicios-destacados.tsx",
+          "HeroDeliveyMotoExpress.tsx",
+          "CaluloCotizadorExpress.tsx",
+          "MasPreguntas.tsx",
+          "info-emprendedores.tsx",
+          "HeroDeliveyMotoFija.tsx",
+          "CaracteristicasDeliveyMotoFija.tsx",
+          "HeroNosotros.tsx",
+          "CompromisoEmprendedores.tsx",
+          "PrincipalEnviosFlex.tsx",
+          "CotizarEnviosExpresForm.tsx",
+          "PrecioEmprendedores.tsx",
+          "BusquedaFaq.tsx",
+          "HeroNuestrasRedes.tsx",
+          "ZonadeCobertura.tsx",
+          "CompromisoDeliveyMotoFija.tsx",
+          "InfoEmprendedores.tsx",
+          "HeroEmprendedores.tsx",
+          "ContactoDeliveyMotoExpress.tsx",
+          "HeroFaq.tsx",
+          "HeroCotizadorLowCost.tsx",
+          "ComenzarEmprendedores.tsx",
+          "ContactoEnviosFlex.tsx",
+          "ListoEmprendedores.tsx",
+          "HeroCotizadorExpress.tsx",
+          "RecomendacionesEmprendedores.tsx",
+          "ContactMenEnvLowCost.tsx",
+          "CancelacionDeliveyMotoFija.tsx"
+        ]
       },
-      "ui": {
-        "accordion.tsx": null,
-        "alert-dialog.tsx": null,
-        "alert.tsx": null,
-        "avatar.tsx": null,
-        "badge.tsx": null,
-        "button.tsx": null,
-        "calendar.tsx": null,
-        "card.tsx": null,
-        "carousel.tsx": null,
-        "chart.tsx": null,
-        "checkbox.tsx": null,
-        "dialog.tsx": null,
-        "dropdown-menu.tsx": null,
-        "form.tsx": null,
-        "input.tsx": null,
-        "label.tsx": null,
-        "menubar.tsx": null,
-        "popover.tsx": null,
-        "progress.tsx": null,
-        "radio-group.tsx": null,
-        "scroll-area.tsx": null,
-        "select.tsx": null,
-        "separator.tsx": null,
-        "sheet.tsx": null,
-        "sidebar.tsx": null,
-        "skeleton.tsx": null,
-        "slider.tsx": null,
-        "switch.tsx": null,
-        "table.tsx": null,
-        "tabs.tsx": null,
-        "textarea.tsx": null,
-        "toast.tsx": null,
-        "toaster.tsx": null,
-        "tooltip.tsx": null
+      "layout": {
+        "__files__": [
+          "header.tsx",
+          "footer.tsx"
+        ]
       }
     },
     "hooks": {
-      "use-mobile.tsx": null,
-      "use-toast.ts": null
+      "__files__": [
+        "use-toast.ts",
+        "use-mobile.tsx"
+      ]
+    }
+  },
+  "public": {
+    "__files__": [
+      "Emprendedoresbanner.webp",
+      "android-chrome-512x512.png",
+      "Emprendedoresbannerrapidas.webp",
+      "favicon.svg",
+      "LogoEnviosDosRuedas.webp",
+      "LogoEnviosDosRuedas-32.png",
+      "LogoEnviosDosRuedas-192.png",
+      "LogoEnviosDosRuedas.png",
+      "Emprendedoresbannerrapidas2.webp",
+      "android-chrome-192x192.png",
+      "web-app-manifest-512x512.png",
+      "Emprendedoresbannerrapidas3.webp",
+      "favicon-96x96.png",
+      "favicon-16x16.png",
+      "favicon.ico",
+      "LogoEnviosDosRuedas-180.png",
+      "apple-touch-icon.png"
+    ],
+    "img": {
+      "__files__": [
+        "Emprendedoresbanner.webp",
+        "android-chrome-512x512.png",
+        "headerenviosdosruedas16.webp",
+        "DosRuedas.webp",
+        "Emprendedoresbannerrapidas.webp",
+        "headerenviosdosruedas14.webp",
+        "favicon.svg",
+        "LogoEnviosDosRuedas.webp",
+        "LogoEnviosDosRuedas-32.png",
+        "LogoEnviosDosRuedas-192.png",
+        "LogoEnviosDosRuedas.png",
+        "Emprendedoresbannerrapidas2.webp",
+        "Headeritems-2.webp",
+        "android-chrome-192x192.png",
+        "servicioymensajeria2.webp",
+        "web-app-manifest-512x512.png",
+        "Emprendedoresbannerrapidas3.webp",
+        "favicon-96x96.png",
+        "favicon-16x16.png",
+        "favicon.ico",
+        "LogoEnviosDosRuedas-180.png",
+        "headerenviosdosruedas13.webp",
+        "Headeritems-1.webp",
+        "apple-touch-icon.png"
+      ]
     },
-    "lib": {
-      "utils.ts": null
+    "_auth": {
+      "__files__": [
+        "handler.js",
+        "handler.html",
+        "experiments.js",
+        "iframe.html",
+        "iframe.js"
+      ]
     },
-    "styles": {
-      "footer.css": null,
-      "navbar.css": null,
-      "redessociales.css": null
+    "icon": {
+      "__files__": [
+        "icon-gmail.svg",
+        "icon-facebook.svg",
+        "icon-instagram.svg",
+        "icon-whatsapp.svg"
+      ]
     }
   }
 }
