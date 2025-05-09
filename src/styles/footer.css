@@ -2,8 +2,8 @@
 
 :root {
   /* Shadcn HSL variables (ensure these are defined in globals.css or tailwind.config.ts) */
-  --footer-bg: hsl(var(--muted));
-  --footer-text: hsl(var(--muted-foreground));
+  --footer-bg: hsl(var(--card)); /* Using card color for a darker background */
+  --footer-text: hsl(var(--foreground)); /* Using foreground for better readability on dark bg */
   --footer-primary: hsl(var(--primary));
   --footer-accent: hsl(var(--accent));
   --footer-accent-foreground: hsl(var(--accent-foreground));
@@ -79,7 +79,7 @@
 }
 
 .footer-links a {
-  color: var(--footer-text);
+  color: var(--footer-text); /* Use footer-text for link color */
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -185,7 +185,7 @@
 }
 
 .contact-item .lucide {
-  color: var(--footer-primary);
+  color: var(--footer-primary); /* Icon color matches titles */
   width: 1.125rem; /* 18px */
   height: 1.125rem;
   flex-shrink: 0;
@@ -193,7 +193,7 @@
 
 .whatsapp-link { /* Also used for mailto */
   color: var(--footer-text);
-  text-decoration: none;
+  text-decoration: none; /* Use footer-text for link color */
   transition: color var(--transition-fast);
 }
 
@@ -233,12 +233,14 @@
 
 .social-icon:hover {
   background-color: var(--footer-accent);
-  color: var(--footer-accent-foreground);
+  /* color: var(--footer-accent-foreground); Not needed for SVGs */
   transform: translateY(-2px) scale(1.05); /* Add scale for more pop */
   box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Add subtle shadow on hover */
 }
-.social-icon .lucide {
+
+.social-icon img { /* Target the Image component rendering the SVG */
   width: 1.25rem; /* 20px */
+  height: auto; /* Maintain aspect ratio */
   height: 1.25rem;
 }
 

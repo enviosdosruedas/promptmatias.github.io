@@ -202,7 +202,7 @@ export function Footer() {
               </div>
               <div className="contact-item">
                 <PhoneFooterIcon className="lucide" /> {/* Use Lucide Icon */}
-                <a href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="whatsapp-link">
+                <a href="https://wa.me/+542236602699" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-foreground whatsapp-link">
                   +54 223 660 2699
                 </a>
               </div>
@@ -210,7 +210,7 @@ export function Footer() {
                 <MailFooterIcon className="lucide" /> {/* Use Lucide Icon */}
                 <a href="mailto:dosruedasmdq@gmail.com" className="whatsapp-link">dosruedasmdq@gmail.com</a>
               </div>
-              <div className="social-container">
+              <div className="social-container mt-4">
                 <h3 className="social-title">
                   Síguenos en:
                 </h3>
@@ -242,7 +242,7 @@ export function Footer() {
         <div className="footer-bottom">
           <div>
             <p className="copyright">
-              © {new Date().getFullYear()} Envios DosRuedas. Todos los derechos reservados.
+              &copy; {new Date().getFullYear()} Envios DosRuedas. Todos los derechos reservados.
             </p>
           </div>
         </div>
