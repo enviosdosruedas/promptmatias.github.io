@@ -22,10 +22,7 @@ import {
   HelpCircle,
   Hash,
   MessageSquare,
-  Instagram,
-  Facebook,
-  Bike as BikeIcon,
-  ChevronUp,
+  ChevronUp, Bike,
   MapPin as MapPinIcon // Aliased MapPin to MapPinIcon
 } from 'lucide-react';
 import {
@@ -47,9 +44,9 @@ const footerNavItems = [
     title: 'Servicios',
     icon: Package,
     subItems: [
-      { title: 'Envíos Express', href: '/mensajeria-envios-express', icon: Zap },
-      { title: 'Envíos LowCost', href: '/mensajeria-envios-lowcost', icon: PiggyBank },
-      { title: 'Moto Express', href: '/delivery-moto-express', icon: BikeIcon },
+      { title: 'Envíos Express', href: '/mensajeria-envios-express', icon: Zap},
+      { title: 'Envíos LowCost', href: '/mensajeria-envios-lowcost', icon: PiggyBank},
+      { title: 'Moto Express', href: '/delivery-moto-express', icon: Bike},
       { title: 'Moto Fija', href: '/delivery-moto-fija', icon: ClockIcon },
       { title: 'Plan Emprendedores', href: '/envios-emprendedores', icon: Store },
       { title: 'Envios Flex', href: '/enviosflex', icon: Box },
@@ -170,7 +167,7 @@ export function Footer() {
           <div>
             <div className="footer-logo-flex mb-4">
               <Link href="/" className="footer-logo-link">
-                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={50} height={50} className="footer-logo-img" />
+                 <Image src="/favicon.svg" alt="EnviosDosRuedas Logo" width={50} height={50} className="footer-logo-img" priority />
               </Link>
               <div>
                 <h3 className="footer-title-main">
@@ -218,15 +215,24 @@ export function Footer() {
                   Síguenos en:
                 </h3>
                 <div className="social-links">
-                  <Link href="https://instagram.com/enviosdosruedas" target="_blank" rel="noopener noreferrer" className="social-icon instagram" aria-label="Instagram">
-                     <Instagram className="lucide h-5 w-5" /> {/* Use Lucide Icon */}
+                   <Link href="https://instagram.com/enviosdosruedas" target="_blank" rel="noopener noreferrer" className="social-icon instagram" aria-label="Instagram">
+                    <img src="/icon/icon-instagram.svg" alt="Instagram" className="h-5 w-5" />
                   </Link>
                   <Link href="https://facebook.com/enviosdosruedas" target="_blank" rel="noopener noreferrer" className="social-icon facebook" aria-label="Facebook">
-                    <Facebook className="lucide h-5 w-5" /> {/* Use Lucide Icon */}
+                    <img src="/icon/icon-facebook.svg" alt="Facebook" className="h-5 w-5" />
                   </Link>
                   <Link href="https://wa.me/+542236602699?text=Hola!%20Encontre%20su%20contacto%20en%20el%20sitio%20web%20y%20me%20gustaria%20mas%20informacion%20sobre%20su%20servicio." target="_blank" rel="noopener noreferrer" className="social-icon whatsapp" aria-label="WhatsApp">
-                     <MessageSquare className="lucide h-5 w-5" />
+                    <img src="/icon/icon-whatsapp.svg" alt="WhatsApp" className="h-5 w-5" />
                   </Link>
+                  {/* Add Gmail link */}
+                  {/* <Link href="mailto:dosruedasmdq@gmail.com" className="social-icon gmail" aria-label="Gmail">
+                    <img src="/icon/icon-gmail.svg" alt="Gmail" className="h-5 w-5" />
+                  </Link> */}
+                  {/* Add any other social links with their SVG icons */}
+                  {/* <Link href="#" className="social-icon tiktok" aria-label="TikTok">
+                    <img src="/icon/icon-tiktok.svg" alt="TikTok" className="h-5 w-5" />
+                  </Link> */}
+                  {/* Add more social links as needed */}
                 </div>
               </div>
             </div>
