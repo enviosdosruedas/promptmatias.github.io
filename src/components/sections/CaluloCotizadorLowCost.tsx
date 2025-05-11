@@ -104,21 +104,15 @@ const CaluloCotizadorLowCost: React.FC = () => {
   const calcularPrecio = (distanciaKm: number) => {
     let precioValor: number | string;
     if (distanciaKm <= 2.9) {
-      precioValor = 2000;
+      precioValor = 2150;
     } else if (distanciaKm > 2.9 && distanciaKm <= 4.9) {
-      precioValor = 2700;
+      precioValor = 2900;
     } else if (distanciaKm > 4.9 && distanciaKm <= 8.9) {
-      precioValor = 3800;
+      precioValor = 4000;
     } else if (distanciaKm > 8.9 && distanciaKm <= 13) {
-      precioValor = 5400;
-    } else if (distanciaKm > 13 && distanciaKm <= 15) {
-      precioValor = 7600;
-    } else if (distanciaKm > 15 && distanciaKm <= 17) {
-      precioValor = 7600; 
-    } else if (distanciaKm > 17 && distanciaKm <= 19) {
-      precioValor = 9500;
-    } else if (distanciaKm > 19 && distanciaKm <= 21) {
-      precioValor = 9500; 
+      precioValor = 5800;
+    } else if (distanciaKm > 13 && distanciaKm <= 30) {
+      precioValor = 8200;
     } else {
       precioValor = "Consulte por WhatsApp";
     }

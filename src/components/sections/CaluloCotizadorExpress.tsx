@@ -114,22 +114,22 @@ const CaluloCotizadorExpress: React.FC = () => {
   const calcularPrecio = (distanciaKm: number) => {
     let precioValor: number | string;
     if (distanciaKm <= 3) {
-      precioValor = 2500;
+      precioValor = 2700;
     } else if (distanciaKm > 3 && distanciaKm <= 5) {
-      precioValor = 3100;
+      precioValor = 3400;
     } else if (distanciaKm > 5 && distanciaKm <= 6) {
-      precioValor = 3900;
+      precioValor = 4200;
     } else if (distanciaKm > 6 && distanciaKm <= 7) {
-      precioValor = 4600;
+      precioValor = 5000;
     } else if (distanciaKm > 7 && distanciaKm <= 8) {
-      precioValor = 5400;
+      precioValor = 5800;
     } else if (distanciaKm > 8 && distanciaKm <= 9) {
-      precioValor = 6000;
+      precioValor = 6500;
     } else if (distanciaKm > 9 && distanciaKm <= 10) {
-      precioValor = 6850;
+      precioValor = 7350;
     } else {
       const kmExtra = Math.ceil(distanciaKm - 10);
-      precioValor = 7000 + (kmExtra * 700);
+      precioValor = 7350 + (kmExtra * 750);
     }
 
 
