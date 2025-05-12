@@ -52,6 +52,7 @@ public/
 ├── favicon-96x96.png
 ├── favicon.ico
 ├── favicon.svg
+├── sitemap.xml
 └── web-app-manifest-512x512.png
 
 Estructura de: /home/user/studio/src
