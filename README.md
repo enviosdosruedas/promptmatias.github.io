@@ -1,6 +1,6 @@
 # EnviosDosRuedas
 
-![EnviosDosRuedas Logo](/public/LogoEnviosDosRuedas.webp)
+![EnviosDosRuedas Logo](public/LogoEnviosDosRuedas-180.png)
 
 ## Description
 
