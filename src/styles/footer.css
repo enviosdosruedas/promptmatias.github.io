@@ -1,29 +1,30 @@
-/* Estilos específicos para el footer */
+/* Estilos específicos para el footer - Optimizados y Animados */
 
 :root {
-  /* Shadcn HSL variables (ensure these are defined in globals.css or tailwind.config.ts) */
-  --footer-bg: hsl(var(--card)); /* Using card color for a darker background */
-  --footer-text: hsl(var(--foreground)); /* Using foreground for better readability on dark bg */
-  --footer-primary: hsl(var(--primary));
+  /* Variables (ajustar según necesidad o usar Tailwind theme) */
+  --footer-bg: hsl(var(--primary)); /* Use primary color from navbar for consistency */
+  --footer-text: hsl(var(--primary-foreground)); /* Use primary-foreground for consistent text color */
+  --footer-primary: hsl(var(--accent)); /* Use accent color for titles */
   --footer-accent: hsl(var(--accent));
   --footer-accent-foreground: hsl(var(--accent-foreground));
-  --footer-primary-foreground: hsl(var(--primary-foreground));
-  --footer-popover-bg: hsl(var(--popover)); /* For dropdown background */
-  --footer-popover-foreground: hsl(var(--popover-foreground)); /* For dropdown text */
-  --footer-border: hsl(var(--border));
-  --radius-sm: calc(var(--radius) - 4px); /* Shadcn like radius */
+  --footer-primary-foreground: hsl(var(--primary-foreground)); /* Redundant, defined above */
+  --footer-popover-bg: hsl(var(--popover));
+  --footer-popover-foreground: hsl(var(--popover-foreground));
+  --footer-border: hsl(var(--border)); /* Consider using a lighter shade of --footer-bg */
+  --radius-sm: calc(var(--radius) - 4px);
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
   --footer-gap: 2rem;
-  --font-size-lg: 1.125rem; /* 18px */
-  --font-size-base: 1rem; /* 16px */
-  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-lg: 1.125rem;
+  --font-size-base: 1rem;
+  --font-size-sm: 0.875rem;
   --font-weight-bold: 600;
   --transition-fast: all 0.2s ease-in-out;
   --transition-std: all 0.3s ease-in-out;
+  --shadow-footer: 0px -2px 4px rgba(0, 0, 0, 0.08); /* Subtle top shadow for footer */
 }
 
 .main-footer {
@@ -31,11 +32,12 @@
   color: var(--footer-text);
   padding: var(--spacing-xl) 0 var(--spacing-md);
   border-top: 1px solid var(--footer-border);
+  box-shadow: var(--shadow-footer);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Min width for columns */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: var(--footer-gap);
   margin-bottom: var(--spacing-xl);
 }
@@ -43,29 +45,45 @@
 .footer-logo-flex {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md); /* Increased gap */
-  margin-bottom: var(--spacing-md); /* Add some bottom margin */
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 }
 
 .footer-logo-img {
-  max-width: 60px; /* Slightly larger logo */
+  max-width: 60px;
   height: auto;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
 }
 
-.footer-title-main { /* Specific class for the main brand title */
-  font-size: 1.25rem; /* Tailwind text-xl */
-  font-weight: 700; /* Tailwind font-bold */
-  color: var(--footer-primary);
+.footer-title-main {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--footer-primary); /* Use accent color */
   margin-bottom: var(--spacing-xs);
+  animation: fadeIn 0.5s ease-out, changeColor 2s infinite alternate; /* Apply animations */
+}
+.animated-title-main {
+color: #fdc500;
+animation: colorChange 2s infinite alternate;
+}
+
+@keyframes colorChange {
+from { color: #ffffff; }
+to { color: #fdc500; }
 }
 
 .footer-title {
   font-size: var(--font-size-lg);
-  margin-bottom: var(--spacing-md); /* Consistent spacing */
-  color: var(--footer-primary);
+  margin-bottom: var(--spacing-md);
+  color: var(--footer-primary); /* Use accent color */
   font-weight: var(--font-weight-bold);
+  animation: fadeIn 0.5s ease-out, changeColor 2s infinite alternate; /* Apply animations */
 }
+.animated-title {
+color: #fdc500;
+animation: colorChange 2s infinite alternate;
+}
+
 
 .footer-links {
   list-style: none;
@@ -75,42 +93,42 @@
 
 .footer-links li {
   margin-bottom: var(--spacing-sm);
-  position: relative; /* For dropdown positioning */
+  position: relative;
 }
 
 .footer-links a {
-  color: var(--footer-text); /* Use footer-text for link color */
+  color: var(--footer-text);
   display: flex;
   align-items: center;
   text-decoration: none;
   font-size: var(--font-size-sm);
-  padding: var(--spacing-xs) 0; /* Add some padding for better click area */
+  padding: var(--spacing-xs) 0;
   transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
 .footer-links a:hover {
   color: var(--footer-accent);
-  /* transform: translateX(3px); /* Subtle hover effect */
+  /* transform: translateX(3px); */
 }
 
 .footer-links .lucide-icon {
-  margin-right: var(--spacing-sm); /* Space between icon and text */
-  width: 1em; /* Control icon size relative to font */
+  margin-right: var(--spacing-sm);
+  width: 1em;
   height: 1em;
-  flex-shrink: 0; /* Prevent icon shrinking */
-  color: var(--footer-primary); /* Icon color matching titles */
-}
-.footer-links a:hover .lucide-icon {
-  color: var(--footer-accent); /* Match text hover color */
+  flex-shrink: 0;
+  color: var(--footer-primary); /* Use accent color */
 }
 
+.footer-links a:hover .lucide-icon {
+  color: var(--footer-accent);
+}
 
 /* Dropdown Styles */
 .footer-links .dropdown {
   position: relative;
 }
 
-.footer-links .dropdown > a .lucide-chevron { /* Style chevron specifically if needed */
+.footer-links .dropdown > a .lucide-chevron {
   margin-left: auto;
   transition: transform var(--transition-fast);
 }
@@ -120,11 +138,11 @@
 }
 
 .footer-links .dropdown-content {
-  display: none; /* Hidden by default */
+  display: none;
   position: absolute;
-  bottom: calc(100% + var(--spacing-xs)); /* Position above the parent with a small gap */
+  bottom: calc(100% + var(--spacing-xs));
   left: 0;
-  background-color: var(--footer-popover-bg);
+  background-color: var(--nav-dropdown-bg);
   min-width: 200px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 10;
@@ -153,22 +171,23 @@
 .footer-links .dropdown-content a {
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-sm);
-  color: var(--footer-popover-foreground);
+  color: var(--nav-dropdown-text);
   white-space: nowrap;
 }
 
 .footer-links .dropdown-content a:hover {
-  background-color: var(--footer-accent);
-  color: var(--footer-accent-foreground);
-  border-radius: var(--radius-sm); /* Add radius on hover for sub-items */
-}
-.footer-links .dropdown-content a .lucide-icon {
-  color: var(--footer-accent); /* Sub-item icon color */
-}
-.footer-links .dropdown-content a:hover .lucide-icon {
-  color: var(--footer-accent-foreground);
+  background-color: var(--nav-dropdown-hover-bg);
+  color: var(--nav-dropdown-hover-text);
+  border-radius: var(--radius-sm);
 }
 
+.footer-links .dropdown-content a .lucide-icon {
+  color: var(--nav-dropdown-icon-color);
+}
+
+.footer-links .dropdown-content a:hover .lucide-icon {
+  color: var(--nav-dropdown-hover-text);
+}
 
 /* Contact Info */
 .contact-info {
@@ -180,20 +199,20 @@
 
 .contact-item {
   display: flex;
-  align-items: center; /* Vertically center icon and text */
+  align-items: center;
   gap: var(--spacing-sm);
 }
 
 .contact-item .lucide {
-  color: var(--footer-primary); /* Icon color matches titles */
-  width: 1.125rem; /* 18px */
+  color: var(--footer-primary); /* Use accent color */
+  width: 1.125rem;
   height: 1.125rem;
   flex-shrink: 0;
 }
 
-.whatsapp-link { /* Also used for mailto */
+.whatsapp-link {
   color: var(--footer-text);
-  text-decoration: none; /* Use footer-text for link color */
+  text-decoration: none;
   transition: color var(--transition-fast);
 }
 
@@ -209,8 +228,9 @@
 .social-title {
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-sm);
-  color: var(--footer-primary);
+  color: var(--footer-primary); /* Use accent color */
   font-weight: 500;
+  animation: fadeIn 0.5s ease-out, changeColor 2s infinite alternate; /* Apply animations */
 }
 
 .social-links {
@@ -222,28 +242,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px; /* Slightly larger */
+  width: 38px;
   height: 38px;
   border-radius: 50%;
-  background-color: hsl(var(--primary) / 0.1); /* Subtle background using primary */
-  color: var(--footer-primary);
+  background-color: hsl(var(--primary) / 0.1);
+  color: var(--footer-primary); /* Use accent color */
   transition: var(--transition-std);
-  border: 1px solid transparent; /* Prepare for potential border on hover */
+  border: 1px solid transparent;
 }
 
 .social-icon:hover {
   background-color: var(--footer-accent);
-  /* color: var(--footer-accent-foreground); Not needed for SVGs */
-  transform: translateY(-2px) scale(1.05); /* Add scale for more pop */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Add subtle shadow on hover */
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.social-icon img { /* Target the Image component rendering the SVG */
-  width: 1.25rem; /* 20px */
-  height: auto; /* Maintain aspect ratio */
+.social-icon img {
+  width: 1.25rem;
+  height: auto;
   height: 1.25rem;
 }
-
 
 /* Footer Bottom */
 .footer-bottom {
@@ -264,18 +282,18 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 44px; /* Adjusted size */
+  width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: var(--footer-primary);
-  color: var(--footer-primary-foreground);
+  background-color: var(--footer-accent); /* Use accent color for button */
+  color: var(--accent-foreground);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px) scale(0.9); /* Start slightly lower and smaller */
+  transform: translateY(20px) scale(0.9);
   transition: opacity 0.3s ease-out, visibility 0.3s ease-out, transform 0.3s ease-out;
   z-index: 999;
   border: none;
@@ -285,76 +303,101 @@
 .back-to-top.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1); /* Animate to original position and size */
+  transform: translateY(0) scale(1);
 }
 
 .back-to-top:hover {
-  background-color: var(--footer-accent);
-  color: var(--footer-accent-foreground);
-  transform: translateY(-3px) scale(1.05); /* Enhanced hover effect */
-}
-.back-to-top .lucide {
-    width: 1.25rem; /* 20px */
-    height: 1.25rem;
+  background-color: hsl(var(--accent) / 0.8);
+  color: var(--accent-foreground);
+  transform: translateY(-3px) scale(1.05);
 }
 
+.back-to-top .lucide {
+  width: 1.25rem;
+  height: 1.25rem;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-lg); /* Slightly reduced gap for mobile */
-    text-align: center;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+      text-align: center;
   }
 
   .footer-logo-flex {
       justify-content: center;
   }
 
-  .footer-title, .social-title {
+  .footer-title,
+  .social-title {
       text-align: center;
   }
 
-  .footer-links a, .contact-item, .social-links {
+  .footer-links a,
+  .contact-item,
+  .social-links {
       justify-content: center;
   }
+
   .footer-links .dropdown-content {
-      padding-left: 0; 
+      padding-left: 0;
       text-align: center;
-      position: static; /* Let dropdown content flow naturally on mobile */
+      position: static;
       transform: none;
       opacity: 1;
       visibility: visible;
-      display: none; /* Initially hidden, toggle with JS or keep hover for desktop-like behavior if simple */
+      display: none;
       background-color: transparent;
       box-shadow: none;
       border: none;
       padding-top: var(--spacing-xs);
   }
+
   .footer-links .dropdown:hover .dropdown-content {
-      display: block; /* Still use hover for simplicity if no JS toggle */
+      display: block;
   }
-   .footer-links .dropdown-content a {
-    color: var(--footer-text); /* Match main link color on mobile */
-    padding: var(--spacing-xs) 0;
+
+  .footer-links .dropdown-content a {
+      color: var(--footer-text);
+      padding: var(--spacing-xs) 0;
   }
+
   .footer-links .dropdown-content a:hover {
-    color: var(--footer-accent);
-    background-color: transparent;
+      color: var(--footer-accent);
+      background-color: transparent;
   }
 
   .contact-info {
-    align-items: center;
+      align-items: center;
   }
 
   .back-to-top {
-    bottom: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
   }
-   .back-to-top .lucide {
-        width: 1.125rem; /* 18px */
-        height: 1.125rem;
-    }
+
+  .back-to-top .lucide {
+      width: 1.125rem;
+      height: 1.125rem;
+  }
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes changeColor {
+  from { color: var(--footer-text); }
+  to { color: var(--footer-primary); }
 }
