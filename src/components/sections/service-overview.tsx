@@ -8,11 +8,6 @@ const services = [
     description: 'Asignación de un repartidor fijo para tus necesidades regulares.',
   },
   {
-    icon: <Clock className="h-8 w-8 text-secondary" />,
-    title: 'Delivery Moto Express',
-    description: 'Entregas urgentes en moto, la solución más rápida para tus envíos.',
-  },
-  {
     icon: <Package className="h-8 w-8 text-secondary" />,
     title: 'Mensajería Express',
     description: 'Servicio de mensajería rápido y seguro para documentos y paquetes.',
