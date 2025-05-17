@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioTower, Loader2 } from "lucide-react"; // Removed MessageSquare
+import { RadioTower, Loader2, MapPin } from "lucide-react"; // Added MapPin
 // import { supabase } from '@/lib/supabaseClient'; // Adjust path as needed
 import { type User } from '@supabase/supabase-js';
 
