@@ -73,12 +73,16 @@ export function RequestService() {
       });
       setServiceName('');
       setDescription('');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error requesting service:", error);
+      let errorMessage = "Ocurrió un problema. Inténtalo de nuevo.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       toast({
         variant: "destructive",
         title: "Error al solicitar servicio",
-        description: error.message || "Ocurrió un problema. Inténtalo de nuevo.",
+        description: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -117,7 +121,7 @@ export function RequestService() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <Button type="submit" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 w-full" disabled={isLoading}>
+          <Button type="submit" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 w-full" disabled={isLoading || !currentUser}>
             {isLoading ? (
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
             ) : (

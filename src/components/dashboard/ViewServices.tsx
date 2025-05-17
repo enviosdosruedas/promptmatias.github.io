@@ -9,7 +9,7 @@ import { type User } from '@supabase/supabase-js'; // Import User type
 
 interface Service {
   id: string;
-  service_name: string; // Assuming a column name like this
+  service_name: string; 
   status: string;
   created_at: string;
 }
@@ -22,47 +22,54 @@ export function ViewServices() {
 
   React.useEffect(() => {
     const fetchUserAndServices = async () => {
-      // const { data: { user } } = await supabase.auth.getUser(); // Uncomment when Supabase is integrated
-      // setCurrentUser(user); // Uncomment when Supabase is integrated
+      // For Supabase integration:
+      // const { data: { user } } = await supabase.auth.getUser();
+      // setCurrentUser(user);
+      // if (!user) {
+      //   setError("Usuario no autenticado.");
+      //   setLoading(false);
+      //   return;
+      // }
+      // const userIdToFetch = user.id;
 
-      // Placeholder user for now
-      const placeholderUser = { id: 'mock-user-id' } as User;
-      setCurrentUser(placeholderUser);
+      // Placeholder for now:
+      const placeholderUser = { id: 'mock-user-id', email: 'mock@example.com' } as User;
+      setCurrentUser(placeholderUser); 
+      const userIdToFetch = placeholderUser.id; 
+      
+      if (!currentUser && !placeholderUser) { // Check if user is available before fetching
+        setError("Esperando información del usuario...");
+        setLoading(false);
+        return;
+      }
 
+      setLoading(true); 
+      setError(null);   
 
-      if (placeholderUser) { // Replace with `if (user)` when Supabase is integrated
-        try {
-          // const { data, error: dbError } = await supabase // Uncomment when Supabase is integrated
-          //   .from('servicios')
-          //   .select('*')
-          //   .eq('user_id', user.id)
-          //   .order('created_at', { ascending: false });
-
-          // if (dbError) throw dbError;
-          // setServices(data as Service[]);
-
-          // Placeholder data for now
-          setTimeout(() => {
-            setServices([
-              { id: '1', service_name: 'Envío Express #123 (Simulado)', status: 'En Camino', created_at: new Date().toISOString() },
-              { id: '2', service_name: 'Recolección Low-Cost #456 (Simulado)', status: 'Programado', created_at: new Date().toISOString() },
-            ]);
-            setLoading(false);
-          }, 1000);
-
-        } catch (e: any) {
-          console.error("Error fetching services:", e);
-          setError("No se pudieron cargar los servicios.");
+      try {
+        // Placeholder data fetching
+        console.log(`Simulating fetch for user: ${userIdToFetch}`); // userIdToFetch is used here
+        setTimeout(() => {
+          setServices([
+            { id: '1', service_name: 'Envío Express #123 (Simulado)', status: 'En Camino', created_at: new Date().toISOString() },
+            { id: '2', service_name: 'Recolección Low-Cost #456 (Simulado)', status: 'Programado', created_at: new Date().toISOString() },
+          ]);
           setLoading(false);
+        }, 1000);
+
+      } catch (e: unknown) {
+        console.error("Error fetching services:", e);
+        let errorMessage = "No se pudieron cargar los servicios.";
+        if (e instanceof Error) {
+          errorMessage = `${errorMessage} ${e.message}`;
         }
-      } else {
-        setError("Usuario no autenticado.");
+        setError(errorMessage);
         setLoading(false);
       }
     };
 
     fetchUserAndServices();
-  }, []);
+  }, [currentUser]); // Added currentUser to dependency array
 
   return (
     <Card className="shadow-lg">
