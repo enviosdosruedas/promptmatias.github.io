@@ -18,24 +18,27 @@ interface RealtimeMessage {
 
 export function RealtimeView() {
   const [messages, setMessages] = React.useState<RealtimeMessage[]>([]);
-  const [lastUpdate, setLastUpdate] = React.useState<string | null>(null); // Initialize with null
+  const [lastUpdate, setLastUpdate] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 
 
   React.useEffect(() => {
-    // Set the initial time on the client after hydration
-    setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
-
     // Simulate fetching user
-    const mockUser = { id: 'test-user-id' } as User; // Placeholder
-    setCurrentUser(mockUser);
+    const placeholderUser = { id: 'test-user-id' } as User; // Placeholder
+    setCurrentUser(placeholderUser);
+    
+    // This effect runs once on mount to set initial client time
+    setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
     
     // Simulate initial load & mock real-time updates
     setIsLoading(true);
-    if (mockUser) { 
-        console.log("RealtimeView attempting to load for user:", mockUser.id);
+
+    if (currentUser) {
+        console.log("RealtimeView attempting to load for user:", currentUser.id);
+        // Placeholder for fetching initial messages or setting up subscriptions based on user
     }
+
     setTimeout(() => {
         setMessages([
             {id: 'msg-1', tipo_mensaje: 'estado_pedido', contenido: 'Pedido #123 en camino (Simulado)', fecha_hora: new Date().toISOString()},
@@ -77,7 +80,7 @@ export function RealtimeView() {
     //     supabase.removeChannel(channel);
     //   };
     // }
-  }, []); // Empty dependency array ensures this runs once on mount for initial client time
+  }, [currentUser]); // Added currentUser to dependency array
 
   return (
     <Card className="shadow-lg sticky top-24">
