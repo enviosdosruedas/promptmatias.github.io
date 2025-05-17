@@ -96,7 +96,7 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof foote
 );
 
 export function Footer() {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+    const [, setIsMobileMenuOpen] = React.useState(false);
     // Removed unused 'mounted' state
     const isMobile = useIsMobile();
     const [isVisible, setIsVisible] = React.useState(false);
