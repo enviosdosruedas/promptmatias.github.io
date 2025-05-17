@@ -1,6 +1,6 @@
 
 import Image from 'next/image';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// Removed unused Avatar imports
 import { HeroNosotros } from '@/components/sections/HeroNosotros'; 
 import { ZonadeCobertura } from '@/components/sections/ZonadeCobertura'; 
 import { Star } from 'lucide-react'; 

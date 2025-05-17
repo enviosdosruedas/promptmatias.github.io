@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed CardDescription
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Package, AlertCircle, Info, Film, Box, GlassWater } from 'lucide-react';
+import { CheckCircle, Package, AlertCircle, Info, Film, Box, GlassWater, ShieldCheck } from 'lucide-react';
 
 const embalajeItems = [
   { icon: <Film className="h-4 w-4 text-secondary flex-shrink-0" />, text: "Uso de film protector para mayor seguridad." },
@@ -81,6 +81,3 @@ export function GuiaDeliveyMotoFija() {
     </section>
   );
 }
-
-// Added a missing import for ShieldCheck
-import { ShieldCheck } from 'lucide-react';

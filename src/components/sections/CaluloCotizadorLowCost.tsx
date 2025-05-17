@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Info, MessageSquare, MapPinIcon } from "lucide-react"; 
+import { Terminal, Info, MapPinIcon } from "lucide-react"; 
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -37,15 +37,17 @@ const CaluloCotizadorLowCost: React.FC = () => {
   const marcadorDestinoRef = useRef<google.maps.Marker | null>(null);
 
   const initMap = useCallback(() => {
-    if (!window.google || !window.google.maps || !mapRef.current) {
-      // setError("Error al cargar el mapa. Intente de nuevo o verifique la configuración de la API Key.");
-      // setMapLoading(false);
-      // console.error("Google Maps API not loaded or mapRef is null");
+    if (!window.google || !window.google.maps || !mapRef.current || mapInstanceRef.current) {
+      if (!window.google || !window.google.maps) console.error("Google Maps API not loaded.");
+      if (!mapRef.current) console.error("Map container not found.");
+      if (mapInstanceRef.current) console.log("Map already initialized.");
+      setMapLoading(false); // Ensure mapLoading is set to false even if there's an issue
       return;
     }
+    console.log("Initializing map for Low Cost...");
 
     const marDelPlata = { lat: -38.0055, lng: -57.5426 };
-    const map = new window.google.maps.Map(mapRef.current, {
+    const map = new window.google.maps.Map(mapRef.current!, {
       zoom: 12,
       center: marDelPlata,
       mapTypeControl: false,
@@ -62,29 +64,38 @@ const CaluloCotizadorLowCost: React.FC = () => {
     });
     geocoderRef.current = new window.google.maps.Geocoder();
     setMapLoading(false);
+    console.log("Map initialized successfully for Low Cost.");
   }, []);
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
-      if (window.google && window.google.maps) {
-        initMap();
+      const scriptId = "google-maps-script"; // Use the same ID to prevent multiple loads
+      if (document.getElementById(scriptId) || window.google?.maps) {
+         if (window.google && window.google.maps && !mapInstanceRef.current) {
+          console.log("Google Maps script already loaded or present, initializing map for Low Cost.");
+          initMap();
+        } else if (mapInstanceRef.current) {
+            console.log("Map already initialized for Low Cost, skipping script load.");
+            setMapLoading(false);
+        } else {
+          const checkGoogle = setInterval(() => {
+            if (window.google && window.google.maps) {
+              clearInterval(checkGoogle);
+              initMap();
+            }
+          }, 100);
+        }
         return;
       }
+      
       const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
       if (!apiKey) {
         console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
         setError("Falta la configuración del mapa. Contacta al administrador.");
         setMapLoading(false);
-        return;
+        return; 
       }
-
-      const scriptId = "google-maps-script";
-      if (document.getElementById(scriptId)) {
-        if (window.google && window.google.maps && !mapInstanceRef.current) {
-         initMap();
-        }
-        return;
-      }
+      console.log("Loading Google Maps script for Low Cost...");
       
       window.initMapGlobally = initMap;
 
@@ -93,11 +104,17 @@ const CaluloCotizadorLowCost: React.FC = () => {
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMapGlobally&libraries=marker,geometry`; 
       script.async = true;
       script.defer = true;
+      script.onerror = () => {
+        console.error("Failed to load Google Maps script for Low Cost.");
+        setError("Error al cargar el script del mapa.");
+        setMapLoading(false);
+      };
       document.head.appendChild(script);
       
-      // No cleanup function to remove the script to avoid multiple loads
     };
-    loadGoogleMapsScript();
+    if (typeof window !== 'undefined') {
+        loadGoogleMapsScript();
+    }
   }, [initMap]);
 
 
@@ -338,3 +355,4 @@ declare global {
     initMapGlobally?: () => void;
   }
 }
+

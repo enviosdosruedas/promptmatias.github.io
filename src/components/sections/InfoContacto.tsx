@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { MapPin, Clock, Mail, Phone, CheckCircle } from 'lucide-react';
+import { MapPin, Clock, Phone, CheckCircle } from 'lucide-react'; // Removed Mail import
 
 // WhatsApp Icon SVG Component
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (

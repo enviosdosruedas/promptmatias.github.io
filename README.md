@@ -1,151 +1,115 @@
-# EnviosDosRuedas
 
-![EnviosDosRuedas Logo](public/LogoEnviosDosRuedas-180.png)
+# EnviosDosRuedas
 
 ## Description
 
-EnviosDosRuedas is a Next.js web application that provides motorcycle courier and delivery services in Argentina. The platform allows users to request, quote, and manage various types of delivery services, from express deliveries to low-cost options for individuals and entrepreneurs.
+EnviosDosRuedas is a modern web application designed for a motorcycle courier and delivery service. It allows users to quickly get quotes for their deliveries and provides an overview of the services offered. The application is built with a focus on a professional and trustworthy user experience.
 
 ## Features
 
-- **Quotation System**: Multiple quotation tools tailored for different service types (Express, Low-Cost, Flex)
-- **Service Overview**: Detailed information about all available delivery services
-- **Interactive UI**: Modern, responsive user interface with intuitive navigation
-- **Service-Specific Pages**: Dedicated pages for each service type with relevant information
-- **Contact Forms**: Easy ways for users to get in touch and request services
-- **FAQ Section**: Comprehensive answers to frequently asked questions
-- **Business Solutions**: Specialized services for entrepreneurs and businesses
-- **Coverage Areas**: Information about service coverage zones
-- **Social Media Integration**: Links to the company's social media profiles
+*   **Hero Section:** A prominent hero section on the homepage with a clear message and a call-to-action button ("Cotizá tu envío") to encourage user engagement.
+*   **Service Overview:** A dedicated section showcasing the main delivery services offered by EnviosDosRuedas, helping users understand the range of options available.
+*   **Quotation System Integration:** (Assumed based on "Cotizá tu envío" button and various cotizador pages) - Links or integrated forms to allow users to get quotes for different types of delivery services (Express, Low-Cost, etc.).
+*   **Responsive Design:** The application is designed to work seamlessly across various devices and screen sizes.
+*   **Modern UI/UX:** Utilizes ShadCN UI components and Tailwind CSS for a clean, modern, and aesthetically pleasing user interface.
+*   **Footer:** A basic footer component displaying copyright information.
 
 ## Technologies Used
 
-- **Framework**: [Next.js 15](https://nextjs.org/) with App Router
-- **UI Library**: [React 18](https://reactjs.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Component Library**: [shadcn/ui](https://ui.shadcn.com/) (Radix UI-based components)
-- **Form Management**: React Hook Form with Zod validation
-- **State Management**: React Query (TanStack Query)
-- **Backend/Database**: Firebase (Firestore)
-- **Authentication**: Firebase Auth
-- **Maps Integration**: Google Maps API
-- **Icons**: Lucide React
-- **AI Integration**: GenKit for AI functionality
-- **Charts**: Recharts for data visualization
-- **Development Tools**: TypeScript, ESLint
+*   **Framework:** [Next.js](https://nextjs.org/) (App Router)
+*   **UI Library:** [React](https://reactjs.org/)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **Component Library:** [Shadcn/ui](https://ui.shadcn.com/) (built on Radix UI and Tailwind CSS)
+*   **Icons:** [Lucide React](https://lucide.dev/)
+*   **AI (Potentially):** [Genkit](https://firebase.google.com/docs/genkit) (available in the stack for future AI-powered features)
+*   **TypeScript:** For type safety and improved developer experience.
+
+## Installation
+
+To set up and run the project locally, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd EnviosDosRuedas
+    ```
+
+2.  **Install dependencies:**
+    It's recommended to use `pnpm` if available, but `npm` or `yarn` will also work.
+    ```bash
+    # Using pnpm
+    pnpm install
+
+    # Or using npm
+    npm install
+
+    # Or using yarn
+    yarn install
+    ```
+
+3.  **Set up environment variables:**
+    Create a `.env.local` file in the root directory of the project. You might need to add environment variables for specific services if they are integrated (e.g., Google Maps API key for cotizador components, Genkit API keys).
+    Example:
+    ```env
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
+    GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+    ```
+
+4.  **Run the development server:**
+    ```bash
+    # Using pnpm
+    pnpm run dev
+
+    # Or using npm
+    npm run dev
+
+    # Or using yarn
+    yarn dev
+    ```
+    The application will typically be available at `http://localhost:3000` or `http://localhost:9002` (as per your current `package.json`).
+
+## Usage
+
+Once the development server is running:
+
+1.  Open your web browser and navigate to the local address (e.g., `http://localhost:9002`).
+2.  You will see the homepage featuring the Hero Section and Service Overview.
+3.  The "Cotizá tu envío" button in the Hero Section should (eventually) lead to a quotation page or modal.
+4.  The navigation bar (Header) allows access to different sections of the application, such as various service pages, quotation tools, and contact information.
+5.  The Footer displays copyright information.
 
 ## File Structure
 
+The project follows a standard Next.js App Router structure:
+
 ```
+EnviosDosRuedas/
+├── public/                 # Static assets (images, icons, fonts, etc.)
+│   ├── icon/
+│   └── img/
 ├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── page.tsx            # Homepage
-│   │   ├── layout.tsx          # Root layout
-│   │   ├── globals.css         # Global styles
-│   │   ├── cotizador-*/        # Quotation pages
-│   │   │   ├── cotizador-envios-express/  # Express delivery quotation
-│   │   │   ├── cotizador-envios-express2/ # Alternative express quotation
-│   │   │   ├── cotizador-envios-lowcost/  # Low-cost delivery quotation 
-│   │   │   ├── cotizador-envios-lowcost2/ # Alternative low-cost quotation
-│   │   │   └── CotizadorNuevo/            # New quotation system
-│   │   ├── mensajeria-*/       # Messaging service pages
-│   │   │   ├── mensajeria-envios-express/  # Express messaging service
-│   │   │   └── mensajeria-envios-lowcost/  # Low-cost messaging service
-│   │   ├── delivery-*/         # Delivery service pages
-│   │   ├── sobre-nosotros/     # About Us page
-│   │   ├── contacto/           # Contact page
-│   │   ├── enviosflex/         # Flexible delivery page
-│   │   ├── envios-emprendedores/ # Entrepreneurs services page
-│   │   ├── nuestrasredes/      # Social networks page
-│   │   └── preguntasfrecuentes/ # FAQ page
-│   ├── components/             # React components
-│   │   ├── ui/                 # UI components (shadcn/ui)
-│   │   ├── sections/           # Page sections components
-│   │   └── layout/             # Layout components (header, footer)
-│   ├── lib/                    # Utility functions
-│   ├── hooks/                  # Custom React hooks
-│   ├── styles/                 # CSS styles
-│   └── ai/                     # AI integration
-├── public/                     # Static assets
-│   ├── img/                    # Images
-│   ├── icon/                   # Icons
-│   └── _auth/                  # Authentication assets
-├── .env.local                  # Environment variables
-├── tailwind.config.ts          # Tailwind configuration
-├── tsconfig.json               # TypeScript configuration
-├── components.json             # shadcn/ui configuration
-└── package.json                # Dependencies and scripts
+│   ├── app/                # Next.js App Router: pages, layouts, and route handlers
+│   │   ├── (subdirectories)/ # Route groups and specific page routes
+│   │   │   └── page.tsx    # Page components
+│   │   ├── globals.css     # Global styles and Tailwind CSS layers
+│   │   ├── layout.tsx      # Root layout for the application
+│   │   └── page.tsx        # Homepage component
+│   ├── components/         # Reusable React components
+│   │   ├── layout/         # Layout components (Header, Footer, etc.)
+│   │   ├── sections/       # Larger page sections (HeroSection, ServiceOverview, etc.)
+│   │   └── ui/             # ShadCN UI components
+│   ├── hooks/              # Custom React hooks (e.g., use-mobile)
+│   ├── lib/                # Utility functions (e.g., cn for Tailwind class merging)
+│   └── styles/             # Specific CSS files for components (e.g., navbar.css, footer.css)
+├── .env.local              # Local environment variables (not committed to Git)
+├── .eslintrc.json          # ESLint configuration
+├── components.json         # Shadcn/ui configuration
+├── next.config.ts          # Next.js configuration
+├── package.json            # Project dependencies and scripts
+├── postcss.config.mjs      # PostCSS configuration (for Tailwind CSS)
+├── tailwind.config.ts      # Tailwind CSS configuration
+├── tsconfig.json           # TypeScript configuration
+└── README.md               # This file
 ```
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/envios-dos-ruedas.git
-cd envios-dos-ruedas
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn
-```
-
-3. Set up environment variables:
-Create a `.env.local` file in the root directory with the following variables:
-```
-NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST=9099-$WEB_HOST
-NEXT_PUBLIC_FIRESTORE_EMULATOR_HOST=8080-$WEB_HOST
-NEXT_PUBLIC_SITE_URL=https://enviosdosruedas.com/
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-```
-
-4. Run the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-5. Open [http://localhost:9002](http://localhost:9002) in your browser to see the application.
-
-## Development
-
-### Available Scripts
-
-- `npm run dev` - Start the development server with Turbopack
-- `npm run build` - Build the application for production
-- `npm run start` - Start the production server
-- `npm run lint` - Run ESLint
-- `npm run typecheck` - Run TypeScript type checking
-- `npm run clean` - Clean build artifacts
-- `npm run genkit:dev` - Run GenKit AI development server
-- `npm run genkit:watch` - Run GenKit AI development server with watch mode
-
-## Deployment
-
-The application can be deployed on Vercel, Netlify, or any other Next.js-compatible hosting service.
-
-### Build for Production
-
-```bash
-npm run build
-# or
-yarn build
-```
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-## Contact
-
-For any inquiries, please reach out to us through our [contact page](https://enviosdosruedas.com/contacto).
+This structure helps in organizing the codebase logically, separating concerns, and making it easier to navigate and maintain.

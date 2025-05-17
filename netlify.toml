@@ -1,6 +1,6 @@
 # Example netlify.toml
 [build]
-  command = "npm run build"
+  command = "pnpm build"
   publish = ".next"
 
 # The Netlify Functions directory is needed by the plugin for

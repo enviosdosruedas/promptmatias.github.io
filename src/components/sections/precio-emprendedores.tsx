@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { CheckCircle, Tag, Bike } from 'lucide-react';
+import { CheckCircle, Tag } from 'lucide-react'; // Removed Bike
 
 const pricingTiers = [
   {
@@ -53,7 +53,7 @@ const pricingTiers = [
       "Entrega en el día",
       "Pueden existir adicionales",
     ],
-    whatsappLink: "https://wa.me/+542236602699?text=Hola%20%F0%9F%91%8B%2C%20Necesito%20un%20envio%20de%20una%20distancia%20menor%20a%2020km%20LowCost%20%F0%9F%9B%B5", // Updated link text
+    whatsappLink: "https://wa.me/+542236602699?text=Hola%20%F0%9F%91%8B%2C%20Necesito%20un%20envio%20de%20una%20distancia%20menor%20a%2020km%20LowCost%20%F0%9F%9B%B5", 
   },
 ];
 
@@ -66,7 +66,7 @@ export function PrecioEmprendedores() {
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
           {pricingTiers.map((tier, index) => (
-            <Card key={index} className="flex flex-col shadow-md hover:shadow-xl transition-shadow duration-300 border border-border rounded-lg overflow-hidden">
+            <Card key={index} className="flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300 border border-border rounded-lg overflow-hidden">
               <CardHeader className="items-center text-center p-6 bg-muted/30 border-b">
                  <div className="p-3 bg-primary/10 rounded-full mb-3">
                      {/* Use a relevant icon, e.g., Bike or Tag */}

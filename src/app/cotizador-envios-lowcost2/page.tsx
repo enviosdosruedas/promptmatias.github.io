@@ -6,12 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar"; // Assuming a date picker might be relevant
-import { MapPin, CalendarIcon } from "lucide-react";
+// Removed Calendar and CalendarIcon imports
+import { MapPin } from "lucide-react";
 
 export default function CotizadorEnviosLowcostPage() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date()); // Example state for calendar
-
+  // Removed unused date and setDate state
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 text-primary">

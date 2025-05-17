@@ -1,16 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bike, Package, Clock, HandCoins } from 'lucide-react';
+import { Bike, Package, HandCoins } from 'lucide-react'; // Removed Clock
 
 const services = [
   {
     icon: <Bike className="h-8 w-8 text-secondary" />,
     title: 'Delivery Moto Fija',
     description: 'Asignación de un repartidor fijo para tus necesidades regulares.',
-  },
-  {
-    icon: <Clock className="h-8 w-8 text-secondary" />,
-    title: 'Delivery Moto Express',
-    description: 'Entregas urgentes en moto, la solución más rápida para tus envíos.',
   },
   {
     icon: <Package className="h-8 w-8 text-secondary" />,
@@ -32,7 +27,7 @@ export function ServiceOverview() {
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 text-primary">
           Nuestros Servicios
         </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <Card key={index} className="flex flex-col items-center text-center shadow-md hover:shadow-lg transition-shadow duration-300">
               <CardHeader>

@@ -1,4 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+'use client'; 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed CardDescription
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Bike, UserCheck, Zap } from 'lucide-react';
 

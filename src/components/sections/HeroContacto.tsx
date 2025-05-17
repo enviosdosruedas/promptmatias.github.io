@@ -1,7 +1,6 @@
 
 import React from 'react';
-import Link from 'next/link'; // Import Link if needed for future CTAs
-import { Button } from '@/components/ui/button'; // Import Button if needed
+// Removed unused Link and Button imports
 
 export function HeroContacto() {
   return (

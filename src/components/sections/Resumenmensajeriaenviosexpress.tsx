@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Calculator, PhoneOutgoing } from 'lucide-react';
+import { CheckCircle, Calculator } from 'lucide-react'; // Removed PhoneOutgoing
 
 // WhatsApp SVG Icon Component
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (

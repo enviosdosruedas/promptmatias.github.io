@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Instagram, Facebook, MessageSquare, Package, Globe, Phone, Star } from "lucide-react"; 
+import { Instagram, Facebook, MessageSquare, Package, Globe } from "lucide-react"; // Removed Phone, Star
 import { HeroNuestrasRedes } from '@/components/sections/HeroNuestrasRedes'; 
 import { MasPreguntas } from "@/components/sections/MasPreguntas"; 
 import { BannerRedesSociales } from '@/components/sections/banner-redes-sociales'; 
