@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioTower, Loader2, MapPin } from "lucide-react"; // Added MapPin
+import { RadioTower, Loader2, MapPin } from "lucide-react";
 // import { supabase } from '@/lib/supabaseClient'; // Adjust path as needed
 import { type User } from '@supabase/supabase-js';
 
@@ -18,19 +18,22 @@ interface RealtimeMessage {
 
 export function RealtimeView() {
   const [messages, setMessages] = React.useState<RealtimeMessage[]>([]);
-  const [lastUpdate, setLastUpdate] = React.useState(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+  const [lastUpdate, setLastUpdate] = React.useState<string | null>(null); // Initialize with null
   const [isLoading, setIsLoading] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 
 
   React.useEffect(() => {
+    // Set the initial time on the client after hydration
+    setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+
     // Simulate fetching user
     const mockUser = { id: 'test-user-id' } as User; // Placeholder
     setCurrentUser(mockUser);
     
     // Simulate initial load & mock real-time updates
     setIsLoading(true);
-    if (mockUser) { // Using currentUser to satisfy ESLint
+    if (mockUser) { 
         console.log("RealtimeView attempting to load for user:", mockUser.id);
     }
     setTimeout(() => {
@@ -38,6 +41,7 @@ export function RealtimeView() {
             {id: 'msg-1', tipo_mensaje: 'estado_pedido', contenido: 'Pedido #123 en camino (Simulado)', fecha_hora: new Date().toISOString()},
         ]);
         setIsLoading(false);
+        // Update time again after fetching, or set up an interval if needed
         setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
     }, 1200);
 
@@ -73,7 +77,7 @@ export function RealtimeView() {
     //     supabase.removeChannel(channel);
     //   };
     // }
-  }, [currentUser]); 
+  }, []); // Empty dependency array ensures this runs once on mount for initial client time
 
   return (
     <Card className="shadow-lg sticky top-24">
@@ -118,7 +122,7 @@ export function RealtimeView() {
         </div>
 
         <div className="text-sm text-muted-foreground text-right pt-2 border-t">
-          Última actualización: {lastUpdate}
+          Última actualización: {lastUpdate || "Cargando..."}
         </div>
       </CardContent>
     </Card>
