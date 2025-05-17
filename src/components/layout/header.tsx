@@ -109,7 +109,7 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
            )
         )}
       </li>
-    ))}\n  </ul>
+    ))}</ul>
 );
 
 
