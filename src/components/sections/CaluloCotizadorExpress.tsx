@@ -47,7 +47,7 @@ const CaluloCotizadorExpress: React.FC = () => {
     console.log("Initializing map...");
 
     const marDelPlata = { lat: -38.0055, lng: -57.5426 };
-    const map = new window.google.maps.Map(mapRef.current!, { // Added non-null assertion for mapRef.current
+    const map = new window.google.maps.Map(mapRef.current!, { 
       zoom: 12,
       center: marDelPlata,
       mapTypeControl: false,
@@ -69,16 +69,15 @@ const CaluloCotizadorExpress: React.FC = () => {
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
-      const scriptId = "google-maps-script";
+      const scriptId = "google-maps-script"; 
       if (document.getElementById(scriptId) || window.google?.maps) {
-        if (window.google && window.google.maps && !mapInstanceRef.current) {
+         if (window.google && window.google.maps && !mapInstanceRef.current) {
           console.log("Google Maps script already loaded or present, initializing map.");
           initMap();
         } else if (mapInstanceRef.current) {
             console.log("Map already initialized, skipping script load.");
             setMapLoading(false);
         } else {
-          // Script element exists but google.maps not yet available, wait for it
           const checkGoogle = setInterval(() => {
             if (window.google && window.google.maps) {
               clearInterval(checkGoogle);
@@ -89,16 +88,16 @@ const CaluloCotizadorExpress: React.FC = () => {
         return;
       }
       
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; 
       if (!apiKey) {
         console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
         setError("Falta la configuración del mapa. Contacta al administrador.");
         setMapLoading(false);
-        return;
+        return; 
       }
       console.log("Loading Google Maps script...");
       
-      (window as any).initMapGlobally = initMap;
+      window.initMapGlobally = initMap;
 
       const script = document.createElement('script');
       script.id = scriptId;
@@ -111,8 +110,8 @@ const CaluloCotizadorExpress: React.FC = () => {
         setMapLoading(false);
       };
       document.head.appendChild(script);
+      
     };
-
     if (typeof window !== 'undefined') {
         loadGoogleMapsScript();
     }
@@ -368,3 +367,4 @@ declare global {
     initMapGlobally?: () => void;
   }
 }
+
