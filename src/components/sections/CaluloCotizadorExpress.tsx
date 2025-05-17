@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Info, MapPinIcon, Rocket } from "lucide-react"; // Removed MessageSquare
+import { Terminal, Info, MapPinIcon, Rocket } from "lucide-react"; 
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -27,8 +27,7 @@ const CaluloCotizadorExpress: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [mapLoading, setMapLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // Removed isScriptLoaded and setIsScriptLoaded as they were unused
-
+  
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const directionsServiceRef = useRef<google.maps.DirectionsService | null>(null);
@@ -42,12 +41,13 @@ const CaluloCotizadorExpress: React.FC = () => {
       if (!window.google || !window.google.maps) console.error("Google Maps API not loaded.");
       if (!mapRef.current) console.error("Map container not found.");
       if (mapInstanceRef.current) console.log("Map already initialized.");
+      setMapLoading(false); // Ensure mapLoading is set to false even if there's an issue
       return;
     }
     console.log("Initializing map...");
 
     const marDelPlata = { lat: -38.0055, lng: -57.5426 };
-    const map = new window.google.maps.Map(mapRef.current, {
+    const map = new window.google.maps.Map(mapRef.current!, { // Added non-null assertion for mapRef.current
       zoom: 12,
       center: marDelPlata,
       mapTypeControl: false,
@@ -70,12 +70,21 @@ const CaluloCotizadorExpress: React.FC = () => {
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       const scriptId = "google-maps-script";
-      if (document.getElementById(scriptId)) {
+      if (document.getElementById(scriptId) || window.google?.maps) {
         if (window.google && window.google.maps && !mapInstanceRef.current) {
-          console.log("Google Maps script already loaded, initializing map.");
+          console.log("Google Maps script already loaded or present, initializing map.");
           initMap();
         } else if (mapInstanceRef.current) {
             console.log("Map already initialized, skipping script load.");
+            setMapLoading(false);
+        } else {
+          // Script element exists but google.maps not yet available, wait for it
+          const checkGoogle = setInterval(() => {
+            if (window.google && window.google.maps) {
+              clearInterval(checkGoogle);
+              initMap();
+            }
+          }, 100);
         }
         return;
       }
