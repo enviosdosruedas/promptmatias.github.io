@@ -93,8 +93,7 @@ export function LoginForm() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="comun">Usuario Común</SelectItem>
-                {/* Add other user types if needed, e.g., Emprendedor, Repartidor */}
-                {/* <SelectItem value="emprendedor">Emprendedor</SelectItem> */}
+         <SelectItem value="admin">admin</SelectItem> 
                 {/* <SelectItem value="repartidor">Repartidor</SelectItem> */}
               </SelectContent>
             </Select>
