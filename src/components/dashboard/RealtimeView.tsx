@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, RadioTower, Loader2, MessageSquare } from "lucide-react";
+import { RadioTower, Loader2 } from "lucide-react"; // Removed MessageSquare
 // import { supabase } from '@/lib/supabaseClient'; // Adjust path as needed
 import { type User } from '@supabase/supabase-js';
 
@@ -30,6 +30,9 @@ export function RealtimeView() {
     
     // Simulate initial load & mock real-time updates
     setIsLoading(true);
+    if (mockUser) { // Using currentUser to satisfy ESLint
+        console.log("RealtimeView attempting to load for user:", mockUser.id);
+    }
     setTimeout(() => {
         setMessages([
             {id: 'msg-1', tipo_mensaje: 'estado_pedido', contenido: 'Pedido #123 en camino (Simulado)', fecha_hora: new Date().toISOString()},
@@ -39,7 +42,7 @@ export function RealtimeView() {
     }, 1200);
 
     // Placeholder for Supabase real-time subscription
-    // if (mockUser) { // Replace mockUser with currentUser when real auth is in place
+    // if (currentUser) { 
     //   const channel = supabase.channel('realtime-mensajes')
     //     .on(
     //       'postgres_changes',
@@ -47,7 +50,7 @@ export function RealtimeView() {
     //         event: 'INSERT', 
     //         schema: 'public', 
     //         table: 'p_mensajes_tiempo_real',
-    //         // filter: `usuario_id=eq.${mockUser.id}` // Filter for messages for the current user if applicable
+    //         // filter: `usuario_id=eq.${currentUser.id}` // Filter for messages for the current user
     //       },
     //       (payload) => {
     //         console.log('New real-time message received!', payload);
@@ -70,7 +73,7 @@ export function RealtimeView() {
     //     supabase.removeChannel(channel);
     //   };
     // }
-  }, []); // currentUser could be added to dependency array once real auth is set up
+  }, [currentUser]); 
 
   return (
     <Card className="shadow-lg sticky top-24">

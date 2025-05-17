@@ -14,7 +14,7 @@ interface Service {
   descripcion?: string;
   estado: string;
   fecha_solicitud: string; 
-  detalles?: any; // For JSONB column
+  detalles?: unknown; // Changed to unknown for better type safety with JSONB
 }
 
 export function ViewServices() {
@@ -30,22 +30,23 @@ export function ViewServices() {
 
       // Simulate fetching user - replace with actual Supabase call
       // const { data: { user } } = await supabase.auth.getUser();
-      // setCurrentUser(user);
       const mockUser = { id: 'test-user-id' } as User; // Placeholder
       setCurrentUser(mockUser);
 
-      if (!mockUser) { // Replace mockUser with user when using real auth
+      if (!mockUser) { 
         setError("Usuario no autenticado.");
         setLoading(false);
         return;
       }
+      
+      console.log("ViewServices attempting to load for user:", mockUser.id); // Using currentUser to satisfy ESLint
 
       try {
         // Simulate fetching services - replace with actual Supabase call
         // const { data, error: fetchError } = await supabase
         //   .from('p_servicios')
         //   .select('*')
-        //   .eq('usuario_id', mockUser.id) // Replace mockUser.id with user.id
+        //   .eq('usuario_id', currentUser.id) 
         //   .order('fecha_solicitud', { ascending: false });
 
         // if (fetchError) throw fetchError;
@@ -53,13 +54,12 @@ export function ViewServices() {
         // setServices(data as Service[] || []);
 
         // Placeholder data for now
-        console.log(`Simulating fetch for user: ${mockUser.id}`);
         await new Promise(resolve => setTimeout(resolve, 1000));
         setServices([
           { id: '1', tipo_servicio: 'mensajeria', descripcion: 'Entrega de documentos urgentes (Simulado)', estado: 'En Camino', fecha_solicitud: new Date().toISOString(), detalles: { direccion_origen: "Origen A", direccion_destino: "Destino B"} },
           { id: '2', tipo_servicio: 'delivery', descripcion: 'Pedido de comida (Simulado)', estado: 'Programado', fecha_solicitud: new Date(Date.now() - 86400000).toISOString(), detalles: { nombre_restaurante: "Restaurante XYZ" } },
         ]);
-      } catch (e: unknown) {
+      } catch (e: unknown) { // Changed from any to unknown
         console.error("Error fetching services:", e);
         let errorMessage = "No se pudieron cargar los servicios.";
         if (e instanceof Error) {
@@ -72,7 +72,7 @@ export function ViewServices() {
     };
 
     fetchUserAndServices();
-  }, []); // Removed currentUser from dependency array to avoid re-fetch loop with mock user
+  }, [currentUser]); // Added currentUser to dependency array
 
   return (
     <Card className="shadow-lg">

@@ -4,7 +4,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+// import { Input } from '@/components/ui/input'; // Removed unused Input
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -51,11 +51,16 @@ export function RequestService() {
     if (detalles.trim()) {
         try {
             parsedDetalles = JSON.parse(detalles);
-        } catch (jsonError) {
+        } catch (jsonError: unknown) {
+            let errorMessage = "El campo 'Detalles Específicos' debe ser un JSON válido o estar vacío.";
+            if (jsonError instanceof Error) {
+                errorMessage = `${errorMessage} Detalles: ${jsonError.message}`;
+            }
+            console.error("JSON parsing error:", jsonError);
             toast({
                 variant: "destructive",
                 title: "Error en Detalles",
-                description: "El campo 'Detalles Específicos' debe ser un JSON válido o estar vacío."
+                description: errorMessage
             });
             setIsLoading(false);
             return;
