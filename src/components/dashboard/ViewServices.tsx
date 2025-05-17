@@ -9,9 +9,12 @@ import { type User } from '@supabase/supabase-js'; // Import User type
 
 interface Service {
   id: string;
-  service_name: string; 
-  status: string;
-  created_at: string;
+  service_name?: string; // Made optional as it might not always be directly on p_servicios
+  tipo_servicio: string;
+  descripcion?: string;
+  estado: string;
+  fecha_solicitud: string; 
+  detalles?: any; // For JSONB column
 }
 
 export function ViewServices() {
@@ -22,41 +25,40 @@ export function ViewServices() {
 
   React.useEffect(() => {
     const fetchUserAndServices = async () => {
-      // For Supabase integration:
+      setLoading(true);
+      setError(null);
+
+      // Simulate fetching user - replace with actual Supabase call
       // const { data: { user } } = await supabase.auth.getUser();
       // setCurrentUser(user);
-      // if (!user) {
-      //   setError("Usuario no autenticado.");
-      //   setLoading(false);
-      //   return;
-      // }
-      // const userIdToFetch = user.id;
+      const mockUser = { id: 'test-user-id' } as User; // Placeholder
+      setCurrentUser(mockUser);
 
-      // Placeholder for now:
-      const placeholderUser = { id: 'mock-user-id', email: 'mock@example.com' } as User;
-      setCurrentUser(placeholderUser); 
-      const userIdToFetch = placeholderUser.id; 
-      
-      if (!currentUser && !placeholderUser) { // Check if user is available before fetching
-        setError("Esperando información del usuario...");
+      if (!mockUser) { // Replace mockUser with user when using real auth
+        setError("Usuario no autenticado.");
         setLoading(false);
         return;
       }
 
-      setLoading(true); 
-      setError(null);   
-
       try {
-        // Placeholder data fetching
-        console.log(`Simulating fetch for user: ${userIdToFetch}`); // userIdToFetch is used here
-        setTimeout(() => {
-          setServices([
-            { id: '1', service_name: 'Envío Express #123 (Simulado)', status: 'En Camino', created_at: new Date().toISOString() },
-            { id: '2', service_name: 'Recolección Low-Cost #456 (Simulado)', status: 'Programado', created_at: new Date().toISOString() },
-          ]);
-          setLoading(false);
-        }, 1000);
+        // Simulate fetching services - replace with actual Supabase call
+        // const { data, error: fetchError } = await supabase
+        //   .from('p_servicios')
+        //   .select('*')
+        //   .eq('usuario_id', mockUser.id) // Replace mockUser.id with user.id
+        //   .order('fecha_solicitud', { ascending: false });
 
+        // if (fetchError) throw fetchError;
+        
+        // setServices(data as Service[] || []);
+
+        // Placeholder data for now
+        console.log(`Simulating fetch for user: ${mockUser.id}`);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setServices([
+          { id: '1', tipo_servicio: 'mensajeria', descripcion: 'Entrega de documentos urgentes (Simulado)', estado: 'En Camino', fecha_solicitud: new Date().toISOString(), detalles: { direccion_origen: "Origen A", direccion_destino: "Destino B"} },
+          { id: '2', tipo_servicio: 'delivery', descripcion: 'Pedido de comida (Simulado)', estado: 'Programado', fecha_solicitud: new Date(Date.now() - 86400000).toISOString(), detalles: { nombre_restaurante: "Restaurante XYZ" } },
+        ]);
       } catch (e: unknown) {
         console.error("Error fetching services:", e);
         let errorMessage = "No se pudieron cargar los servicios.";
@@ -64,12 +66,13 @@ export function ViewServices() {
           errorMessage = `${errorMessage} ${e.message}`;
         }
         setError(errorMessage);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchUserAndServices();
-  }, [currentUser]); // Added currentUser to dependency array
+  }, []); // Removed currentUser from dependency array to avoid re-fetch loop with mock user
 
   return (
     <Card className="shadow-lg">
@@ -102,18 +105,19 @@ export function ViewServices() {
                 <div className="flex items-center gap-3">
                   <Package className="h-6 w-6 text-secondary" />
                   <div>
-                    <p className="font-medium text-foreground">{service.service_name}</p>
+                    <p className="font-medium text-foreground capitalize">{service.tipo_servicio}: {service.descripcion || 'Servicio solicitado'}</p>
                     <p className="text-sm text-muted-foreground">
-                      Solicitado: {new Date(service.created_at).toLocaleDateString('es-AR')}
+                      Solicitado: {new Date(service.fecha_solicitud).toLocaleDateString('es-AR')}
                     </p>
                   </div>
                 </div>
                 <span className={`px-3 py-1 text-xs font-semibold rounded-full
-                  ${service.status === 'En Camino' ? 'bg-blue-100 text-blue-700' : ''}
-                  ${service.status === 'Programado' ? 'bg-yellow-100 text-yellow-700' : ''}
-                  ${service.status === 'Entregado' ? 'bg-green-100 text-green-700' : ''}
+                  ${service.estado === 'En Camino' || service.estado === 'en curso' ? 'bg-blue-100 text-blue-700' : ''}
+                  ${service.estado === 'Programado' || service.estado === 'pendiente' ? 'bg-yellow-100 text-yellow-700' : ''}
+                  ${service.estado === 'Entregado' ? 'bg-green-100 text-green-700' : ''}
+                  ${service.estado === 'Cancelado' ? 'bg-red-100 text-red-700' : ''}
                 `}>
-                  {service.status}
+                  {service.estado}
                 </span>
               </li>
             ))}

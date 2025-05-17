@@ -3,68 +3,70 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { User, Lock, Users, LogIn } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast'; // Assuming you have a toast hook
-// import { supabase } from '@/lib/supabaseClient'; // Uncomment and adjust path when ready
+import { User, Lock, Users, LogIn, Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+// import { supabase } from '@/lib/supabaseClient'; // Uncomment when Supabase client is set up
 
 export function LoginForm() {
-  const [username, setUsername] = React.useState(''); // Consider renaming to email if using email for login
+  const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [userType, setUserType] = React.useState('comun');
   const [isLoading, setIsLoading] = React.useState(false);
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
   const { toast } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     
-    console.log('Login attempt with:', { username, password, userType });
+    console.log('Login attempt with:', { email, password, userType });
 
-    // Placeholder for Supabase login logic
-    // try {
-    //   const { data, error } = await supabase.auth.signInWithPassword({
-    //     email: username, // Assuming username is email
-    //     password: password,
-    //   });
+    try {
+      // Placeholder for Supabase login logic
+      // const { data, error } = await supabase.auth.signInWithPassword({
+      //   email: email,
+      //   password: password,
+      // });
 
-    //   if (error) {
-    //     throw error;
-    //   }
+      // if (error) {
+      //   throw error;
+      // }
 
-    //   // Successful login
-    //   toast({
-    //     title: "Inicio de sesión exitoso!",
-    //     description: "Redirigiendo al dashboard...",
-    //   });
-    //   router.push('/dashboard'); // Redirect to dashboard
+      // // Successful login
+      // toast({
+      //   title: "Inicio de sesión exitoso!",
+      //   description: "Redirigiendo al dashboard...",
+      // });
+      // router.push('/dashboard'); // Redirect to dashboard
 
-    // } catch (error: any) {
-    //   console.error('Login error:', error);
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Error al iniciar sesión",
-    //     description: error.message || "Por favor, verifica tus credenciales e inténtalo de nuevo.",
-    //   });
-    // } finally {
-    //   setIsLoading(false);
-    // }
-
-    // Simulate API call & redirect for now
-    setTimeout(() => {
+      // Simulate API call & redirect for now
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
       toast({
-        title: "Simulación de inicio de sesión exitoso!",
+        title: "Inicio de sesión exitoso! (Simulado)",
         description: "Redirigiendo al dashboard...",
       });
       router.push('/dashboard');
+
+    } catch (error: unknown) {
+      console.error('Login error:', error);
+      let errorMessage = "Por favor, verifica tus credenciales e inténtalo de nuevo.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      toast({
+        variant: "destructive",
+        title: "Error al iniciar sesión",
+        description: errorMessage,
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -81,16 +83,16 @@ export function LoginForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="username">
+            <Label htmlFor="email">
               <User className="mr-2 inline-block h-4 w-4 text-muted-foreground" />
               Email
             </Label>
             <Input
-              id="username"
-              type="email" // Changed to email
+              id="email"
+              type="email"
               placeholder="tuemail@ejemplo.com"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="bg-input/50"
             />
@@ -127,6 +129,7 @@ export function LoginForm() {
             </Select>
           </div>
           <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isLoading}>
+            {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <LogIn className="mr-2 h-5 w-5" />}
             {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
           </Button>
         </form>
