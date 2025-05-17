@@ -41,7 +41,7 @@ const CaluloCotizadorLowCost: React.FC = () => {
       if (!window.google || !window.google.maps) console.error("Google Maps API not loaded.");
       if (!mapRef.current) console.error("Map container not found.");
       if (mapInstanceRef.current) console.log("Map already initialized.");
-      setMapLoading(false);
+      setMapLoading(false); // Ensure mapLoading is set to false even if there's an issue
       return;
     }
     console.log("Initializing map for Low Cost...");
@@ -93,11 +93,11 @@ const CaluloCotizadorLowCost: React.FC = () => {
         console.error("Google Maps API Key is missing. Please set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.");
         setError("Falta la configuración del mapa. Contacta al administrador.");
         setMapLoading(false);
-        return;
+        return; 
       }
       console.log("Loading Google Maps script for Low Cost...");
       
-      (window as any).initMapGlobally = initMap;
+      window.initMapGlobally = initMap;
 
       const script = document.createElement('script');
       script.id = scriptId;
@@ -355,3 +355,4 @@ declare global {
     initMapGlobally?: () => void;
   }
 }
+
