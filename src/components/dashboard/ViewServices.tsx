@@ -9,13 +9,16 @@ import { type User } from '@supabase/supabase-js'; // Import User type
 
 interface Service {
   id: string;
-  service_name?: string; // Made optional as it might not always be directly on p_servicios
+  service_name?: string;
   tipo_servicio: string;
   descripcion?: string;
   estado: string;
   fecha_solicitud: string; 
-  detalles?: unknown; // Changed to unknown for better type safety with JSONB
+  detalles?: unknown; 
 }
+
+// Define the mock user as a module-level constant for a stable reference
+const MOCK_USER_FOR_VIEW_SERVICES: User = { id: 'test-user-id' } as User; // Cast to User type
 
 export function ViewServices() {
   const [services, setServices] = React.useState<Service[]>([]);
@@ -23,24 +26,33 @@ export function ViewServices() {
   const [error, setError] = React.useState<string | null>(null);
   const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 
+  // Effect to set the current user (simulated)
   React.useEffect(() => {
-    const fetchUserAndServices = async () => {
-      setLoading(true);
-      setError(null);
-
-      // Simulate fetching user - replace with actual Supabase call
+    const fetchUser = async () => {
+      // When ready, replace with actual Supabase auth call:
       // const { data: { user } } = await supabase.auth.getUser();
-      const mockUser = { id: 'test-user-id' } as User; // Placeholder
-      setCurrentUser(mockUser);
+      // setCurrentUser(user);
+      
+      // Using the stable mock user object
+      setCurrentUser(MOCK_USER_FOR_VIEW_SERVICES);
+      // console.log("ViewServices: Mock user set using stable reference.");
+    };
+    fetchUser();
+  }, []); // Empty dependency array: runs once on mount
 
-      if (!mockUser) { 
-        setError("Usuario no autenticado.");
-        setLoading(false);
+  // Effect to fetch services when currentUser is available and changes
+  React.useEffect(() => {
+    const fetchServices = async () => {
+      if (!currentUser) {
+        // console.log("ViewServices: No current user, skipping service fetch.");
+        setServices([]); // Clear services if no user
+        setLoading(false); // Stop loading if no user
         return;
       }
       
-      console.log("ViewServices attempting to load for user:", mockUser.id); // Using currentUser to satisfy ESLint
-
+      console.log("ViewServices: Fetching services for user:", currentUser.id);
+      setLoading(true);
+      setError(null);
       try {
         // Simulate fetching services - replace with actual Supabase call
         // const { data, error: fetchError } = await supabase
@@ -50,7 +62,6 @@ export function ViewServices() {
         //   .order('fecha_solicitud', { ascending: false });
 
         // if (fetchError) throw fetchError;
-        
         // setServices(data as Service[] || []);
 
         // Placeholder data for now
@@ -59,7 +70,7 @@ export function ViewServices() {
           { id: '1', tipo_servicio: 'mensajeria', descripcion: 'Entrega de documentos urgentes (Simulado)', estado: 'En Camino', fecha_solicitud: new Date().toISOString(), detalles: { direccion_origen: "Origen A", direccion_destino: "Destino B"} },
           { id: '2', tipo_servicio: 'delivery', descripcion: 'Pedido de comida (Simulado)', estado: 'Programado', fecha_solicitud: new Date(Date.now() - 86400000).toISOString(), detalles: { nombre_restaurante: "Restaurante XYZ" } },
         ]);
-      } catch (e: unknown) { // Changed from any to unknown
+      } catch (e: unknown) { 
         console.error("Error fetching services:", e);
         let errorMessage = "No se pudieron cargar los servicios.";
         if (e instanceof Error) {
@@ -71,8 +82,8 @@ export function ViewServices() {
       }
     };
 
-    fetchUserAndServices();
-  }, [currentUser]); // Added currentUser to dependency array
+    fetchServices();
+  }, [currentUser]); // Dependency: fetchServices runs when currentUser changes
 
   return (
     <Card className="shadow-lg">
