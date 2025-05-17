@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Star, Package, Clock } from 'lucide-react';
-import { cn } from '@/lib/utils'; // Import cn for conditional classes
+// Removed unused cn import
 
 export function VisionGlobal() {
   return (

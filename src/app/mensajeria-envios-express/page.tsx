@@ -1,8 +1,5 @@
 
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { PackageCheck, FileClock, Building } from 'lucide-react';
+// Removed unused imports: Image, Button, Link, PackageCheck, FileClock, Building
 import { HeroMenEnvExpress } from '@/components/sections/HeroMenEnvExpress'; 
 import { Resumenmensajeriaenviosexpress } from '@/components/sections/Resumenmensajeriaenviosexpress';
 import { PasosServicios } from '@/components/sections/PasosServicios';

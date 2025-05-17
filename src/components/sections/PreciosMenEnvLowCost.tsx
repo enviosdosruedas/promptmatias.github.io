@@ -1,8 +1,8 @@
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed CardDescription
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { CheckCircle, Tag, Bike, DollarSign, Info } from 'lucide-react';
+import { CheckCircle, DollarSign, Info } from 'lucide-react'; // Removed Tag, Bike
 
 const pricingTiers = [
   {

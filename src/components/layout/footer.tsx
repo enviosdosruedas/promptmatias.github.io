@@ -1,11 +1,9 @@
-'use client'; // Add use client for useEffect and useState
+'use client'; 
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+// Removed unused Button, Sheet, SheetContent, SheetTrigger, SheetClose, Menu, MessageSquare, Bike, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger imports
 import {
-    Menu,
     ChevronDown,
     Home,
     Package,
@@ -21,23 +19,14 @@ import {
     Building,
     HelpCircle,
     Hash,
-    MessageSquare,
     ChevronUp,
-    Bike,
-    MapPin as MapPinIcon // Aliased MapPin to MapPinIcon
+    MapPin as MapPinIcon 
 } from 'lucide-react';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
-import '@/styles/footer.css'; // Import the specific CSS file
+import '@/styles/footer.css'; 
 import * as React from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-// Define navigation structure for reuse
 const footerNavItems = [
     { title: 'Inicio', href: '/', icon: Home },
     {
@@ -46,7 +35,6 @@ const footerNavItems = [
         subItems: [
             { title: 'Envíos Express', href: '/mensajeria-envios-express', icon: Zap },
             { title: 'Envíos LowCost', href: '/mensajeria-envios-lowcost', icon: PiggyBank },
-            //  { title: 'Moto Express', href: '/delivery-moto-express', icon: Bike},
             { title: 'Moto Fija', href: '/delivery-moto-fija', icon: ClockIcon },
             { title: 'Plan Emprendedores', href: '/envios-emprendedores', icon: Store },
             { title: 'Envios Flex', href: '/enviosflex', icon: Box },
@@ -72,7 +60,6 @@ const footerNavItems = [
     { title: 'Contacto', href: '/contacto', icon: MailFooterIcon },
 ];
 
-// Component for rendering navigation items (Desktop and Mobile)
 const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof footerNavItems; isMobile: boolean; closeSheet?: () => void }) => (
     <ul className={cn("footer-links", isMobile ? "flex-col items-start gap-0" : "items-center gap-1")}>
         {items.map((item) => (
@@ -110,13 +97,13 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof foote
 
 export function Footer() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-    const [mounted, setMounted] = React.useState(false);
+    // Removed unused 'mounted' state
     const isMobile = useIsMobile();
     const [isVisible, setIsVisible] = React.useState(false);
 
 
     React.useEffect(() => {
-        setMounted(true);
+        // setMounted(true); // No longer needed
     }, []);
 
     const toggleVisibility = () => {
@@ -150,14 +137,8 @@ export function Footer() {
 
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-    // Overlay component
-    const NavOverlay = () => (
-        <div
-            className={`nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-            onClick={closeMobileMenu}
-        />
-    );
-
+    // Removed NavOverlay component as it's not used
+    
     return (
         <footer className="main-footer">
             <div className="container mx-auto px-4 md:px-6">
@@ -215,23 +196,14 @@ export function Footer() {
                                 </h3>
                                 <div className="social-links">
                                     <Link href="https://instagram.com/enviosdosruedas" target="_blank" rel="noopener noreferrer" className="social-icon instagram" aria-label="Instagram">
-                                        <img src="/icon/icon-instagram.svg" alt="Instagram" className="h-5 w-5" />
+                                        <Image src="/icon/icon-instagram.svg" alt="Instagram" width={20} height={20} className="filter invert brightness-0" />
                                     </Link>
                                     <Link href="https://facebook.com/enviosdosruedas" target="_blank" rel="noopener noreferrer" className="social-icon facebook" aria-label="Facebook">
-                                        <img src="/icon/icon-facebook.svg" alt="Facebook" className="h-5 w-5" />
+                                         <Image src="/icon/icon-facebook.svg" alt="Facebook" width={20} height={20} className="filter invert brightness-0" />
                                     </Link>
                                     <Link href="https://wa.me/+542236602699?text=Hola!%20Encontre%20su%20contacto%20en%20el%20sitio%20web%20y%20me%20gustaria%20mas%20informacion%20sobre%20su%20servicio." target="_blank" rel="noopener noreferrer" className="social-icon whatsapp" aria-label="WhatsApp">
-                                        <img src="/icon/icon-whatsapp.svg" alt="WhatsApp" className="h-5 w-5" />
+                                         <Image src="/icon/icon-whatsapp.svg" alt="WhatsApp" width={20} height={20} className="filter invert brightness-0" />
                                     </Link>
-                                    {/* Add Gmail link */}
-                                    {/* <Link href="mailto:dosruedasmdq@gmail.com" className="social-icon gmail" aria-label="Gmail">
-                    <img src="/icon/icon-gmail.svg" alt="Gmail" className="h-5 w-5" />
-                </Link> */}
-                                    {/* Add any other social links with their SVG icons */}
-                                    {/* <Link href="#" className="social-icon tiktok" aria-label="TikTok">
-                    <img src="/icon/icon-tiktok.svg" alt="TikTok" className="h-5 w-5" />
-                </Link> */}
-                                    {/* Add more social links as needed */}
                                 </div>
                             </div>
                         </div>
@@ -256,4 +228,3 @@ export function Footer() {
         </footer>
     );
 }
-

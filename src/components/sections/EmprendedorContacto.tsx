@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageSquare, Instagram, Facebook } from 'lucide-react'; // Import relevant icons
+import { Instagram, Facebook } from 'lucide-react'; // Removed MessageSquare
 
 // WhatsApp Icon SVG Component
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (

@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Info, MessageSquare, MapPinIcon } from "lucide-react"; 
+import { Terminal, Info, MapPinIcon } from "lucide-react"; // Removed MessageSquare
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -38,9 +38,6 @@ const CaluloCotizadorLowCost: React.FC = () => {
 
   const initMap = useCallback(() => {
     if (!window.google || !window.google.maps || !mapRef.current) {
-      // setError("Error al cargar el mapa. Intente de nuevo o verifique la configuración de la API Key.");
-      // setMapLoading(false);
-      // console.error("Google Maps API not loaded or mapRef is null");
       return;
     }
 
@@ -95,7 +92,6 @@ const CaluloCotizadorLowCost: React.FC = () => {
       script.defer = true;
       document.head.appendChild(script);
       
-      // No cleanup function to remove the script to avoid multiple loads
     };
     loadGoogleMapsScript();
   }, [initMap]);

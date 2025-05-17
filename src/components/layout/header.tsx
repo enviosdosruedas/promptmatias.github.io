@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { Menu, ChevronDown, Home, Package, Calculator, Users, Mail, Bike, Clock, Store, Box, PiggyBank, Zap, Building, HelpCircle, Hash } from 'lucide-react';
+import { Menu, ChevronDown, Home, Package, Calculator, Users, Mail, Clock, Store, Box, PiggyBank, Zap, Building, HelpCircle, Hash } from 'lucide-react'; // Removed Bike
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,7 @@ import {
 import { cn } from '@/lib/utils';
 import '@/styles/navbar.css';
 import React, { useState, useEffect } from "react";
-import { useIsMobile } from '@/hooks/use-mobile'; // Ensure this path is correct
+import { useIsMobile } from '@/hooks/use-mobile'; 
 
 
 // Define navigation structure for reuse
@@ -94,14 +94,22 @@ const NavItemsRenderer = ({ items, isMobile, closeSheet }: { items: typeof navIt
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Link href={item.href!} className={cn(isMobile ? 'mobile-nav-link' : 'nav-link')} onClick={isMobile ? closeSheet : undefined}>
-            {item.icon && <item.icon className="nav-icon" />}
-            {item.title}
-          </Link>
+           isMobile ? (
+            <SheetClose asChild>
+              <Link href={item.href!} className={cn('mobile-nav-link')} onClick={closeSheet}>
+                {item.icon && <item.icon className="nav-icon" />}
+                {item.title}
+              </Link>
+            </SheetClose>
+           ) : (
+            <Link href={item.href!} className={cn('nav-link')}>
+              {item.icon && <item.icon className="nav-icon" />}
+              {item.title}
+            </Link>
+           )
         )}
       </li>
-    ))}
-  </ul>
+    ))}\n  </ul>
 );
 
 
@@ -127,7 +135,6 @@ export function Header() {
 
   return (
     <header className="main-nav">
-      {/* Adjusted container: removed inner flex div, nav-container handles layout */}
       <div className="container mx-auto px-4 py-2 nav-container">
           {/* Logo y nombre */}
           <Link href="/" className="flex items-center space-x-2 py-2 nav-logo">
@@ -136,27 +143,15 @@ export function Header() {
               alt="Envios DosRuedas Logo"
               width={50}
               height={50}
-              className="h-10 sm:h-12 w-auto transition-all logo-image"
+              className="h-10 sm:h-12 w-auto transition-all logo-image" // Added logo-image class
             />
-            {/* Use mounted state to prevent hydration mismatch for conditionally rendered text */}
-             {mounted && (
-                 <div className={cn("logo-text", isMobile ? "hidden" : "flex flex-col")}>
-                    <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
-                    <p className="text-mikado-yellow text-xs">Tu Solución Confiable</p>
-                </div>
-             )}
-             {/* Fallback for SSR/initial load if needed, or keep simple */}
-             {!mounted && (
-                 <div className="hidden md:flex md:flex-col logo-text">
-                    <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
-                    <p className="text-mikado-yellow text-xs">Tu Solución Confiable</p>
-                </div>
-             )}
-
+            <div className={cn("logo-text", mounted && isMobile ? "hidden" : "flex flex-col")}>
+              <h1 className="text-white text-lg sm:text-xl font-bold leading-tight logo-title">Envios DosRuedas</h1>
+              <p className="text-mikado_yellow text-xs">Tu Solución Confiable</p>
+            </div>
           </Link>
 
           {/* Menú Desktop */}
-          {/* Render desktop nav only when not mobile and mounted */}
           {mounted && !isMobile && (
             <div className="hidden lg:block">
               <NavItemsRenderer items={navItems} isMobile={false} />
@@ -164,7 +159,6 @@ export function Header() {
           )}
 
           {/* Menú móvil Toggle button */}
-          {/* Render mobile trigger only when mobile and mounted */}
           {mounted && isMobile && (
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
@@ -193,8 +187,7 @@ export function Header() {
               </SheetContent>
             </Sheet>
           )}
-          {/* Fallback or empty div for SSR/initial load if mobile button isn't ready */}
-          {!mounted && <div className="lg:hidden w-[40px] h-[40px]"></div>}
+          {!mounted && <div className="lg:hidden w-[40px] h-[40px]"></div>} {/* Fallback for SSR/initial load */}
 
       </div>
        {mounted && isMobileMenuOpen && <NavOverlay />}

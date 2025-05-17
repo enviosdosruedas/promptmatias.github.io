@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { CheckCircle, Tag, DollarSign } from 'lucide-react';
+import { CheckCircle, DollarSign } from 'lucide-react'; // Removed Tag
 
 const pricingTiers = [
   {

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bike, Package, Clock, HandCoins } from 'lucide-react';
+import { Bike, Package, HandCoins } from 'lucide-react'; // Removed Clock
 
 const services = [
   {
