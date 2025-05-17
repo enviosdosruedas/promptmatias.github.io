@@ -3,40 +3,68 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Lock, Users, LogIn } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast'; // Assuming you have a toast hook
+// import { supabase } from '@/lib/supabaseClient'; // Uncomment and adjust path when ready
 
 export function LoginForm() {
-  const [username, setUsername] = React.useState('');
+  const [username, setUsername] = React.useState(''); // Consider renaming to email if using email for login
   const [password, setPassword] = React.useState('');
   const [userType, setUserType] = React.useState('comun');
   const [isLoading, setIsLoading] = React.useState(false);
-  // const { toast } = useToast(); // Example for future use
+  const router = useRouter(); // Initialize router
+  const { toast } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    // TODO: Implement actual login logic with Supabase
+    
     console.log('Login attempt with:', { username, password, userType });
-    // Example:
+
+    // Placeholder for Supabase login logic
     // try {
-    //   const { error } = await supabase.auth.signInWithPassword({
-    //     email: username, // Assuming username is email for now
-    //     password,
+    //   const { data, error } = await supabase.auth.signInWithPassword({
+    //     email: username, // Assuming username is email
+    //     password: password,
     //   });
-    //   if (error) throw error;
-    //   toast({ title: "Inicio de sesión exitoso!", description: "Redirigiendo..."});
-    //   // router.push('/dashboard'); // Redirect to dashboard or appropriate page
+
+    //   if (error) {
+    //     throw error;
+    //   }
+
+    //   // Successful login
+    //   toast({
+    //     title: "Inicio de sesión exitoso!",
+    //     description: "Redirigiendo al dashboard...",
+    //   });
+    //   router.push('/dashboard'); // Redirect to dashboard
+
     // } catch (error: any) {
-    //   toast({ variant: "destructive", title: "Error al iniciar sesión", description: error.message });
+    //   console.error('Login error:', error);
+    //   toast({
+    //     variant: "destructive",
+    //     title: "Error al iniciar sesión",
+    //     description: error.message || "Por favor, verifica tus credenciales e inténtalo de nuevo.",
+    //   });
     // } finally {
     //   setIsLoading(false);
     // }
-    setTimeout(() => setIsLoading(false), 1500); // Simulate API call
+
+    // Simulate API call & redirect for now
+    setTimeout(() => {
+      toast({
+        title: "Simulación de inicio de sesión exitoso!",
+        description: "Redirigiendo al dashboard...",
+      });
+      router.push('/dashboard');
+      setIsLoading(false);
+    }, 1500);
   };
 
   return (
@@ -55,11 +83,11 @@ export function LoginForm() {
           <div className="space-y-2">
             <Label htmlFor="username">
               <User className="mr-2 inline-block h-4 w-4 text-muted-foreground" />
-              Nombre de Usuario o Email
+              Email
             </Label>
             <Input
               id="username"
-              type="text"
+              type="email" // Changed to email
               placeholder="tuemail@ejemplo.com"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -93,7 +121,7 @@ export function LoginForm() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="comun">Usuario Común</SelectItem>
-         <SelectItem value="admin">admin</SelectItem> 
+                <SelectItem value="admin">Admin</SelectItem> 
                 {/* <SelectItem value="repartidor">Repartidor</SelectItem> */}
               </SelectContent>
             </Select>
@@ -110,7 +138,7 @@ export function LoginForm() {
             Regístrate aquí
           </Link>
         </p>
-        <Link href="/auth/forgot-password"> {/* Added forgot password link */}
+        <Link href="/auth/forgot-password"> 
             <Button variant="link" className="px-0 text-sm text-muted-foreground hover:text-primary">
                  ¿Olvidaste tu contraseña?
             </Button>
