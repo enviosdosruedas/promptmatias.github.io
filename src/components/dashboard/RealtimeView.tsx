@@ -1,12 +1,14 @@
 
-'use client'; 
+'use client';
 
 import * as React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioTower, Loader2, MapPin } from "lucide-react";
 // import { supabase } from '@/lib/supabaseClient'; // Adjust path as needed
-import { type User } from '@supabase/supabase-js';
+// import { type User } from '@supabase/supabase-js'; // User type will be used with actual auth
 
+// For mock purposes, we'll use a simple ID
+const MOCK_USER_ID_FOR_REALTIME: string = 'test-user-id-realtime';
 
 interface RealtimeMessage {
   id: string;
@@ -20,67 +22,70 @@ export function RealtimeView() {
   const [messages, setMessages] = React.useState<RealtimeMessage[]>([]);
   const [lastUpdate, setLastUpdate] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentUser, setCurrentUser] = React.useState<User | null>(null);
+  // Store just the ID for the mock to ensure dependency stability
+  const [currentUserId, setCurrentUserId] = React.useState<string | null>(null);
 
-
+  // Effect to set the current user ID (simulated)
   React.useEffect(() => {
-    // Simulate fetching user
-    const placeholderUser = { id: 'test-user-id' } as User; // Placeholder
-    setCurrentUser(placeholderUser);
-    
-    // This effect runs once on mount to set initial client time
-    setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
-    
-    // Simulate initial load & mock real-time updates
-    setIsLoading(true);
+    // Simulating fetching the user ID
+    setCurrentUserId(MOCK_USER_ID_FOR_REALTIME);
+    console.log("RealtimeView: Mock user ID set.");
+  }, []); // Empty dependency array: runs once on mount
 
-    if (currentUser) {
-        console.log("RealtimeView attempting to load for user:", currentUser.id);
-        // Placeholder for fetching initial messages or setting up subscriptions based on user
+  // Effect for real-time updates, depends on currentUserId
+  React.useEffect(() => {
+    if (!currentUserId) {
+      console.log("RealtimeView: No current user ID, skipping real-time setup.");
+      setIsLoading(false);
+      setMessages([]);
+      return;
     }
+    console.log("RealtimeView: Setting up real-time for user ID:", currentUserId);
 
-    setTimeout(() => {
-        setMessages([
-            {id: 'msg-1', tipo_mensaje: 'estado_pedido', contenido: 'Pedido #123 en camino (Simulado)', fecha_hora: new Date().toISOString()},
-        ]);
-        setIsLoading(false);
-        // Update time again after fetching, or set up an interval if needed
-        setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
-    }, 1200);
+    setIsLoading(true);
+    // Simulate initial load & mock real-time updates
+    const initialLoadTimeout = setTimeout(() => {
+      setMessages([
+        { id: 'msg-rt-1', tipo_mensaje: 'estado_pedido', contenido: `Pedido #ABC en tránsito (Simulado para ${currentUserId})`, fecha_hora: new Date().toISOString() },
+      ]);
+      setIsLoading(false);
+      setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+    }, 1500);
 
-    // Placeholder for Supabase real-time subscription
-    // if (currentUser) { 
-    //   const channel = supabase.channel('realtime-mensajes')
-    //     .on(
-    //       'postgres_changes',
-    //       { 
-    //         event: 'INSERT', 
-    //         schema: 'public', 
-    //         table: 'p_mensajes_tiempo_real',
-    //         // filter: `usuario_id=eq.${currentUser.id}` // Filter for messages for the current user
-    //       },
-    //       (payload) => {
-    //         console.log('New real-time message received!', payload);
-    //         setMessages(prevMessages => [...prevMessages, payload.new as RealtimeMessage].slice(-5)); // Keep last 5 messages
-    //         setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+    // Placeholder for Supabase real-time subscription setup
+    // if (currentUserId) { // Check currentUserId before using it for channel name
+    //   const channel = supabase.channel(`realtime-view-${currentUserId}`)
+    //     .on('postgres_changes', { event: '*', schema: 'public', table: 'p_mensajes_tiempo_real', filter: `usuario_id=eq.${currentUserId}` }, (payload) => {
+    //       console.log('RealtimeView: New message via Supabase RT', payload);
+    //       if (payload.eventType === 'INSERT') {
+    //         setMessages(prevMessages => [...prevMessages, payload.new as RealtimeMessage].slice(-5));
     //       }
-    //     )
-    //     .subscribe((status) => {
-    //       if (status === 'SUBSCRIBED') {
-    //         console.log('Subscribed to p_mensajes_tiempo_real channel!');
-    //         setIsLoading(false); // Assuming initial load is done or handled separately
-    //       }
-    //       if (status === 'SUBSCRIPTION_ERROR') {
-    //         console.error('Supabase subscription error!');
-    //         setIsLoading(false);
-    //       }
+    //       setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+    //     })
+    //     .subscribe((status, err) => {
+    //       if (status === 'SUBSCRIBED') console.log('RealtimeView: Subscribed to RT channel for user', currentUserId);
+    //       if (status === 'SUBSCRIPTION_ERROR') console.error('RealtimeView: RT Subscription error', err);
+    //       if (status === 'TIMED_OUT') console.warn('RealtimeView: RT Subscription timed out');
     //     });
-
-    //   return () => {
-    //     supabase.removeChannel(channel);
-    //   };
+    //    channelRef.current = channel; // Store channel in ref if needed for cleanup
     // }
-  }, [currentUser]); // Added currentUser to dependency array
+
+    return () => {
+      clearTimeout(initialLoadTimeout);
+      // if (channelRef.current) {
+      //   supabase.removeChannel(channelRef.current);
+      //   console.log("RealtimeView: Unsubscribed from RT channel for user:", currentUserId);
+      // }
+      console.log("RealtimeView: Cleanup effect for user ID:", currentUserId);
+    };
+  }, [currentUserId]); // Depend on the primitive currentUserId
+
+  // Effect for client-side hydration of the initial "lastUpdate" time display.
+  React.useEffect(() => {
+    if (lastUpdate === null) {
+        setLastUpdate(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+    }
+  }, []); // Runs once on mount, client-side only
 
   return (
     <Card className="shadow-lg sticky top-24">
