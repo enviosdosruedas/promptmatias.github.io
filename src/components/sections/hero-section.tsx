@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, ShieldCheck, Zap, PiggyBank, Mail, Calculator } from 'lucide-react';
-import { cn } from '@/lib/utils';
+// Removed unused cn import
 
 export function HeroSection() {
   return (

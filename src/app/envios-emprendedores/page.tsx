@@ -1,8 +1,5 @@
 
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Handshake, PackageSearch, BadgePercent } from 'lucide-react';
+// Removed unused imports: Image, Button, Link, Handshake, PackageSearch, BadgePercent
 import { HeroEmprendedores } from '@/components/sections/HeroEmprendedores';
 import { InfoEmprendedores } from '@/components/sections/info-emprendedores'; 
 import { PrecioEmprendedores } from '@/components/sections/precio-emprendedores'; 

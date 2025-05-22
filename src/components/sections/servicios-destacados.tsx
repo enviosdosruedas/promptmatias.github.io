@@ -1,5 +1,5 @@
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'; // Removed CardFooter
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Rocket, DollarSign, UtensilsCrossed, CheckCircle, Clock, Package, Info } from 'lucide-react';
