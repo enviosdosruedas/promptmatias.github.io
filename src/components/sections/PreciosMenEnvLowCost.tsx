@@ -7,7 +7,7 @@ import { CheckCircle, DollarSign, Info } from 'lucide-react'; // Removed Tag, Bi
 const pricingTiers = [
   {
     distance: "Hasta 3 Km",
-    price: "$2000",
+    price: "$2150",
     features: [
       "Solicitado antes 13hs",
       "Servicio LowCost",
@@ -17,7 +17,7 @@ const pricingTiers = [
   },
   {
     distance: "Hasta 5 Km",
-    price: "$2700",
+    price: "$2900",
     features: [
       "Solicitado antes 13hs",
       "Servicio LowCost",
@@ -27,7 +27,7 @@ const pricingTiers = [
   },
   {
     distance: "De 5 a 9 Km",
-    price: "$3800",
+    price: "$4000",
     features: [
       "Solicitado antes 13hs",
       "Servicio LowCost",
@@ -37,7 +37,7 @@ const pricingTiers = [
   },
   {
     distance: "De 9 a 13 Km",
-    price: "$5400",
+    price: "$5800",
     features: [
       "Solicitado antes 13hs",
       "Servicio LowCost",
